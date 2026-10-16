@@ -699,6 +699,18 @@ def build_graph(page: Page, cfg: dict, tokens: dict[str, str]) -> dict:
 
 
 # ---------------------------------------------------------------- render
+GLUED_LINK_SPAN_RE = re.compile(r"</a><span(?=[\s>])")
+GLUED_LABEL_RE = re.compile(r'(<span class="facts__label">[^<]*</span>)(?=[^\s<]|<a\b)')
+
+
+def separate_glued_text(html_text: str) -> str:
+    """ბმული + აღწერა („დაკავშირებული“) და .facts__label + ტექსტი HTML-ში ჰარის გარეშე იდგა.
+    CSS მათ ცალ-ცალკე ხაზზე აჩენს, მაგრამ CSS-ის გარეშე წამკითხველები (AI-ბოტები, textContent)
+    სიტყვებს აწებებდნენ („მიმდინარეობს50“, „პრაქტიკაკერძო“). ერთი ჰარი ვიზუალს არ ცვლის — ორივე span ბლოკურია."""
+    html_text = GLUED_LINK_SPAN_RE.sub("</a> <span", html_text)
+    return GLUED_LABEL_RE.sub(r"\1 ", html_text)
+
+
 def render(page: Page, cfg: dict, base_tokens: dict[str, str], report: Report, demo: bool = False) -> None:
     tokens = page_tokens(page, base_tokens)
     nav_key = nav_key_for(page)
@@ -740,6 +752,7 @@ def render(page: Page, cfg: dict, base_tokens: dict[str, str], report: Report, d
     # ერთი გავლა: ჩასმული CONTENT/JSON_LD აღარ მუშავდება ხელახლა
     page.html = resolve_tokens(layout, tokens, nav_key)
     page.html = re.sub(r"\n\s*\n+", "\n", page.html).lstrip()
+    page.html = separate_glued_text(page.html)
 
 
 # ---------------------------------------------------------------- validation
