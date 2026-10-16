@@ -1,0 +1,23 @@
+<!-- მისამართის ბლოკი (მთავარი გვერდი, /kontaqti/): შესასვლელის ფოტო (placeholder), მისამართი, ორიენტირი, საათები, რუკის ბმული (iframe-ის გარეშე).
+     არგუმენტები: id (სათაურის id, ნაგულისხმევად „misamarti“), title, eyebrow. -->
+<div class="address-block split split--reverse">
+  <figure class="split__media">
+    <img src="{{PHOTO_ENTRANCE}}" alt="{{PHOTO_ENTRANCE_ALT}}" width="1200" height="800" loading="lazy" decoding="async">
+  </figure>
+  <div class="split__text">
+    <p class="eyebrow">{{@eyebrow|მისამართი}}</p>
+    <h2 id="{{@id|misamarti}}">{{@title|მისამართი და როგორ მოხვიდეთ}}</h2>
+    <p class="lead"><strong>{{ADDRESS}}</strong> — {{LANDMARK}}.</p>
+    <dl class="details-list">
+      <dt>უბანი</dt>
+      <dd>{{DISTRICT}}, ქალაქის ცენტრი</dd>
+      <dt>საათები</dt>
+      <dd>{{HOURS}}</dd>
+      <dt>ფორმატი</dt>
+      <dd>კაბინეტში ან ონლაინ, ვიდეოზარით</dd>
+      <dt>ელფოსტა</dt>
+      <dd><a href="mailto:{{EMAIL}}">{{EMAIL}}</a></dd>
+    </dl>
+    <p><a class="btn btn-secondary" href="{{MAPS_URL}}" rel="noopener" target="_blank">რუკაზე ნახვა — Google Maps</a></p>
+  </div>
+</div>

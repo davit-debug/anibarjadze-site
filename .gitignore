@@ -1,0 +1,11 @@
+.DS_Store
+*.log
+node_modules/
+.claude/
+dist/
+
+# shared/fonts/*.woff2 — თვითჰოსტირებული შრიფტები, რეპოზიტორიაში ინახება (build მათ dist/*/assets/fonts/-ში აკოპირებს)
+!shared/fonts/*.woff2
+
+# შიდა დოკუმენტები (კონცეფცია, სპეციფიკაციები, ადგილმჭერების ანგარიშები, ანაბეჭდები) — მხოლოდ ლოკალურად
+claudedocs/

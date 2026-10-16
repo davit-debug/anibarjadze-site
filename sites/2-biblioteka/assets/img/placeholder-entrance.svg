@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" width="1200" height="800" role="img" aria-label="ფოტო მალე">
+  <rect width="1200" height="800" fill="#EFE9DF"/>
+  <rect y="640" width="1200" height="160" fill="#D8D0C4" opacity=".6"/>
+  <rect x="0" y="0" width="1200" height="40" fill="#F1E4E6"/>
+  <rect x="120" y="120" width="190" height="260" fill="#FBF8F3" stroke="#D8D0C4" stroke-width="10"/>
+  <rect x="890" y="120" width="190" height="260" fill="#FBF8F3" stroke="#D8D0C4" stroke-width="10"/>
+  <path d="M215 120v260M985 120v260" stroke="#D8D0C4" stroke-width="6"/>
+  <path d="M440 640V300a160 160 0 0 1 320 0v340z" fill="#F1E4E6" stroke="#B49AA3" stroke-width="4"/>
+  <path d="M600 140v500" stroke="#B49AA3" stroke-width="4"/>
+  <path d="M480 640V310a120 120 0 0 1 240 0v330" fill="none" stroke="#9B6B7A" stroke-width="3" opacity=".7"/>
+  <circle cx="580" cy="460" r="7" fill="#7C2C4C" opacity=".6"/><circle cx="620" cy="460" r="7" fill="#7C2C4C" opacity=".6"/>
+  <rect x="400" y="640" width="400" height="24" fill="#B49AA3" opacity=".6"/>
+  <rect x="370" y="664" width="460" height="24" fill="#B49AA3" opacity=".4"/>
+  <rect x="800" y="430" width="70" height="40" fill="#FBF8F3" stroke="#B49AA3" stroke-width="2"/>
+  <text x="835" y="458" text-anchor="middle" font-family="'Noto Sans Georgian', Sylfaen, sans-serif" font-size="22" font-weight="700" fill="#55504B">18</text>
+  <rect x="500" y="720" width="200" height="56" fill="#FBF8F3"/>
+  <rect x="500" y="720" width="200" height="56" fill="none" stroke="#B49AA3" stroke-width="1.5"/>
+  <text x="600" y="756" text-anchor="middle" font-family="'Noto Sans Georgian', Sylfaen, sans-serif" font-size="24" font-weight="700" fill="#55504B">ფოტო მალე</text>
+</svg>

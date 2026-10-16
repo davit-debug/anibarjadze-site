@@ -1,0 +1,198 @@
+<!--meta {
+  "path": "/",
+  "title": "ანი ბარჯაძე — ფსიქოლოგი თბილისში და ონლაინ",
+  "description": "ფსიქოლოგი ანი ბარჯაძე სოლოლაკში და ონლაინ — და ქართულენოვანი ბიბლიოთეკა ფსიქოთერაპიაზე: შფოთვა, პანიკა, გადაწვა, ურთიერთობები, ფასი და პირველი ვიზიტი.",
+  "h1": "ანი ბარჯაძე — ფსიქოლოგი თბილისში და ონლაინ",
+  "type": "WebPage",
+  "breadcrumb": [["მთავარი", "/"]],
+  "datePublished": "2026-10-16",
+  "dateModified": "2026-10-16",
+  "priority": 1.0,
+  "nav_key": "home"
+} -->
+
+<!-- მთავარი გვერდი = ბიბლიოთეკის კატალოგი (spec 2-biblioteka §4 რიგი 1, §5). კითხვის „ბარიერი“ არ არის: CTA უკვე hero-შია.
+     სექციების თანმიმდევრობა: hero · ნდობის ზოლი · 01 რა გაწუხებთ · 02 როგორ ვმუშაობ · 03 ავტორი · 04 ფასი · 05 კითხვები · 06 სტატიები · 07 მისამართი · CTA.
+     ფაქტები მხოლოდ ტოკენებით (site.config.json) ან [ფრჩხილებით]. ფასების ცხრილი მხოლოდ /fasi/-ზეა. -->
+
+<!-- 1. Hero: ტექსტი მარცხნივ, პორტრეტი მარჯვნივ; მობილურზე ჯერ ტექსტი და CTA, მერე პორტრეტი -->
+<section class="hero" aria-labelledby="hero-title">
+  <div class="container hero__inner">
+    <div class="hero__text">
+      <p class="eyebrow">ბიბლიოთეკა ფსიქოთერაპიაზე · {{DISTRICT}}, {{CITY}} · ონლაინ</p>
+      <h1 id="hero-title">ანი ბარჯაძე — ფსიქოლოგი თბილისში და ონლაინ</h1>
+      <h2 class="hero__sub">ქართულენოვანი ბიბლიოთეკა ფსიქოთერაპიაზე: რა გაწუხებთ, როგორ ვმუშაობ და რა ღირს — ჟარგონის გარეშე.</h2>
+      <p class="lead">მე ანი ბარჯაძე ვარ, ფსიქოლოგი. ვმუშაობ ინდივიდუალურად — სოლოლაკის კაბინეტში და ონლაინ. ამ საიტზე ყველა ტექსტი ჩემი დაწერილია: ის, რასაც ჩვეულებრივ პირველ შეხვედრაზე ვხსნი, და პასუხები კითხვებზე, რომლებიც ფსიქოლოგთან მისვლამდე ჩნდება.</p>
+      <div class="hero__actions">
+        <a class="btn btn-primary" href="{{WA_URL}}" data-event="cta_whatsapp">მომწერეთ WhatsApp-ზე</a>
+        <a class="btn btn-secondary" href="/pirveli-vizita-fsiqologtan/">როგორ მიმდინარეობს პირველი ვიზიტი</a>
+      </div>
+      <p class="hero__micro">პასუხს {{RESPONSE_TIME}} მიიღებთ. პრობლემის აღწერა არ არის საჭირო. არაფერს გავალდებულებთ.</p>
+    </div>
+    <figure class="hero__media">
+      <img src="{{PHOTO_PORTRAIT}}" alt="{{PHOTO_PORTRAIT_ALT}}" width="800" height="1000" fetchpriority="high" decoding="async">
+    </figure>
+  </div>
+</section>
+
+<!-- 2. ნდობის ზოლი -->
+<div class="trust-bar">
+  <ul class="container trust-bar__list" aria-label="სესია მოკლედ">
+    <li>სესია {{SESSION_MIN}} წუთი</li>
+    <li>{{PRICE}}</li>
+    <li>კაბინეტში ან ონლაინ</li>
+    <li>კონფიდენციალური</li>
+  </ul>
+</div>
+
+<!-- 3. „რა გაწუხებთ?“ — ბიბლიოთეკის სარჩევი: 5 თემა, თითოს ერთი ცოცხალი წინადადება -->
+<section class="section" id="ra-gatsukhebt" aria-labelledby="ra-gatsukhebt-title">
+  <div class="container">
+    <div class="section__head">
+      <p class="eyebrow">01 · თემები</p>
+      <h2 id="ra-gatsukhebt-title">რა გაწუხებთ?</h2>
+      <p class="lead">ეს ბიბლიოთეკის სარჩევია. თითოეულ თემას ცალკე გვერდი აქვს: როგორ იგრძნობა, როდის არის ეს ფსიქოლოგის საქმე და როდის — ექიმის, და რისი გაკეთება შეგიძლიათ ახლავე, თავად.</p>
+    </div>
+    <ol class="catalog">
+      {{> catalog-entry num="01" href="/problemebi/shfotva/" title="შფოთვა" line="როცა შფოთვა დღეებს გართმევთ, ღამით კი — ძილს."}}
+      {{> catalog-entry num="02" href="/problemebi/panikuri-sheteva/" title="პანიკური შეტევა" line="როცა გული უცებ აგიჩქარდებათ, ჰაერი არ გყოფნით და გეჩვენებათ, რომ რაღაც საშინელი ხდება."}}
+      {{> catalog-entry num="03" href="/problemebi/emociuri-gadatsva/" title="ემოციური გადაწვა" line="როცა მუშაობთ, მაგრამ აღარაფერი გახარებთ და დასვენებაც აღარ გშველით."}}
+      {{> catalog-entry num="04" href="/problemebi/fsiqosomatika/" title="ფსიქოსომატიკა" line="როცა ანალიზები წესრიგშია, სხეული კი მაინც გაწუხებთ."}}
+      {{> catalog-entry num="05" href="/problemebi/urtiertobis-problemebi/" title="ურთიერთობის პრობლემები" line="როცა ურთიერთობებში ერთი და იგივე სცენარი მეორდება — სხვა ადამიანთან, მაგრამ იმავე დასასრულით."}}
+    </ol>
+    <div class="catalog-aside">
+      <p><strong>არ იცით, რა გაწუხებთ? ესეც ნორმალურია.</strong> დიაგნოზი არ გჭირდებათ, რომ მოხვიდეთ — საკმარისია, რომ რაღაც დიდი ხანია გაწუხებთ და მარტო ვეღარ უმკლავდებით. პირველ შეხვედრებზე ამას ერთად ვარკვევთ.</p>
+      <p><a href="/fsiqologis-konsultacia/">ფსიქოლოგის კონსულტაცია — როგორ ვმუშაობ და ვისთვისაა</a></p>
+    </div>
+    <p class="section__more"><a href="/problemebi/">ყველა თემა და ნიშნები, რომ ფსიქოლოგთან მისვლის დროა</a></p>
+  </div>
+</section>
+
+<!-- 4. როგორ ვმუშაობ — სამი სერიფული ჩანაწერი → მეთოდის გვერდები -->
+<section class="section section--alt" id="rogor-vmushaob" aria-labelledby="rogor-vmushaob-title">
+  <div class="container">
+    <div class="section__head">
+      <p class="eyebrow">02 · მიდგომა</p>
+      <h2 id="rogor-vmushaob-title">როგორ ვმუშაობ — სიტყვა, სხეული, განწყობა</h2>
+      <p class="lead">მზა პასუხებს არ გაძლევთ — ერთად ვიკვლევთ, რა გჭირდებათ და რა გიშლით ხელს, რომ ეს მიიღოთ. ამაში სამი მიდგომა მეხმარება, რომლებიც ერთ პროცესში ერთიანდება.</p>
+    </div>
+    <ul class="entries">
+      <li class="entry">
+        <p class="entry__word">სიტყვა</p>
+        <h3 class="entry__term">გეშტალტ თერაპია</h3>
+        <p>ვსაუბრობთ იმაზე, რაც ახლა ხდება — ამ წუთში, ამ ოთახში. ვამჩნევთ არა მხოლოდ იმას, რას ამბობთ, არამედ იმასაც, როგორ ამბობთ.</p>
+        <a class="entry__link" href="/geshtalt-terapia/">გეშტალტ თერაპია — რას ნიშნავს კლიენტისთვის</a>
+      </li>
+      <li class="entry">
+        <p class="entry__word">სხეული</p>
+        <h3 class="entry__term">სხეულზე ორიენტირებული ფსიქოთერაპია</h3>
+        <p>განცდა ხშირად სიტყვებამდე სხეულში ჩნდება: შეკრული მხრები, ზედაპირული სუნთქვა, „კვანძი“ მუცელში. ერთად ვაკვირდებით, რას გვეუბნება სხეული. ეს მასაჟი არ არის.</p>
+        <a class="entry__link" href="/sxeulze-orientirebuli-fsiqoterapia/">სხეულზე ორიენტირებული ფსიქოთერაპია — როგორ მუშაობს</a>
+      </li>
+      <li class="entry">
+        <p class="entry__word">განწყობა</p>
+        <h3 class="entry__term">უზნაძის სკოლა და ფსიქოდინამიკური მიდგომა</h3>
+        <p>ხშირად ისე ვიქცევით, როგორც შინაგანად უკვე მზად ვართ — ისე, რომ ამას ვერც ვამჩნევთ. ერთად ვხედავთ ამ ჩვეულ რეაქციებს, რომ არჩევანი ისევ თქვენ დაგიბრუნდეთ.</p>
+        <a class="entry__link" href="/fsiqodinamikuri-terapia/">ფსიქოდინამიკური თერაპია — როცა სცენარი მეორდება</a>
+      </li>
+    </ul>
+    <p class="section__more"><a href="/fsiqoterapia/">რა არის ფსიქოთერაპია და როდის არის საჭირო — სრული გზამკვლევი</a></p>
+  </div>
+</section>
+
+<!-- 5. ვინ წერს ამ ბიბლიოთეკას — მხოლოდ გადამოწმებული ფაქტები; [ფრჩხილები] ივსება დოკუმენტებით -->
+<section class="section" id="avtori" aria-labelledby="avtori-title">
+  <div class="container author-card">
+    <figure class="author-card__photo">
+      <img src="{{PHOTO_PORTRAIT}}" alt="{{PHOTO_PORTRAIT_ALT}}" width="800" height="1000" loading="lazy" decoding="async">
+    </figure>
+    <div class="author-card__body">
+      <p class="eyebrow">03 · ავტორი</p>
+      <h2 id="avtori-title">ვინ წერს ამ ბიბლიოთეკას</h2>
+      <p>მე ვარ {{NAME}}, ფსიქოლოგი. ამ საიტის ყველა ტექსტს თავად ვწერ: თითოეულ გვერდს აქვს ავტორი, გამოქვეყნებისა და განახლების თარიღი და წყაროები, რომლებსაც შეგიძლიათ თავად გადაამოწმოთ.</p>
+      <p>ფსიქოლოგი ვარ, არა ფსიქიატრი — მედიკამენტებს არ ვნიშნავ. როცა ექიმის ჩართვა გჭირდებათ, ამას პირდაპირ გეტყვით.</p>
+      <ul class="facts">
+        <li><span class="facts__label">სად ვმუშაობ</span>{{ADDRESS}} ({{DISTRICT}}) და ონლაინ</li>
+        <li><span class="facts__label">განათლება</span>[ხარისხი], [უნივერსიტეტი]</li>
+        <li><span class="facts__label">გეშტალტთერაპია</span>ფსიქოკონსულტანტი გეშტალტთერაპიაში — [გეშტალტის ინსტიტუტი], [საფეხური]</li>
+        <li><span class="facts__label">სხეულზე ორიენტირებული ფსიქოთერაპია</span>[პროგრამა], [საათები] · [ასოციაციის სახელი]</li>
+        <li><span class="facts__label">სუპერვიზია</span>[სიხშირე და ფორმატი]</li>
+      </ul>
+      <p><a href="/ani-barjadze/">ავტორის შესახებ — განათლება, მომზადება და მიდგომა</a></p>
+      <p class="review-links">
+        <a href="{{GBP_REVIEW_URL}}" data-event="review_link" rel="noopener" target="_blank">შეფასებები Google-ზე</a>
+        <a href="{{FB_REVIEWS_URL}}" data-event="review_link" rel="noopener" target="_blank">რეკომენდაციები Facebook-ზე</a>
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- 6. ფასი და პირველი შეხვედრა — ორი წინადადება და ორი ბმული (ცხრილი მხოლოდ /fasi/-ზე) -->
+<section class="section section--alt" id="fasi-da-pirveli" aria-labelledby="fasi-da-pirveli-title">
+  <div class="container">
+    <p class="eyebrow">04 · ფასი</p>
+    <h2 id="fasi-da-pirveli-title">ფასი და პირველი შეხვედრა</h2>
+    <p class="lead">სესია {{SESSION_MIN}} წუთი გრძელდება და {{PRICE}} ღირს — კაბინეტშიც და ონლაინაც. პირველი შეხვედრა გასაცნობია: თქვენ მე მაკვირდებით, მე — იმას, რით შემიძლია დაგეხმაროთ, და ერთად ვწყვეტთ, გავაგრძელოთ თუ არა.</p>
+    <ul class="link-list">
+      <li><a href="/fasi/">ფასი, გადახდა და გაუქმების წესი</a></li>
+      <li><a href="/pirveli-vizita-fsiqologtan/">პირველი ვიზიტი ფსიქოლოგთან — რა ხდება და როგორ მოვემზადოთ</a></li>
+    </ul>
+    {{> cta-compact}}
+  </div>
+</section>
+
+<!-- 7. ხშირი კითხვები — 4; პასუხები მოკლეა და ღრმა გვერდებზე მიდის -->
+<section class="section" id="khshiri-kitkhvebi" aria-labelledby="khshiri-kitkhvebi-title">
+  <div class="container">
+    <p class="eyebrow">05 · კითხვები</p>
+    <h2 id="khshiri-kitkhvebi-title">ხშირი კითხვები</h2>
+    <div class="faq-list">
+      <details class="faq">
+        <summary>შეხვედრა კონფიდენციალურია?</summary>
+        <div>
+          <p>დიახ. ყველაფერი, რასაც სესიაზე ამბობთ, ჩვენ შორის რჩება. გამონაკლისი მხოლოდ კანონით დადგენილი შემთხვევებია და მათზე პირველივე შეხვედრაზე გეტყვით. საიტზე სესიის ჩანაწერები არ ინახება. დაწვრილებით: <a href="/konfidencialuroba/">კონფიდენციალურობა და პერსონალური მონაცემები</a>.</p>
+        </div>
+      </details>
+      <details class="faq">
+        <summary>ფსიქოლოგთან მივიდე თუ ფსიქიატრთან?</summary>
+        <div>
+          <p>ფსიქოლოგი საუბრით და ფსიქოთერაპიის მეთოდებით მუშაობს და წამალს არ ნიშნავს. ფსიქიატრი ექიმია: ის სვამს დიაგნოზს და საჭიროების შემთხვევაში მედიკამენტს გამოწერს. ხშირად ორივე ერთად მუშაობს. რომელთან დაიწყოთ, აქ დეტალურად წერია: <a href="/fsiqologi-tu-fsiqiatri/">ფსიქოლოგი, ფსიქოთერაპევტი თუ ფსიქიატრი — ვისთან მივიდეთ</a>.</p>
+        </div>
+      </details>
+      <details class="faq">
+        <summary>ონლაინ კონსულტაციაც შესაძლებელია?</summary>
+        <div>
+          <p>დიახ. ონლაინ სესია იგივე {{SESSION_MIN}} წუთია, იგივე ფასით და იგივე კონფიდენციალურობით — ვიდეოზარით, თბილისის გარედანაც და საზღვარგარეთიდანაც. საჭიროა მშვიდი ოთახი, სადაც არავინ შემოგისწრებთ, და სტაბილური ინტერნეტი. როდის სჯობს კაბინეტი: <a href="/fsiqologis-konsultacia/">ფსიქოლოგის კონსულტაცია თბილისში და ონლაინ</a>.</p>
+        </div>
+      </details>
+      <details class="faq">
+        <summary>რამდენი სესია დამჭირდება?</summary>
+        <div>
+          <p>ერთი ზუსტი რიცხვი არ არსებობს: ეს დამოკიდებულია იმაზე, რა მოგიყვანათ და რა გსურთ შეცვალოთ. პირველ სამ-ოთხ შეხვედრაზე ერთად ვარკვევთ, გამოგადგებათ თუ არა ეს ფორმატი და რა სიხშირით ღირს შეხვედრა. დაწვრილებით: <a href="/pirveli-vizita-fsiqologtan/">პირველი ვიზიტი ფსიქოლოგთან</a>.</p>
+        </div>
+      </details>
+    </div>
+    <p class="section__more"><a href="/kitxvebi/">20 პასუხი ფსიქოლოგთან მისვლამდე</a></p>
+  </div>
+</section>
+
+<!-- 8. ბოლო სტატიები — {{BLOG_CARDS}} build.py-დან (ARTICLES, ახლიდან ძველისკენ); სტატიების გარეშე სია ცარიელია და იმალება -->
+<section class="section section--alt" id="statiebi" aria-labelledby="statiebi-title">
+  <div class="container">
+    <p class="eyebrow">06 · სტატიები</p>
+    <h2 id="statiebi-title">ბოლო სტატიები</h2>
+    <div class="article-list">{{BLOG_CARDS}}</div>
+    <p class="article-list__empty">პირველი სტატიები მზადდება: ნერვების „მოშლაზე“, დაზღვევასა და იმაზე, ნიშნავს თუ არა ფსიქოლოგთან მისვლა, რომ „რაღაც გჭირთ“.</p>
+    <p class="section__more"><a href="/blogi/">ყველა სტატია — ფსიქოლოგის ენით, ჟარგონის გარეშე</a></p>
+  </div>
+</section>
+
+<!-- 9. მისამართი: შესასვლელის ფოტო (placeholder), ორიენტირი, საათები, რუკის ბმული (iframe-ის გარეშე) -->
+<section class="section" aria-labelledby="misamarti">
+  <div class="container">
+    {{> address-block eyebrow="07 · მისამართი"}}
+  </div>
+</section>
+
+<!-- 10. საბოლოო CTA (ფუტერში — 112) -->
+{{> cta-band id="bolo" title="ერთი შეტყობინება საკმარისია" text="დაწერეთ მარტივად: „გამარჯობა, ანი. მინდა პირველი შეხვედრის დაჯავშნა.“ დანარჩენზე პირველ შეხვედრაზე ვისაუბროთ."}}

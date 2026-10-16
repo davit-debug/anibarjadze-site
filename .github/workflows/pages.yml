@@ -1,0 +1,42 @@
+# სამივე ვარიანტის დემო GitHub Pages-ზე: https://davit-debug.github.io/anibarjadze-site/
+# ყველა გვერდი noindex-ია, robots.txt = Disallow: /, ფორმა არ იგზავნება (build.py --demo).
+# საბოლოო (არჩეული) საიტი Cloudflare Pages-ზე ცალკე იდება — იხ. README.md.
+name: GitHub Pages (დემო)
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: აგება (ყველა საიტი, დემო)
+        run: python3 build.py --all --demo --site-url https://davit-debug.github.io/anibarjadze-site --out dist
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

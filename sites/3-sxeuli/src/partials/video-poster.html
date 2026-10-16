@@ -1,0 +1,7 @@
+<!-- ვიდეოს ფასადი (.video-card-ის მედია-ნაწილი, სპეც. §2): 9:16 ყდა „ვიდეო მალე“ ნიშნით. ვიდეოები ჯერ არ არსებობს — ღილაკი/iframe არ არის, JS არ სჭირდება.
+     არგუმენტები: n = 1 | 2 | 3 (assets/img/video-poster-N.svg), title = კლიპის სათაური (alt-ისთვის).
+     1 = „რატომ ჩერდება სუნთქვა შფოთვისას“ · 2 = „რა ხდება პირველ სესიაზე“ · 3 = „ეს მასაჟი არ არის“.
+     როცა ვიდეო ჩაიწერება: img შეიცვლება click-to-load ღილაკით (youtube-nocookie) და CSP frame-src განახლდება. -->
+<figure class="video-card__media">
+  <img src="/assets/img/video-poster-{{@n|1}}.svg" alt="ვიდეოს ყდა: „{{@title}}“ — ვიდეო მალე დაემატება" width="540" height="960" loading="lazy" decoding="async">
+</figure>

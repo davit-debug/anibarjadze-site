@@ -1,0 +1,40 @@
+<!-- საიტის ჰედერი: wordmark + pill-ნავიგაცია (7 პუნქტი, სპეც. §2). აქტიური პუნქტი: {{nav:KEY}} (KEY = meta.nav_key, ნაგულისხმევად path-ის პირველი სეგმენტი); ჯგუფი: {{navgroup:KEY}}, სახელი: {{navlabel:KEY}} (site.config.json → NAV_GROUPS). -->
+<a class="skip-link" href="#main">მთავარ შინაარსზე გადასვლა</a>
+<header class="site-header">
+  <div class="container site-header__inner">
+    <a class="wordmark" href="/"{{nav:home}}>
+      <span class="wordmark__name">{{NAME}}</span>
+      <span class="wordmark__role">{{ROLE}}</span>
+    </a>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+      <span class="nav-toggle__bars" aria-hidden="true"></span>
+      <span>მენიუ</span>
+    </button>
+    <nav class="site-nav" id="site-nav" aria-label="მთავარი ნავიგაცია">
+      <ul class="site-nav__list">
+        <li class="nav-group{{navgroup:metodebi}}">
+          <button class="nav-group__btn" type="button" aria-expanded="false" aria-controls="nav-metodebi">{{navlabel:metodebi}}</button>
+          <ul class="nav-sub" id="nav-metodebi">
+            <li><a href="/sxeulze-orientirebuli-fsiqoterapia/"{{nav:sxeulze-orientirebuli-fsiqoterapia}}>სხეულზე ორიენტირებული ფსიქოთერაპია</a></li>
+            <li><a href="/geshtalt-terapia/"{{nav:geshtalt-terapia}}>გეშტალტ თერაპია</a></li>
+            <li><a href="/pirveli-sesia/"{{nav:pirveli-sesia}}>პირველი სესია</a></li>
+          </ul>
+        </li>
+        <li class="nav-group{{navgroup:mdgomareobebi}}">
+          <button class="nav-group__btn" type="button" aria-expanded="false" aria-controls="nav-mdgomareobebi">{{navlabel:mdgomareobebi}}</button>
+          <ul class="nav-sub" id="nav-mdgomareobebi">
+            <li><a href="/shfotva/"{{nav:shfotva}}>შფოთვა</a></li>
+            <li><a href="/panikuri-sheteva/"{{nav:panikuri-sheteva}}>პანიკური შეტევა</a></li>
+            <li><a href="/stresis-martva/"{{nav:stresis-martva}}>სტრესი</a></li>
+            <li><a href="/emociuri-gadatsva/"{{nav:emociuri-gadatsva}}>გადაწვა</a></li>
+          </ul>
+        </li>
+        <li><a href="/fasi/"{{nav:fasi}}>ფასი</a></li>
+        <li><a href="/chems-shesakheb/"{{nav:chems-shesakheb}}>ჩემ შესახებ</a></li>
+        <li><a href="/video/"{{nav:video}}>ვიდეო</a></li>
+        <li><a href="/blogi/"{{nav:blogi}}>ბლოგი</a></li>
+        <li class="site-nav__cta"><a href="/kontaqti/"{{nav:kontaqti}}>კონტაქტი</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>

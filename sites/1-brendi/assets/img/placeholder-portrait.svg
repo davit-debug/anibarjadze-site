@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" width="800" height="1000" role="img" aria-label="ფოტო მალე">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ECE9DC"/>
+      <stop offset="1" stop-color="#E1DCC3"/>
+    </linearGradient>
+    <linearGradient id="light" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity=".55"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="1000" fill="url(#bg)"/>
+  <path d="M520 0h280v620L560 360z" fill="url(#light)"/>
+  <circle cx="400" cy="380" r="120" fill="#5E6B2C" opacity=".22"/>
+  <path d="M170 1000c0-190 100-440 230-440s230 250 230 440z" fill="#5E6B2C" opacity=".22"/>
+  <rect x="300" y="890" width="200" height="56" rx="28" fill="#F5F3EB" opacity=".9"/>
+  <text x="400" y="926" text-anchor="middle" font-family="'Noto Sans Georgian', Sylfaen, sans-serif" font-size="24" font-weight="700" fill="#4F5348">ფოტო მალე</text>
+</svg>

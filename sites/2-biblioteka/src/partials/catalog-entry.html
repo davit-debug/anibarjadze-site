@@ -1,0 +1,7 @@
+<!-- კატალოგის ერთი ჩანაწერი (ნომრიანი სარჩევის რიგი, მთელი რიგი დაჭერადია). მხოლოდ <ol class="catalog">-ის შიგნით.
+     არგუმენტები: num („01“), href, title (ბმულის ტექსტი), line (ერთი ცოცხალი წინადადება). ბრჭყალები არგუმენტში: „…“ (არა "). -->
+<li class="catalog__item">
+  <span class="catalog__num" aria-hidden="true">{{@num}}</span>
+  <h3 class="catalog__title"><a href="{{@href}}">{{@title}}</a></h3>
+  <p class="catalog__line">{{@line}}</p>
+</li>

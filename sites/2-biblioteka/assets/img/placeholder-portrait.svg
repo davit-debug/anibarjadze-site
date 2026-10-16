@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" width="800" height="1000" role="img" aria-label="ფოტო მალე">
+  <rect width="800" height="1000" fill="#EFE9DF"/>
+  <rect x="0" y="0" width="800" height="620" fill="#F1E4E6"/>
+  <path d="M560 0h240v520z" fill="#FBF8F3" opacity=".55"/>
+  <rect x="40" y="40" width="720" height="920" fill="none" stroke="#D8D0C4" stroke-width="2"/>
+  <circle cx="400" cy="390" r="118" fill="#9B6B7A" opacity=".3"/>
+  <path d="M180 960c0-200 96-420 220-420s220 220 220 420z" fill="#9B6B7A" opacity=".3"/>
+  <rect x="290" y="866" width="220" height="56" fill="#FBF8F3"/>
+  <rect x="290" y="866" width="220" height="56" fill="none" stroke="#B49AA3" stroke-width="1.5"/>
+  <text x="400" y="902" text-anchor="middle" font-family="'Noto Sans Georgian', Sylfaen, sans-serif" font-size="24" font-weight="700" fill="#55504B">ფოტო მალე</text>
+</svg>

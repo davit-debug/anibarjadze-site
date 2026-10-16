@@ -1,0 +1,121 @@
+{
+  "_README": "საიტი 3 — „სხეულიც ლაპარაკობს“. ერთადერთი წყარო ყველა {{TOKEN}}-ისთვის. ფაქტები და [ფრჩხილიანი] ადგილები site 1-ის იდენტურია — ერთ საიტზე შევსებისას დანარჩენებშიც შეავსეთ. build ყველა [ფრჩხილს] INFO-დ ჩამოთვლის. ტექსტური (string) მნიშვნელობები ტოკენებად ხელმისაწვდომია; სიები/ობიექტები (SAME_AS, OPENING_HOURS_SPEC, SERVICES, PLANNED_PATHS, NAV_GROUPS…) ტოკენი არ არის.",
+
+  "SITE_URL": "https://anibarjadze.ge",
+  "SITE_NAME": "ანი ბარჯაძე — ფსიქოლოგი · სიტყვა და სხეული",
+  "SITE_DESCRIPTION": "ინდივიდუალური ფსიქოთერაპია თბილისში (სოლოლაკი) და ონლაინ. გეშტალტ და სხეულზე ორიენტირებული მიდგომა, როცა შფოთვა და დაძაბულობა სხეულში „ჩარჩება“.",
+
+  "NAME": "ანი ბარჯაძე",
+  "NAME_LATIN": "Ani Barjadze",
+  "PRACTICE_NAME": "ფსიქოლოგი ანი ბარჯაძე",
+  "ROLE": "ფსიქოლოგი",
+  "AUTHOR_CREDENTIAL": "[ზუსტი მომზადება]",
+
+  "ADDRESS": "გალაკტიონ ტაბიძის ქ. 18, თბილისი",
+  "STREET": "გალაკტიონ ტაბიძის ქ. 18",
+  "CITY": "თბილისი",
+  "DISTRICT": "სოლოლაკი",
+  "POSTAL_CODE": "0105",
+  "GEO_LAT": 41.69058,
+  "GEO_LNG": 44.80143,
+  "LANDMARK": "თავისუფლების მოედნიდან რამდენიმე წუთის სავალზე",
+  "MAPS_URL": "https://www.google.com/maps/search/?api=1&query=%E1%83%92%E1%83%90%E1%83%9A%E1%83%90%E1%83%99%E1%83%A2%E1%83%98%E1%83%9D%E1%83%9C%20%E1%83%A2%E1%83%90%E1%83%91%E1%83%98%E1%83%AB%E1%83%98%E1%83%A1%20%E1%83%A5.%2018%2C%20%E1%83%97%E1%83%91%E1%83%98%E1%83%9A%E1%83%98%E1%83%A1%E1%83%98",
+
+  "EMAIL": "ani@anibarjadze.ge",
+  "PHONE_DISPLAY": "[ტელეფონი]",
+  "PHONE_TEL": "+995XXXXXXXXX",
+  "WA_URL": "https://wa.me/995XXXXXXXXX?text=%E1%83%92%E1%83%90%E1%83%9B%E1%83%90%E1%83%A0%E1%83%AF%E1%83%9D%E1%83%91%E1%83%90%2C%20%E1%83%90%E1%83%9C%E1%83%98.%20%E1%83%9B%E1%83%98%E1%83%9C%E1%83%93%E1%83%90%20%E1%83%9E%E1%83%98%E1%83%A0%E1%83%95%E1%83%94%E1%83%9A%E1%83%98%20%E1%83%A8%E1%83%94%E1%83%AE%E1%83%95%E1%83%94%E1%83%93%E1%83%A0%E1%83%98%E1%83%A1%20%E1%83%93%E1%83%90%E1%83%AF%E1%83%90%E1%83%95%E1%83%A8%E1%83%9C%E1%83%90.",
+  "WA_TEXT": "გამარჯობა, ანი. მინდა პირველი შეხვედრის დაჯავშნა.",
+  "MESSENGER_URL": "https://m.me/Psychologist.AniBarjadze",
+  "FACEBOOK_URL": "https://www.facebook.com/Psychologist.AniBarjadze",
+  "FB_REVIEWS_URL": "https://www.facebook.com/Psychologist.AniBarjadze/reviews",
+  "GBP_REVIEW_URL": "[Google-ის შეფასების ბმული]",
+  "RESPONSE_TIME": "24 საათში",
+
+  "PRICE": "[ფასი]",
+  "PRICE_VALUE": "",
+  "_PRICE_SAME_ONLINE": "false, სანამ ანი არ დაადასტურებს, რომ ონლაინ სესიის ფასი კაბინეტისას უდრის (llms.txt ამის მიხედვით წერს ფასის ფაქტს). დადასტურების შემდეგ — true და /fasi/-ის ონლაინ რიგში {{PRICE}}.",
+  "PRICE_SAME_ONLINE": false,
+  "SESSION_MIN": "50",
+  "HOURS": "[სამუშაო საათები]",
+
+  "PHOTO_PORTRAIT": "/assets/img/placeholder-portrait.svg",
+  "PHOTO_PORTRAIT_ALT": "ანი ბარჯაძის პორტრეტი — ფოტო მალე დაემატება",
+  "PHOTO_OFFICE": "/assets/img/placeholder-office.svg",
+  "PHOTO_OFFICE_ALT": "კაბინეტი სოლოლაკში — ფოტო მალე დაემატება",
+  "PHOTO_ENTRANCE": "/assets/img/placeholder-entrance.svg",
+  "PHOTO_ENTRANCE_ALT": "შესასვლელი, გალაკტიონ ტაბიძის ქ. 18 — ფოტო მალე დაემატება",
+  "OG_IMAGE": "/assets/img/og-default.png",
+  "OG_IMAGE_ALT": "ანი ბარჯაძე — ფსიქოლოგი · სიტყვა და სხეული · თბილისი",
+  "THEME_COLOR": "#F1EDE6",
+  "AUTHOR_PATH": "/chems-shesakheb/",
+
+  "ANALYTICS_SNIPPET": "",
+  "CSP": "default-src 'self'; script-src 'self' https://plausible.io; style-src 'self'; font-src 'self'; img-src 'self' data:; connect-src 'self' https://plausible.io; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'",
+
+  "_PLANNED_PATHS": "ყველა დაგეგმილი გვერდი (სპეციფიკაცია 3-sxeuli.md §4, 20 გვერდი): ბმული ამ მისამართზე მიიღება, სანამ გვერდი ჯერ დაწერილი არ არის (build: WARN, --release: ERROR).",
+  "PLANNED_PATHS": [
+    "/",
+    "/chems-shesakheb/",
+    "/sxeulze-orientirebuli-fsiqoterapia/",
+    "/geshtalt-terapia/",
+    "/fsiqoterapia-tbilisi/",
+    "/shfotva/",
+    "/panikuri-sheteva/",
+    "/stresis-martva/",
+    "/emociuri-gadatsva/",
+    "/fasi/",
+    "/pirveli-sesia/",
+    "/kitkhvebi/",
+    "/video/",
+    "/rogor-avirchiot-fsiqologi/",
+    "/blogi/",
+    "/blogi/suntqva-shfotvisas/",
+    "/blogi/es-masazhi-ar-aris/",
+    "/kontaqti/",
+    "/konfidencialuroba/",
+    "/404.html"
+  ],
+  "_NAV_GROUPS": "header partial-ის {{navgroup:KEY}} (აქტიური ჯგუფი, თუ გვერდის nav_key სიაშია) და {{navlabel:KEY}} (ჯგუფის სახელი). nav_key ნაგულისხმევად = path-ის პირველი სეგმენტი.",
+  "NAV_GROUPS": {
+    "metodebi": {
+      "label": "როგორ ვმუშაობ",
+      "keys": ["sxeulze-orientirebuli-fsiqoterapia", "geshtalt-terapia", "pirveli-sesia", "fsiqoterapia-tbilisi"]
+    },
+    "mdgomareobebi": {
+      "label": "რასთან ვმუშაობ",
+      "keys": ["shfotva", "panikuri-sheteva", "stresis-martva", "emociuri-gadatsva"]
+    }
+  },
+  "_ALLOWED_THERAPY_COMPOUNDS": "„თერაპია/თერაპევტი“ ცალკე სიტყვად (სათაური, H1, ნავიგაცია, ანკორი, schema) მიიღება მხოლოდ ამ შესიტყვებებში, ბრუნვის დაბოლოებით. „ფსიქოდინამიკური თერაპევტი“ განზრახ არ არის სიაში.",
+  "ALLOWED_THERAPY_COMPOUNDS": [
+    "გეშტალტ თერაპია", "გეშტალტ თერაპევტი", "გეშტალტ-თერაპია", "გეშტალტ-თერაპევტი",
+    "ორიენტირებული თერაპია", "ორიენტირებული თერაპევტი",
+    "სომატური თერაპია", "სომატური თერაპევტი",
+    "ფსიქოდინამიკური თერაპია", "ფსიქოანალიტიკური თერაპია"
+  ],
+  "SAUKETESO_ALLOWED": ["/rogor-avirchiot-fsiqologi/"],
+
+  "SAME_AS": [],
+  "OPENING_HOURS_SPEC": [],
+  "SERVICES": [
+    {
+      "id": "service-individual",
+      "serviceType": "ინდივიდუალური ფსიქოთერაპია",
+      "name": "ინდივიდუალური ფსიქოთერაპია თბილისში და ონლაინ",
+      "path": "/fsiqoterapia-tbilisi/"
+    },
+    {
+      "id": "service-body",
+      "serviceType": "სხეულზე ორიენტირებული ფსიქოთერაპია",
+      "name": "სხეულზე ორიენტირებული ფსიქოთერაპია თბილისში",
+      "path": "/sxeulze-orientirebuli-fsiqoterapia/"
+    },
+    {
+      "id": "service-gestalt",
+      "serviceType": "გეშტალტთერაპია",
+      "name": "გეშტალტ თერაპია თბილისში",
+      "path": "/geshtalt-terapia/"
+    }
+  ]
+}

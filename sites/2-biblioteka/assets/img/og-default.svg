@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <rect width="1200" height="630" fill="#FBF8F3"/>
+  <rect x="0" y="0" width="360" height="630" fill="#7C2C4C"/>
+  <rect x="36" y="36" width="288" height="558" fill="none" stroke="#FBF8F3" stroke-width="2" opacity=".45"/>
+  <text x="180" y="372" text-anchor="middle" font-family="'Noto Serif Georgian', Sylfaen, serif" font-size="200" font-weight="500" fill="#FBF8F3">ა</text>
+  <text x="440" y="150" font-family="'Noto Sans Georgian', Sylfaen, sans-serif" font-size="28" font-weight="700" fill="#65203C">ბიბლიოთეკა ფსიქოთერაპიაზე</text>
+  <rect x="440" y="178" width="680" height="1" fill="#D8D0C4"/>
+  <text x="438" y="290" font-family="'Noto Serif Georgian', Sylfaen, serif" font-size="82" font-weight="500" fill="#1F1D1B">ანი ბარჯაძე</text>
+  <text x="440" y="362" font-family="'Noto Serif Georgian', Sylfaen, serif" font-size="40" fill="#7C2C4C">ფსიქოლოგი · თბილისი და ონლაინ</text>
+  <rect x="440" y="410" width="680" height="1" fill="#D8D0C4"/>
+  <rect x="773" y="403" width="14" height="14" transform="rotate(45 780 410)" fill="#FBF8F3" stroke="#B49AA3" stroke-width="1.5"/>
+  <text x="440" y="476" font-family="'Noto Sans Georgian', Sylfaen, sans-serif" font-size="27" fill="#55504B">შფოთვა · პანიკა · გადაწვა · ურთიერთობები</text>
+  <text x="440" y="560" font-family="'Noto Sans Georgian', Sylfaen, sans-serif" font-size="24" fill="#55504B">anibarjadze.ge</text>
+</svg>

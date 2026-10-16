@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <rect width="1200" height="630" fill="#F1EDE6"/>
+  <rect x="0" y="0" width="430" height="630" fill="#D5E0D2"/>
+  <circle cx="215" cy="315" r="230" fill="none" stroke="#A3B5A3" stroke-width="3"/>
+  <circle cx="215" cy="315" r="170" fill="none" stroke="#A3B5A3" stroke-width="3" opacity=".7"/>
+  <circle cx="215" cy="315" r="112" fill="#4F7A62"/>
+  <text x="215" y="364" text-anchor="middle" font-family="'Noto Sans Georgian', 'BPG Arial', Sylfaen, 'DejaVu Sans', sans-serif" font-size="140" font-weight="700" fill="#F1EDE6">ა</text>
+  <text x="500" y="250" font-family="'Noto Sans Georgian', 'BPG Arial', Sylfaen, 'DejaVu Sans', sans-serif" font-size="78" font-weight="700" fill="#2F2B28">ანი ბარჯაძე</text>
+  <text x="502" y="322" font-family="'Noto Sans Georgian', 'BPG Arial', Sylfaen, 'DejaVu Sans', sans-serif" font-size="36" font-weight="700" fill="#3E6350">ფსიქოლოგი · სიტყვა და სხეული</text>
+  <rect x="502" y="360" width="96" height="5" rx="2.5" fill="#A3B5A3"/>
+  <text x="502" y="430" font-family="'Noto Sans Georgian', 'BPG Arial', Sylfaen, 'DejaVu Sans', sans-serif" font-size="30" fill="#5C6B73">სოლოლაკი, თბილისი · ონლაინ</text>
+  <text x="502" y="540" font-family="'Noto Sans Georgian', 'BPG Arial', Sylfaen, 'DejaVu Sans', sans-serif" font-size="26" fill="#5C6B73">anibarjadze.ge</text>
+</svg>

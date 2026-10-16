@@ -1,0 +1,44 @@
+<!-- საიტის ფუტერი: მისამართი, საათები, ელფოსტა, საიტის რუკა, პასიური შეფასებების ბმულები, 112. -->
+<footer class="site-footer">
+  <div class="container site-footer__grid">
+    <div class="site-footer__about">
+      <p class="site-footer__name">{{NAME}}</p>
+      <p>{{ROLE}} · {{DISTRICT}}, {{CITY}} · ონლაინ</p>
+      <address>
+        <a href="{{MAPS_URL}}" rel="noopener" target="_blank">{{ADDRESS}}</a><br>
+        საათები: {{HOURS}}<br>
+        <a href="mailto:{{EMAIL}}">{{EMAIL}}</a><br>
+        <a href="{{TEL_URL}}" data-event="cta_phone">{{PHONE_DISPLAY}}</a>
+      </address>
+    </div>
+    <nav class="site-footer__nav" aria-label="საიტის რუკა">
+      <ul>
+        <li><a href="/fsiqoterapia/">ინდივიდუალური ფსიქოთერაპია</a></li>
+        <li><a href="/geshtalt-terapia/">გეშტალტთერაპია</a></li>
+        <li><a href="/sxeulze-orientirebuli-fsiqoterapia/">სხეულზე ორიენტირებული ფსიქოთერაპია</a></li>
+        <li><a href="/panikuri-shetevebi/">პანიკური შეტევები</a></li>
+        <li><a href="/shfotva/">შფოთვა</a></li>
+      </ul>
+      <ul>
+        <li><a href="/fasi/">ფასი</a></li>
+        <li><a href="/pirveli-sesia/">პირველი სესია</a></li>
+        <li><a href="/kitkhvebi/">ხშირი კითხვები</a></li>
+        <li><a href="/blogi/">ბლოგი</a></li>
+        <li><a href="/chems-shesakheb/">ჩემ შესახებ</a></li>
+        <li><a href="/kontaqti/">კონტაქტი</a></li>
+        <li><a href="/konfidencialuroba/">კონფიდენციალურობა</a></li>
+      </ul>
+    </nav>
+    <div class="site-footer__reviews">
+      <p class="site-footer__label">შეფასებები</p>
+      <ul>
+        <li><a href="{{GBP_REVIEW_URL}}" data-event="review_link" rel="noopener" target="_blank">შეფასებები Google-ზე</a></li>
+        <li><a href="{{FB_REVIEWS_URL}}" data-event="review_link" rel="noopener" target="_blank">რეკომენდაციები Facebook-ზე</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="container site-footer__bottom">
+    <p class="site-footer__safety">თუ ახლა საფრთხეში ხართ, დარეკეთ <a href="tel:112">112-ზე</a>.</p>
+    <p>© {{YEAR}} {{NAME}}</p>
+  </div>
+</footer>

@@ -1,0 +1,7 @@
+<!-- სხეულის ხაზოვანი ილუსტრაცია (.body-figure, სპეც. §2). არგუმენტები: pose = seated | grounded | shoulders (ნაგულისხმევად seated), caption (არასავალდებულო; ცარიელი figcaption იმალება).
+     seated — ზის, ერთი ხელი მუცელზე, მეორე მკერდზე (სუნთქვა); grounded — დგას, ფეხები მიწაზე (დამიწება); shoulders — მხრები ეშვება (დაძაბულობის მოშვება).
+     SVG დეკორატიულია (aria-hidden), ფერი = currentColor = var(--secondary). -->
+<figure class="body-figure body-figure--{{@pose|seated}}">
+  {{> fig-{{@pose|seated}}}}
+  <figcaption>{{@caption}}</figcaption>
+</figure>

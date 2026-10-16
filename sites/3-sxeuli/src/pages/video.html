@@ -1,0 +1,134 @@
+<!--meta {
+  "path": "/video/",
+  "title": "ერთწუთიანი პასუხები: სხეული და ემოციები",
+  "description": "რატომ ჩერდება სუნთქვა შფოთვისას, რა ხდება პირველ სესიაზე და რატომ არ არის სხეულთან მუშაობა მასაჟი — სამი მოკლე პასუხი, ტექსტით უკვე აქ.",
+  "h1": "ერთწუთიანი პასუხები: სხეული და ემოციები",
+  "type": "CollectionPage",
+  "breadcrumb": [["მთავარი", "/"], ["ვიდეო", "/video/"]],
+  "datePublished": "2026-10-16",
+  "dateModified": "2026-10-16",
+  "priority": 0.6
+} -->
+
+<!-- ვიდეოების გვერდი (სპეც. 3-sxeuli.md §4 რიგი 13, შაბლონი D). ვიდეოები ჯერ არ არსებობს: სამი ფასადი (video-poster 1–3) + სცენარის სრული სამუშაო ვერსია „ტექსტი (სცენარი — ჩასაწერი)“.
+     VideoObject schema არ ემატება, სანამ რეალური ვიდეო არ იქნება; type რჩება CollectionPage.
+     ბმულები ორმხრივია (სპეც. linking rule): კლიპი 1 → /shfotva/, /panikuri-sheteva/, ბლოგი suntqva-shfotvisas; კლიპი 2 → /pirveli-sesia/, /sxeulze-orientirebuli-fsiqoterapia/; კლიპი 3 → /sxeulze-orientirebuli-fsiqoterapia/, ბლოგი es-masazhi-ar-aris.
+     სცენარები — partials video-text-1/2/3; იგივე partial-ები დგას ყველა გვერდზე, სადაც კლიპია. ჩაწერისას ანი ტექსტს partial-ში ასწორებს.
+     სავარჯიშოს ნაბიჯები (კლიპი 1) — NHS „Breathing exercises for stress“-ის მიხედვით (ცხვირით შიგნით, პირით გარეთ, მუცლამდე ძალის გარეშე, 1–5 თვლა სურვილისამებრ, სულ მცირე 5 წუთი, ყოველდღე; შემოწმებულია 16.10.2026). ხელები მუცელსა და მკერდზე — ყურადღების დამატებითი ხერხი, NHS-ის ტექსტში არ არის. -->
+<article class="page">
+  <header class="page-head container">
+    <p class="eyebrow">ᲕᲘᲓᲔᲝ</p>
+    <h1>ერთწუთიანი პასუხები: სხეული და ემოციები</h1>
+    {{> meta-dates}}
+  </header>
+
+  <div class="container">
+    <div class="prose">
+      <div class="short-answer">
+        <p class="short-answer__label">მოკლე პასუხი</p>
+        <p>აქ სამ კითხვას ვპასუხობ, რომლებსაც ხშირად მისვამენ: რატომ ჩერდება სუნთქვა შფოთვისას, რა ხდება პირველ სესიაზე და ნიშნავს თუ არა სხეულთან მუშაობა მასაჟს. თითო პასუხი დაახლოებით ერთ წუთს გრძელდება. ვიდეოები ჯერ ჩასაწერია, ტექსტი კი უკვე აქ არის — გახსენით „ტექსტი“ ბარათის ქვემოთ.</p>
+      </div>
+
+      <p class="lead">ზოგ კითხვას გრძელი სტატია არ სჭირდება — საკმარისია ერთი წუთი და მარტივი ახსნა. აქ ასეთ პასუხებს ვაგროვებ: სხეულზე, ემოციებზე და ჩემთან მუშაობაზე.</p>
+      <p>სავარჯიშოები მარტივია — მაგალითად, ნელი სუნთქვა მუცლით, რომელსაც სტრესისა და შფოთვის დროს დიდი ბრიტანეთის ჯანდაცვის ეროვნული სამსახური (NHS) გვირჩევს.</p>
+      <p>თუ სუნთქვის გაჭირვება, გულმკერდის ტკივილი ან აჩქარებული გულისცემა პირველად გაჩნდა, ჯერ ექიმს მიმართეთ.</p>
+    </div>
+
+    <div class="video-card">
+      {{> video-poster n="1" title="რატომ ჩერდება სუნთქვა შფოთვისას"}}
+      <div class="video-card__body">
+        <h2 class="video-card__title" id="suntqva">რატომ ჩერდება სუნთქვა შფოთვისას</h2>
+        <p class="video-card__meta">ვიდეო მალე · დაახლოებით ერთი წუთი</p>
+        <p>შფოთვისას სუნთქვა ხშირად პირველი იცვლება. რატომ — და რა გააკეთოთ ახლავე.</p>
+        <details class="video-card__text">
+          <summary>ტექსტი (სცენარი — ჩასაწერი)</summary>
+          {{> video-text-1}}
+        </details>
+        <ul class="link-list">
+          <li><a href="/shfotva/">შფოთვა: სიმპტომები სხეულში და ფსიქოთერაპია</a></li>
+          <li><a href="/panikuri-sheteva/">პანიკური შეტევა — რა ხდება სხეულში</a></li>
+          <li><a href="/blogi/suntqva-shfotvisas/">სუნთქვა შფოთვისას — რა ვქნათ 90 წამში</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="video-card">
+      {{> video-poster n="2" title="რა ხდება პირველ სესიაზე"}}
+      <div class="video-card__body">
+        <h2 class="video-card__title" id="pirveli-sesia">რა ხდება პირველ სესიაზე</h2>
+        <p class="video-card__meta">ვიდეო მალე · დაახლოებით ერთი წუთი</p>
+        <p>რა ვთქვა, საიდან დავიწყო? როგორ მიდის პირველი შეხვედრის {{SESSION_MIN}} წუთი.</p>
+        <details class="video-card__text">
+          <summary>ტექსტი (სცენარი — ჩასაწერი)</summary>
+          {{> video-text-2}}
+        </details>
+        <ul class="link-list">
+          <li><a href="/pirveli-sesia/">პირველი სესია ფსიქოლოგთან — როგორ მიმდინარეობს</a></li>
+          <li><a href="/sxeulze-orientirebuli-fsiqoterapia/">სხეულზე ორიენტირებული ფსიქოთერაპია თბილისში</a></li>
+          <li><a href="/emociuri-gadatsva/#sesiaze">როგორ ვმუშაობთ გადაწვასთან სესიაზე</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="video-card">
+      {{> video-poster n="3" title="ეს მასაჟი არ არის"}}
+      <div class="video-card__body">
+        <h2 class="video-card__title" id="masazhi">ეს მასაჟი არ არის</h2>
+        <p class="video-card__meta">ვიდეო მალე · დაახლოებით ერთი წუთი</p>
+        <p>„სხეულთან მუშაობა“ ბევრს მასაჟს ახსენებს. რა ხდება სინამდვილეში და სად არის საზღვრები?</p>
+        <details class="video-card__text">
+          <summary>ტექსტი (სცენარი — ჩასაწერი)</summary>
+          {{> video-text-3}}
+        </details>
+        <ul class="link-list">
+          <li><a href="/sxeulze-orientirebuli-fsiqoterapia/">როგორ გამოიყურება სესია და რას არ ნიშნავს ეს მიდგომა</a></li>
+          <li><a href="/blogi/es-masazhi-ar-aris/">ეს მასაჟი არ არის — 7 კითხვა მეთოდზე</a></li>
+          <li><a href="/stresis-martva/#sesiaze">როგორ ვმუშაობთ სტრესთან სესიაზე</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="prose">
+      <!-- თემები კონცეფციიდან (concept-C-source.md §4 /video/: 8 კლიპი გაშვებისას). ანი ადასტურებს სიას; თითოეულს ტექსტური პასუხი უკვე აქვს დაგეგმილ გვერდზე. -->
+      <h2 id="shemdegi">რა ვიდეოები დაემატება?</h2>
+      <p>სხვა თემებიც ჩასაწერია. დაწვრილებითი პასუხი უკვე საიტზეა:</p>
+      <ul class="check-list">
+        <li>პანიკის 90 წამი: რა გააკეთოთ, როცა შეტევა იწყება.
+          <a class="check-list__link" href="/panikuri-sheteva/#akhlave">პანიკური შეტევა: რა ხდება სხეულში და როგორ გავუმკლავდეთ</a></li>
+        <li>„მხრები ყურებთან“: როგორ გროვდება დაძაბულობა და როგორ მოეშვას სხეული.
+          <a class="check-list__link" href="/stresis-martva/">სტრესის მართვა — როცა სხეული ვერ ისვენებს</a></li>
+        <li>გადაწვის სამი ნიშანი, რომლებსაც ხშირად უბრალო დაღლილობად ვთვლით.
+          <a class="check-list__link" href="/emociuri-gadatsva/">ემოციური გადაწვა — როცა დასვენება აღარ შველის</a></li>
+        <li>ონლაინ თუ კაბინეტში: რა იცვლება ეკრანთან.
+          <a class="check-list__link" href="/fsiqoterapia-tbilisi/#kabineti-tu-onlain">ინდივიდუალური ფსიქოთერაპია თბილისში და ონლაინ</a></li>
+        <li>ფსიქოლოგი თუ ფსიქიატრი: ვის მივმართოთ.
+          <a class="check-list__link" href="/kitkhvebi/#vin-ra-aris">ხშირი კითხვები ფსიქოთერაპიაზე — 15 პასუხი</a></li>
+      </ul>
+      <p>თქვენი კითხვა აქ არ არის? მომწერეთ:</p>
+      {{> cta-compact}}
+    </div>
+
+    <section class="sources" aria-labelledby="tsqaroebi">
+      <h2 id="tsqaroebi">წყაროები</h2>
+      <ol>
+        <li><a href="https://www.nhs.uk/mental-health/self-help/guides-tools-and-activities/breathing-exercises-for-stress/" rel="noopener" target="_blank">NHS — Breathing exercises for stress</a>, გადახედულია 2026 (შემოწმებულია: 16 ოქტომბერი, 2026)</li>
+        <li><a href="https://www.nhs.uk/mental-health/conditions/panic-disorder/" rel="noopener" target="_blank">NHS — Panic disorder</a>, გადახედულია 2023 (შემოწმებულია: 16 ოქტომბერი, 2026)</li>
+        <li><a href="https://www.frontiersin.org/articles/10.3389/fpsyg.2015.00093/full" rel="noopener" target="_blank">Payne P., Levine P. A., Crane-Godreau M. A. — Somatic experiencing: using interoception and proprioception as core elements of trauma therapy</a>, Frontiers in Psychology, 2015 (შემოწმებულია: 16 ოქტომბერი, 2026)</li>
+      </ol>
+    </section>
+
+    <aside class="related" aria-labelledby="related-title">
+      <h2 id="related-title">დაკავშირებული</h2>
+      <ul class="related__list">
+        <li><a href="/sxeulze-orientirebuli-fsiqoterapia/">სხეულზე ორიენტირებული ფსიქოთერაპია თბილისში</a><span>მეთოდი ერთ გვერდზე: სესია, საზღვრები და ონლაინ ფორმატი.</span></li>
+        <li><a href="/geshtalt-terapia/">გეშტალტ თერაპია თბილისში — რა ხდება სესიაზე</a><span>სიტყვის მხარე: მუშაობა იმაზე, რაც ახლა ხდება.</span></li>
+        <li><a href="/blogi/">ბლოგი — სხეული, ემოციები და ფსიქოთერაპია</a><span>იგივე თემები ვრცლად, წყაროებით.</span></li>
+      </ul>
+    </aside>
+
+    {{> author-box subject="გვერდი"}}
+    {{> disclaimer}}
+  </div>
+
+  {{> cta-band id="bolo" title="ერთ წუთში ყველაფერი ვერ ითქმება — დანარჩენზე შეხვედრისას ვისაუბროთ" text="პირველი შეხვედრა გასაცნობია: ვსაუბრობთ იმაზე, რამ მოგიყვანათ, და ერთად ვწყვეტთ, გავაგრძელოთ თუ არა."}}
+</article>
