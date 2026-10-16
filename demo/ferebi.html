@@ -1,0 +1,195 @@
+<!-- ფერების შედარების გვერდი (<out>/ferebi/index.html, მხოლოდ `python3 build.py --all --demo` და demo/palettes.json).
+     ტოკენები: {{BASE}} — ბაზის გზა; {{FONTS_CSS}} — shared/fonts.css; {{DATA}} — JSON: საიტები (გვერდები DEMO_SITES["compare"]-იდან,
+     საკუთარი ფერები style.css-ის :root-იდან) და პალიტრები. თითო ბარათში — გვერდი iframe-ში ?ferebi=<id>&embed=1-ით:
+     embed რეჟიმი ზოლს მალავს და არჩევანს არ ინახავს, ამიტომ ეს გვერდი შენახულ ფერებს არ ცვლის.
+     „ამ ფერებით გახსნა“ ხსნის ?ferebi=<id>-ით — ეს უკვე ინახავს არჩევანს. CSS და JS აქვეა. -->
+<!doctype html>
+<html lang="ka">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ფერების შედარება — ანი ბარჯაძის საიტი (დემო)</title>
+<meta name="description" content="ანი ბარჯაძის საიტის სამი ვარიანტი სხვადასხვა ფერში — ერთ ეკრანზე შესადარებლად.">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#1F1D1B">
+<link rel="icon" href="data:,">
+{{FONTS_CSS}}
+<style>
+:root { --ink: #1F1D1B; --ink-soft: #55504B; --paper: #FBF8F3; --surface: #FFFFFF; --line: #DDD6CB; --accent: #3E4A2E; }
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+body { margin: 0; background: var(--paper); color: var(--ink); font: 400 1.0625rem/1.6 "Noto Sans Georgian", system-ui, -apple-system, "Segoe UI", Sylfaen, sans-serif; }
+a { color: var(--accent); text-underline-offset: 3px; }
+a:focus-visible, button:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+.wrap { width: 100%; max-width: 90rem; margin: 0 auto; padding: 1.25rem 16px 3rem; }
+.back { margin: 0 0 1.25rem; font-size: .9375rem; }
+.top { max-width: 46rem; margin-bottom: 1.5rem; }
+.eyebrow { margin: 0 0 .5rem; font-weight: 700; font-size: .9375rem; color: var(--accent); }
+h1 { margin: 0 0 .75rem; font: 500 clamp(1.75rem, 1.2rem + 2.4vw, 2.75rem)/1.2 "Noto Serif Georgian", Sylfaen, Georgia, serif; }
+.lead { margin: 0; font-size: 1.0625rem; }
+.controls { display: flex; flex-wrap: wrap; gap: 1rem 2rem; margin: 0 0 1.75rem; padding: 1rem; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; }
+.controls fieldset { margin: 0; padding: 0; border: 0; min-width: 0; }
+.controls legend { padding: 0; margin-bottom: .4rem; font-weight: 700; font-size: .9375rem; }
+.seg { position: relative; display: flex; flex-wrap: wrap; gap: .4rem; }
+.seg input { position: absolute; opacity: 0; width: 1px; height: 1px; margin: 0; }
+.seg label { display: inline-flex; align-items: center; min-height: 44px; padding: .5rem 1rem; border: 1px solid var(--ink-soft); border-radius: 999px; background: var(--paper); font-size: .9375rem; cursor: pointer; }
+.seg input:checked + label { background: var(--ink); border-color: var(--ink); color: var(--paper); font-weight: 700; }
+.seg input:focus-visible + label { outline: 3px solid var(--accent); outline-offset: 2px; }
+.grid { list-style: none; margin: 0; padding: 0; display: grid; gap: 1.25rem; grid-template-columns: repeat(auto-fill, minmax(min(100%, 17rem), 1fr)); }
+.grid.is-desktop { grid-template-columns: repeat(auto-fill, minmax(min(100%, 30rem), 1fr)); }
+.card { display: flex; flex-direction: column; gap: .75rem; min-width: 0; margin: 0; padding: 1rem; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; }
+.card.is-current { border-color: var(--ink); box-shadow: 0 0 0 1px var(--ink); }
+.card__head { display: flex; flex-wrap: wrap; align-items: baseline; gap: .25rem .75rem; }
+.card__title { margin: 0; font: 500 1.25rem/1.3 "Noto Serif Georgian", Sylfaen, Georgia, serif; }
+.card__badge { display: none; padding: .1rem .55rem; border-radius: 999px; background: var(--ink); color: var(--paper); font-size: .8125rem; font-weight: 700; }
+.card.is-current .card__badge { display: inline-block; }
+.card__note { margin: 0; color: var(--ink-soft); font-size: .9375rem; }
+.sw { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(3.5rem, 1fr)); gap: .4rem; }
+.sw li { margin: 0; min-width: 0; }
+.sw__chip { display: block; height: 1.75rem; border-radius: 4px; box-shadow: inset 0 0 0 1px rgba(31, 29, 27, .18); }
+.sw__hex { display: block; margin-top: .15rem; font: 400 .625rem/1.3 ui-monospace, Menlo, Consolas, monospace; color: var(--ink-soft); overflow: hidden; text-overflow: ellipsis; }
+.vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.frame { position: relative; overflow: hidden; height: 20rem; border: 1px solid var(--line); border-radius: 6px; background: var(--paper); }
+.frame iframe { position: absolute; top: 0; left: 0; border: 0; transform-origin: 0 0; background: #fff; }
+.card__btn { align-self: flex-start; display: inline-flex; align-items: center; min-height: 44px; padding: .55rem 1.1rem; border-radius: 6px; background: var(--ink); color: var(--paper); font-weight: 700; font-size: .9375rem; text-decoration: none; }
+.card__btn:hover { background: var(--accent); }
+.foot { margin-top: 2rem; color: var(--ink-soft); font-size: .9375rem; max-width: 46rem; }
+@media (min-width: 1040px) { .wrap { padding-top: 2rem; padding-inline: 32px; } }
+</style>
+</head>
+<body>
+<main class="wrap">
+  <p class="back"><a href="{{BASE}}/">← ყველა ვარიანტი</a></p>
+  <header class="top">
+    <p class="eyebrow">დემო · ფერები</p>
+    <h1>ფერების შედარება</h1>
+    <p class="lead">აირჩიეთ ვარიანტი და გვერდი — ქვემოთ ის ყველა ფერში ჩანს. თუ რომელიმე მოგეწონათ, „ამ ფერებით გახსნა“ საიტს ახალ ჩანართში გახსნის და ამ ფერებს დაიმახსოვრებს.</p>
+  </header>
+  <form class="controls" id="controls" onsubmit="return false">
+    <fieldset><legend>ვარიანტი</legend><div class="seg" id="c-site"></div></fieldset>
+    <fieldset><legend>გვერდი</legend><div class="seg" id="c-page"></div></fieldset>
+    <fieldset><legend>ხედი</legend><div class="seg" id="c-view"></div></fieldset>
+  </form>
+  <ul class="grid" id="grid"></ul>
+  <noscript><p>შედარებისთვის საჭიროა JavaScript. ფერების შეცვლა ნებისმიერ გვერდზე შეგიძლიათ ზედა ზოლიდან.</p></noscript>
+  <p class="foot">ფერების შეცვლა ნებისმიერ გვერდზე შეგიძლიათ — ზედა ზოლში, „ფერები“. „საიტის ფერები“ ვარიანტის საკუთარ ფერებს აბრუნებს.</p>
+</main>
+<script>
+(function () {
+  var D = {{DATA}}, d = document, q = new URLSearchParams(location.search);
+  var VIEWS = { m: { w: 390, h: 844, label: 'მობილური', q: 'mobile' }, d: { w: 1280, h: 800, label: 'დესკტოპი', q: 'desktop' } };
+  var LBL = { paper: 'ფონი', ink: 'ტექსტი', 'ink-soft': 'მკრთალი ტექსტი', accent: 'აქცენტი', 'accent-dark': 'ბმულები',
+    secondary: 'მეორადი', surface: 'ზედაპირი', 'surface-light': 'ღია ზედაპირი', 'illustration-leaf': 'ილუსტრაცია', clay: 'თიხა' };
+  if (!D.sites.length) return;
+  var site = D.sites.filter(function (s) { return s.slug === q.get('saiti'); })[0] || D.sites[0];
+  var page = Math.max(0, site.pages.map(function (p) { return p[0]; }).indexOf(q.get('gverdi')));
+  var view = q.get('xedi') === 'desktop' ? 'd' : 'm';
+  var grid = d.getElementById('grid'), cards = [];
+
+  function el(tag, cls, text) {
+    var e = d.createElement(tag);
+    if (cls) e.className = cls;
+    if (text) e.textContent = text;
+    return e;
+  }
+  function radios(box, name, items, checked, onchange) {
+    box.textContent = '';
+    items.forEach(function (it, i) {
+      var id = name + '-' + i, r = el('input'), l = el('label', '', it[1]);
+      r.type = 'radio'; r.name = name; r.id = id; r.value = it[0]; r.checked = it[0] === checked;
+      r.addEventListener('change', function () { if (r.checked) onchange(it[0]); });
+      l.htmlFor = id;
+      box.appendChild(r); box.appendChild(l);
+    });
+  }
+  function stored() {
+    try { return localStorage.getItem(D.key) || ''; } catch (e) { return ''; }
+  }
+  function swatches(ul, colors) {
+    ul.textContent = '';
+    D.tokens.forEach(function (t) {
+      if (!colors[t]) return;
+      var li = el('li'), chip = el('span', 'sw__chip'), hex = el('span', 'sw__hex');
+      li.title = LBL[t] + ' · --' + t;
+      chip.style.background = colors[t];
+      hex.appendChild(el('span', 'vh', LBL[t] + ': '));
+      hex.appendChild(d.createTextNode(colors[t]));
+      li.appendChild(chip); li.appendChild(hex); ul.appendChild(li);
+    });
+  }
+  function fit(c) {
+    var v = VIEWS[view], s = c.frame.clientWidth / v.w;
+    if (!s) return;
+    c.iframe.style.width = v.w + 'px';
+    c.iframe.style.height = v.h + 'px';
+    c.iframe.style.transform = 'scale(' + s + ')';
+    c.frame.style.height = Math.round(v.h * s) + 'px';
+  }
+  var list = [{ id: '', name: 'საიტის ფერები', note: 'ვარიანტის საკუთარი ფერები' }].concat(D.palettes);
+  list.forEach(function (p) {
+    var li = el('li', 'card'), head = el('div', 'card__head'), ul = el('ul', 'sw'), frame = el('div', 'frame'),
+      iframe = el('iframe'), a = el('a', 'card__btn', 'ამ ფერებით გახსნა');
+    head.appendChild(el('h2', 'card__title', p.name));
+    head.appendChild(el('span', 'card__badge', 'საიტზე ახლა ეს ფერებია'));
+    li.appendChild(head);
+    li.appendChild(el('p', 'card__note', p.note || ''));
+    ul.setAttribute('aria-label', 'ფერები');
+    li.appendChild(ul);
+    iframe.setAttribute('loading', 'lazy');
+    iframe.setAttribute('tabindex', '-1');
+    iframe.setAttribute('aria-hidden', 'true');
+    frame.appendChild(iframe);
+    li.appendChild(frame);
+    a.target = '_blank'; a.rel = 'noopener';
+    li.appendChild(a);
+    grid.appendChild(li);
+    var c = { p: p, li: li, ul: ul, frame: frame, iframe: iframe, a: a };
+    if (p.colors) swatches(ul, p.colors);
+    cards.push(c);
+  });
+  function mark() {
+    var cur = stored();
+    cards.forEach(function (c) { c.li.classList.toggle('is-current', c.p.id === cur); });
+  }
+  function update() {
+    var path = site.pages[page][0], v = VIEWS[view], url = D.base + '/' + site.slug + path;
+    grid.classList.toggle('is-desktop', view === 'd');
+    cards.forEach(function (c) {
+      var src = url + '?ferebi=' + encodeURIComponent(c.p.id) + '&embed=1';
+      if (!c.p.id) swatches(c.ul, site.colors);
+      c.iframe.title = c.p.name + ' — ' + site.label + ', ' + site.pages[page][1] + ' (' + v.label + ')';
+      if (c.iframe.getAttribute('src') !== src) c.iframe.setAttribute('src', src);
+      c.a.href = url + '?ferebi=' + encodeURIComponent(c.p.id);
+      c.a.setAttribute('aria-label', 'ამ ფერებით გახსნა — ' + c.p.name + ' (ახალ ჩანართში)');
+      fit(c);
+    });
+    var u = new URLSearchParams();
+    u.set('saiti', site.slug); u.set('gverdi', path); if (view === 'd') u.set('xedi', 'desktop');
+    history.replaceState(null, '', '?' + u.toString());
+    mark();
+  }
+  function drawPages() {
+    radios(d.getElementById('c-page'), 'gverdi', site.pages.map(function (p, i) { return [String(i), p[1]]; }), String(page),
+      function (v) { page = +v; update(); });
+  }
+  radios(d.getElementById('c-site'), 'saiti', D.sites.map(function (s) { return [s.slug, s.label]; }), site.slug, function (v) {
+    var path = site.pages[page][0];
+    site = D.sites.filter(function (s) { return s.slug === v; })[0];
+    page = Math.max(0, site.pages.map(function (p) { return p[0]; }).indexOf(path));
+    drawPages(); update();
+  });
+  radios(d.getElementById('c-view'), 'xedi', [['m', VIEWS.m.label], ['d', VIEWS.d.label]], view, function (v) { view = v; update(); });
+  drawPages();
+  update();
+  if (window.ResizeObserver) {
+    var ro = new ResizeObserver(function () { cards.forEach(fit); });
+    cards.forEach(function (c) { ro.observe(c.frame); });
+  } else {
+    addEventListener('resize', function () { cards.forEach(fit); });
+  }
+  addEventListener('storage', function (e) { if (e.key === D.key) mark(); });
+  addEventListener('focus', mark);
+})();
+</script>
+</body>
+</html>

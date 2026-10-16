@@ -1,6 +1,7 @@
 <!-- დემო-ვარიანტების არჩევის გვერდი (<out>/index.html, მხოლოდ `python3 build.py --all`).
      ტოკენები: {{BASE}} — ბაზის გზა (--site-url-ის path, მაგ. /anibarjadze-site); {{CARDS}} — ბარათები build.py-ის
-     DEMO_SITES-იდან; {{FONTS_CSS}} — shared/fonts.css (შრიფტები <out>/assets/fonts/-ში კოპირდება).
+     DEMO_SITES-იდან; {{FONTS_CSS}} — shared/fonts.css (შრიფტები <out>/assets/fonts/-ში კოპირდება);
+     {{FEREBI_NOTE}}, {{FEREBI_BLOCK}} — ფერების შენიშვნა და შედარების ბლოკი (მხოლოდ --demo, demo/palettes.json-იდან).
      გვერდი noindex-ია; CSS აქვეა — საიტების CSS-ზე არ არის დამოკიდებული. -->
 <!doctype html>
 <html lang="ka">
@@ -11,6 +12,7 @@
 <meta name="description" content="ფსიქოლოგ ანი ბარჯაძის საიტის სამი დემო-ვარიანტი: პირადი ბრენდი, ბიბლიოთეკა ფსიქოთერაპიაზე და სხეულზე ორიენტირებული მიდგომა.">
 <meta name="robots" content="noindex, nofollow">
 <meta name="theme-color" content="#1F1D1B">
+<link rel="icon" href="data:,">
 {{FONTS_CSS}}
 <style>
 :root { --ink: #1F1D1B; --ink-soft: #55504B; --paper: #FBF8F3; --surface: #FFFFFF; --line: #DDD6CB; --accent: #3E4A2E; }
@@ -35,6 +37,11 @@ h1 { margin: 0 0 .75rem; font: 500 clamp(1.75rem, 1.2rem + 2.4vw, 2.75rem)/1.2 "
 .variant__btn:focus-visible, .variant__media:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
 .variant__body .variant__soon { margin-top: auto; font-weight: 700; color: var(--ink-soft); }
 .is-pending .variant__media { aspect-ratio: 1200 / 630; opacity: .5; }
+.note + .note { margin-top: .5rem; }
+.compare { margin-top: 2rem; padding: 1.25rem 1rem 1.5rem; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; display: flex; flex-direction: column; gap: .75rem; }
+.compare__title { margin: 0; font: 500 1.375rem/1.3 "Noto Serif Georgian", Sylfaen, Georgia, serif; }
+.compare p { margin: 0; }
+.compare .variant__btn { margin-top: .25rem; }
 .foot { margin-top: 2.5rem; color: var(--ink-soft); font-size: .9375rem; }
 @media (min-width: 720px) { .variants { grid-template-columns: repeat(2, 1fr); } }
 @media (min-width: 1040px) { .wrap { padding-top: 3.5rem; } .variants { grid-template-columns: repeat(3, 1fr); } }
@@ -47,10 +54,12 @@ h1 { margin: 0 0 .75rem; font: 500 clamp(1.75rem, 1.2rem + 2.4vw, 2.75rem)/1.2 "
     <h1>საიტის სამი ვარიანტი</h1>
     <p class="lead">თითოეული სხვა იდეაზეა აგებული — სხვა სტრუქტურით, ტექსტით და დიზაინით. გადახედეთ სამივეს და აირჩიეთ, რომელი უფრო გიგავთ.</p>
     <p class="note">ყველა გვერდი დემოა და Google-ისთვის დახურულია. ფორმები დემო-რეჟიმში არ იგზავნება.</p>
+    {{FEREBI_NOTE}}
   </header>
   <ul class="variants">
 {{CARDS}}
   </ul>
+  {{FEREBI_BLOCK}}
   <p class="foot">ყოველი გვერდის თავში დემო-ზოლია: მისით ერთი ვარიანტიდან მეორეზე გადახვალთ — შესაძლებლობის შემთხვევაში იმავე გვერდზე.</p>
 </main>
 </body>

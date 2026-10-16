@@ -33,6 +33,7 @@
                                                                 #   sitemap/llms.txt-ის გარეშე, დემო-ზოლი, ფორმა არ იგზავნება
     python3 build.py --all --demo --site-url BASE --out dist    # ყველა sites/*/ → dist/<slug>/ + dist/index.html (არჩევა)
                                                                 #   + dist/404.html (GitHub Pages)
+                                                                #   + dist/ferebi/ (ფერების შედარება, demo/palettes.json)
     ვალიდაცია ყოველთვის ბაზის გზის გარეშე HTML-ზე ტარდება; ბაზა და დემო-ზოლი ემატება მხოლოდ ჩაწერისას.
 """
 from __future__ import annotations
@@ -103,12 +104,23 @@ THERAPY_OK: list[tuple[re.Pattern, str]] = []
 # დემო-ვარიანტები (--demo ზოლი და --all-ის არჩევის გვერდი). bar = მოკლე სახელი დემო-ზოლში.
 DEMO_SITES = [
     {"slug": "1-brendi", "label": "1 · პირადი ბრენდი", "bar": "1 ბრენდი",
-     "blurb": "ერთი ადამიანი, ერთი ფასი, ერთი შეტყობინების მანძილი."},
+     "blurb": "ერთი ადამიანი, ერთი ფასი, ერთი შეტყობინების მანძილი.",
+     "compare": [("/", "მთავარი"), ("/sxeulze-orientirebuli-fsiqoterapia/", "სხეულზე ორიენტირებული"), ("/fasi/", "ფასი")]},
     {"slug": "2-biblioteka", "label": "2 · ბიბლიოთეკა", "bar": "2 ბიბლიოთეკა",
-     "blurb": "ქართულენოვანი ბიბლიოთეკა ფსიქოთერაპიაზე — ყველა გვერდი ავტორიანი და წყაროებიანი."},
+     "blurb": "ქართულენოვანი ბიბლიოთეკა ფსიქოთერაპიაზე — ყველა გვერდი ავტორიანი და წყაროებიანი.",
+     "compare": [("/", "მთავარი"), ("/fsiqoterapia/", "ფსიქოთერაპია"), ("/fasi/", "ფასი")]},
     {"slug": "3-sxeuli", "label": "3 · სხეული", "bar": "3 სხეული",
-     "blurb": "ფსიქოთერაპია, რომელიც სიტყვასთან ერთად სხეულსაც უსმენს."},
+     "blurb": "ფსიქოთერაპია, რომელიც სიტყვასთან ერთად სხეულსაც უსმენს.",
+     "compare": [("/", "მთავარი"), ("/sxeulze-orientirebuli-fsiqoterapia/", "სხეულზე ორიენტირებული"), ("/fasi/", "ფასი")]},
 ]
+# დემოს ფერთა პალიტრები (demo/palettes.json): ტოკენები = საიტების CSS-ის საერთო ცვლადები (--paper, --ink …).
+# --line ყოველთვის ink-იდან გამოიყვანება (14%), --placeholder = --ink-soft. მხოლოდ --demo აგებაში.
+PALETTES_FILE = DEMO_DIR / "palettes.json"
+PALETTE_TOKENS = ["paper", "ink", "ink-soft", "accent", "accent-dark", "secondary", "surface", "surface-light",
+                  "illustration-leaf", "clay"]
+PALETTE_STORAGE_KEY = "ani-demo-palette"  # localStorage; ?ferebi=<id> ირჩევს, ?embed=1 — ზოლის გარეშე და შენახვის გარეშე
+# ჩაშენებული <script> ბლოკების sha256 (დემოს პალიტრა) — _headers-ის CSP script-src-ში ემატება
+INLINE_SCRIPT_HASHES: list[str] = []
 DEMO_FORM_MSG = "დემო-რეჟიმში ფორმა არ იგზავნება"  # assets/js/main.js-შიც (data-demo)
 # კითხვის სიჩქარე {{PAGE_READING_MIN}}-ისა და ბლოგის ბარათებისთვის (სიტყვა/წუთი)
 WORDS_PER_MIN = 180
@@ -1005,7 +1017,7 @@ def check_fragments(pages: list[Page], cfg: dict, report: Report) -> None:
 def write_site_files(pages: list[Page], cfg: dict, demo: bool = False) -> None:
     site = cfg["SITE_URL"]
     idx = sorted((p for p in pages if p.indexable), key=lambda p: (p.path != "/", p.path))
-    write_headers(cfg)
+    write_headers(cfg, demo)
     write_feed(cfg)
     write_redirects()
     if demo:
@@ -1080,30 +1092,34 @@ Sitemap: {site}/sitemap.xml
     (DIST / "llms.txt").write_text("\n".join(out) + "\n", encoding="utf-8")
 
 
-def csp_with_style_hashes(csp: str) -> str:
-    """ჩაშენებული <style> ბლოკების (შრიფტები, დემო-ზოლი) sha256 → CSP style-src."""
-    if not INLINE_STYLE_HASHES:
-        return csp
-    extra = " ".join(f"'sha256-{h}'" for h in dict.fromkeys(INLINE_STYLE_HASHES))
+def csp_with_style_hashes(csp: str, demo: bool = False) -> str:
+    """ჩაშენებული <style>/<script> ბლოკების (შრიფტები, დემო-ზოლი, დემოს პალიტრა) sha256 → CSP style-src/script-src.
+    დემოში frame-ancestors 'self' — ფერების შედარების გვერდი საიტებს iframe-ში აჩვენებს."""
     parts = [d.strip() for d in csp.split(";") if d.strip()]
-    for i, d in enumerate(parts):
-        if d.split()[0] == "style-src":
-            parts[i] = f"{d} {extra}"
-            break
-    else:
-        parts.append(f"style-src 'self' {extra}")
+    for directive, hashes in (("style-src", INLINE_STYLE_HASHES), ("script-src", INLINE_SCRIPT_HASHES)):
+        if not hashes:
+            continue
+        extra = " ".join(f"'sha256-{h}'" for h in dict.fromkeys(hashes))
+        for i, d in enumerate(parts):
+            if d.split()[0] == directive:
+                parts[i] = f"{d} {extra}"
+                break
+        else:
+            parts.append(f"{directive} 'self' {extra}")
+    if demo:
+        parts = [("frame-ancestors 'self'" if d.split()[0] == "frame-ancestors" else d) for d in parts]
     return "; ".join(parts)
 
 
-def write_headers(cfg: dict) -> None:
+def write_headers(cfg: dict, demo: bool = False) -> None:
     headers = f"""/*
   X-Content-Type-Options: nosniff
-  X-Frame-Options: DENY
+  X-Frame-Options: {"SAMEORIGIN" if demo else "DENY"}
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=()
   Strict-Transport-Security: max-age=31536000
   Cross-Origin-Opener-Policy: same-origin
-  Content-Security-Policy: {csp_with_style_hashes(cfg['CSP'])}
+  Content-Security-Policy: {csp_with_style_hashes(cfg['CSP'], demo)}
 
 /assets/css/*
   Cache-Control: public, max-age=31536000, immutable
@@ -1244,48 +1260,184 @@ def copy_assets() -> None:
 
 
 # დემო-ზოლი: საიტის CSS-ისგან დამოუკიდებელი; .site-header{top} — sticky ჰედერი ზოლის ქვეშ არ შევიდეს.
+# .demo-pal — ფერების არჩევა (წერტილი = მიმდინარე --accent); .demo-embed (?embed=1) — ზოლის გარეშე (შედარების iframe-ები);
+# .demo-svg — პალიტრის ჩართვისას SVG-ფოტო ფერის შეცვლამდე არ ჩანს (თავდაპირველი ფერები არ „გაკრთეს“).
 DEMO_BAR_CSS = (
     ".demo-bar{position:fixed;top:0;left:0;right:0;z-index:1000;box-sizing:border-box;height:36px;"
     "display:flex;align-items:center;gap:.5em;padding:0 16px;overflow-x:auto;white-space:nowrap;"
     "background:#1F1D1B;color:#FBF8F3;font:400 14px/1.2 \"Noto Sans Georgian\",system-ui,sans-serif}"
-    ".demo-bar a{color:#FBF8F3;text-decoration:underline;text-underline-offset:3px}"
+    ".demo-bar a{padding:5px 0;color:#FBF8F3;text-decoration:underline;text-underline-offset:3px}"
     ".demo-bar a:focus-visible{outline:2px solid #FBF8F3;outline-offset:2px}"
     ".demo-bar strong{font-weight:700}"
+    ".demo-pal{display:inline-flex;align-items:center;gap:.4em;margin-left:.4em;padding-left:.8em;border-left:1px solid #6E6862}"
+    ".demo-pal__dot{flex:none;width:12px;height:12px;border-radius:50%;background:var(--accent,#7C2C4C);box-shadow:0 0 0 2px #FBF8F3}"
+    ".demo-bar select{font:inherit;color:#FBF8F3;background:#2F2C29;border:1px solid #8A837B;border-radius:4px;"
+    "height:26px;padding:0 2px;max-width:12em;color-scheme:dark;cursor:pointer}"
+    ".demo-bar select:focus-visible{outline:2px solid #FBF8F3;outline-offset:1px}"
+    ".demo-bar__cmp{margin-left:.4em}"
     "@media (min-width:640px){.demo-bar{justify-content:center}}"
-    # ვიწრო ეკრანზე ზოლი ერთ ხაზში ეტევა: „დემო ·“ და „ვარიანტი“ იმალება, შრიფტი და დაშორება მცირდება
-    "@media (max-width:519px){.demo-bar{gap:.3em;padding:0 12px;font-size:13px}.demo-bar__lbl,.demo-bar__more{display:none}}"
-    "body{padding-top:36px}.site-header{top:36px}"
+    # ზოლი ყოველთვის ერთ ხაზშია (გაზომილი 320–1280px): <960px — „დემო ·“ იმალება, საიტის სახელი და „ვარიანტი“ —
+    # მხოლოდ ვიზუალურად (ეკრანის მკითხველისთვის რჩება); ნომრის ბმულს 3px შიდა დაშორება (შეხების სამიზნეების ცენტრები
+    # ≥24px-ით დაშორებულია); <520px — „ფერები“ (label) ვიზუალურად იმალება; <360px — „შედარება“ (select ფართოვდება).
+    "@media (max-width:959px){.demo-bar{gap:.3em;padding:0 12px;font-size:13px}.demo-bar__lbl{display:none}"
+    ".demo-bar__n,.demo-bar__more{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}"
+    ".demo-bar select{max-width:9.5em}.demo-bar .demo-bar__site{padding-inline:3px}}"
+    "@media (max-width:519px){.demo-pal label{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}}"
+    "@media (max-width:389px){.demo-bar select{max-width:8.2em}}"
+    "@media (max-width:359px){.demo-bar__cmp{display:none}.demo-bar select{max-width:10.5em}}"
+    # საიტის skip-link (top:.5rem) ფიქსირებული ზოლის ქვეშ არ მოექცეს
+    "body{padding-top:36px}.site-header{top:36px}html:not(.demo-embed) .skip-link:focus{top:calc(36px + .5rem)}"
+    "html.demo-embed body{padding-top:0}.demo-embed .demo-bar{display:none}.demo-embed .site-header{top:0}"
+    ".demo-svg img[src*=\"/assets/img/\"][src$=\".svg\"]{opacity:0}"
 )
 
+def demo_bar_css(site_dir: Path) -> str:
+    """DEMO_BAR_CSS + საიტის scroll-padding-top-ს ემატება ზოლის 36px (#ანკორები sticky ჰედერის ქვეშ არ მოექცეს)."""
+    css = (site_dir / "assets" / "css" / "style.css").read_text(encoding="utf-8")
+    m = re.search(r"scroll-padding-top\s*:\s*([^;}]+)", css)
+    pad = m.group(1).strip() if m else "0px"
+    return DEMO_BAR_CSS + f"html:not(.demo-embed){{scroll-padding-top:calc({pad} + 36px)}}"
 
-def demo_bar(slug: str, page_path: str, all_root: str, site_paths: dict[str, set[str]] | None) -> str:
+
+# დემოს პალიტრა (<head>-ში, სინქრონულად — ორიგინალი ფერები არ „გაკრთება“). __P__ = {id: [10 ტოკენი „#“-ის გარეშე…
+# (+ --line მყარი ფერი, თუ საიტის SVG-ები მას იყენებს)]},
+# __K__ = ტოკენების სახელები, __M__ = საიტის :root-ის hex → ტოკენის ინდექსი (SVG-ფოტოების გადაფერადებისთვის).
+# ?ferebi=<id> — ჩართვა და შენახვა (?embed=1-ით — შენახვის გარეშე); ?ferebi= (ცარიელი) — საიტის ფერები; უცნობი id — იგნორი.
+# CSS ჩაისმება CSSOM-ით (insertRule) ცარიელ <style id="demo-palette-css">-ში — CSP-ს ჰეშიც ცარიელი ბლოკისაა.
+PALETTE_JS = (
+    '(function(){var P=__P__,K=__K__,M=__M__,N="' + PALETTE_STORAGE_KEY + '",d=document,h=d.documentElement,'
+    'q=new URLSearchParams(location.search),E=q.get("embed")=="1",u=q.get("ferebi"),c="",F={},T,W=1;'
+    'function G(){try{return localStorage.getItem(N)||""}catch(x){W=0;return""}}'
+    'function S(v){if(!E)try{v?localStorage.setItem(N,v):localStorage.removeItem(N)}catch(x){W=0}}'
+    # URL-ის ?ferebi არჩევანს მიჰყვება (თორემ განახლება ძველ ფერს დააბრუნებს); შენახვის გარეშე — ერთადერთი მეხსიერება
+    'function U(){if(E||W&&!q.has("ferebi"))return;c?q.set("ferebi",c):q.delete("ferebi");var s=q.toString();'
+    'history.replaceState(history.state,"",location.pathname+(s?"?"+s:"")+location.hash)}'
+    'function A(v){var s=d.getElementById("demo-palette-css").sheet,p;c=P[v]?v:"";p=P[c];'
+    'while(s.cssRules.length)s.deleteRule(0);'
+    'if(p)s.insertRule("html:root{"+K.map(function(k,i){return"--"+k+":#"+p[i]}).join(";")'
+    '+";--line:color-mix(in srgb,var(--ink) 14%,transparent);--placeholder:var(--ink-soft)}",0);'
+    'h.classList.toggle("demo-svg",!!p);if(d.body)I()}'
+    'function I(){var m=d.querySelector(\'meta[name="theme-color"]\'),e=d.getElementById("demo-palette"),p=c;'
+    'if(m){if(T==null)T=m.content;m.content=p?"#"+P[p][0]:T}if(e)e.value=p;'
+    'd.querySelectorAll("img").forEach(function(g){var o=g.getAttribute("data-demo-src")||g.getAttribute("src")||"";'
+    'if(!/\\/assets\\/img\\/[^?#]+\\.svg([?#]|$)/.test(o))return;g.setAttribute("data-demo-src",o);'
+    'if(!p){if(g.getAttribute("src")!=o)g.setAttribute("src",o);return}'
+    '(F[o]=F[o]||fetch(o).then(function(r){if(!r.ok)throw r;return r.text()})).then(function(t){'
+    'if(p==c)g.src="data:image/svg+xml;charset=utf-8,"+encodeURIComponent(t.replace(/#[0-9a-f]{6}\\b/gi,'
+    'function(x){var i=M[x.toUpperCase()];return i==null?x:"#"+P[p][i]}))},function(){h.classList.remove("demo-svg")})})}'
+    'if(u!=null&&(u==""||P[u])){A(u);S(c)}else A(G());if(E)h.classList.add("demo-embed");'
+    'd.addEventListener("DOMContentLoaded",function(){var e=d.getElementById("demo-palette");I();'
+    'if(e)e.onchange=function(){A(e.value);S(c);U()};'
+    # embed-ში (და როცა localStorage მიუწვდომელია) ფერი შიდა ბმულებით გადადის
+    'd.addEventListener("click",function(v){var a=v.target.closest&&v.target.closest("a[href]"),s;'
+    'if(a&&(E||!W&&c)&&a.origin==location.origin&&a.pathname!=location.pathname){s=new URLSearchParams(a.search);'
+    's.set("ferebi",c);if(E)s.set("embed","1");a.search=s}},!0)});'
+    'addEventListener("pageshow",function(v){if(v.persisted&&!E&&W){A(G());U()}});'
+    'addEventListener("storage",function(v){if(v.key==N&&!E){A(v.newValue||"");U()}})})();'
+)
+HEX6_RE = re.compile(r"#[0-9A-Fa-f]{6}")
+_PALETTES_CACHE: list[dict] | None = None
+
+
+def load_palettes() -> list[dict]:
+    """demo/palettes.json → სწორი პალიტრების სია (არასწორი ჩანაწერი WARN-ით გამოტოვდება; ფაილის გარეშე — [])."""
+    global _PALETTES_CACHE
+    if _PALETTES_CACHE is not None:
+        return _PALETTES_CACHE
+    _PALETTES_CACHE = []
+    if not PALETTES_FILE.is_file():
+        return _PALETTES_CACHE
+    try:
+        data = json.loads(PALETTES_FILE.read_text(encoding="utf-8"))
+    except json.JSONDecodeError as e:
+        print(f"WARN  demo/palettes.json: JSON შეცდომა — {e}")
+        return _PALETTES_CACHE
+    seen = set()
+    for i, p in enumerate(data if isinstance(data, list) else []):
+        colors = p.get("colors") if isinstance(p, dict) else None
+        pid = str(p.get("id", "")) if isinstance(p, dict) else ""
+        bad = [t for t in PALETTE_TOKENS if not (isinstance(colors, dict) and HEX6_RE.fullmatch(str(colors.get(t, ""))))]
+        if not re.fullmatch(r"[a-z0-9-]+", pid) or pid in seen or not p.get("name") or bad:
+            print(f"WARN  demo/palettes.json #{i + 1} ({pid or '?'}): გამოტოვებულია (id/name/ფერები: {', '.join(bad) or 'id'})")
+            continue
+        seen.add(pid)
+        _PALETTES_CACHE.append(p)
+    return _PALETTES_CACHE
+
+
+def root_colors(site_dir: Path) -> dict[str, str]:
+    """საიტის style.css-ის პირველი :root ბლოკის hex ცვლადები: {"paper": "#F5F3EB", …}."""
+    css = (site_dir / "assets" / "css" / "style.css").read_text(encoding="utf-8")
+    m = re.search(r":root\s*\{(.*?)\}", css, re.S)
+    return {k: v.upper() for k, v in re.findall(r"--([\w-]+)\s*:\s*(#[0-9A-Fa-f]{6})\b", m.group(1) if m else "")}
+
+
+def hex_over(fg: str, bg: str, alpha: float) -> str:
+    """fg ფერი alpha გამჭვირვალობით bg-ზე → მყარი hex (SVG-ში --line-ის ნაცვლად)."""
+    f, b = (tuple(int(c[i:i + 2], 16) for i in (1, 3, 5)) for c in (fg, bg))
+    return "#" + "".join(f"{round(x * alpha + y * (1 - alpha)):02X}" for x, y in zip(f, b))
+
+
+def palette_script(site_dir: Path, palettes: list[dict]) -> str:
+    idx = {t: i for i, t in enumerate(PALETTE_TOKENS)}
+    idx["line"] = len(PALETTE_TOKENS)
+    hex_map: dict[str, int] = {}
+    for tok, val in root_colors(site_dir).items():
+        if tok in idx:
+            hex_map.setdefault(val, idx[tok])
+    line = idx["line"] in hex_map.values()  # მყარი --line მხოლოდ მაშინ, როცა საიტის :root-ში --line hex-ია (საიტი 2)
+    data = {p["id"]: [p["colors"][t].upper()[1:] for t in PALETTE_TOKENS]
+            + ([hex_over(p["colors"]["ink"], p["colors"]["paper"], .14)[1:]] if line else []) for p in palettes}
+    dump = lambda o: json.dumps(o, separators=(",", ":"))  # noqa: E731
+    return (PALETTE_JS.replace("__P__", dump(data)).replace("__K__", dump(PALETTE_TOKENS))
+            .replace("__M__", dump(hex_map)))
+
+
+def demo_bar(slug: str, page_path: str, all_root: str, site_paths: dict[str, set[str]] | None,
+             palettes: list[dict] | None = None) -> str:
     """დემო-ზოლი. site_paths (--all) — ყველა აგებული საიტის გვერდები: ბმული იმავე გვერდზე, თუ ის საიტს აქვს,
-    სხვაგვარად საიტის მთავარზე. site_paths=None (ერთი საიტი) — ბმულები მთავარ გვერდებზე."""
+    სხვაგვარად საიტის მთავარზე. site_paths=None (ერთი საიტი) — ბმულები მთავარ გვერდებზე.
+    palettes — ფერების <select> (და --all-ში ბმული შედარების გვერდზე)."""
     esc = html.escape
     items = []
     if slug not in {d["slug"] for d in DEMO_SITES}:
         items.append(f"<strong>{esc(slug)}</strong>")
     for d in DEMO_SITES:
+        num, _, name = d["bar"].partition(" ")
+        label = esc(num) + (f'<span class="demo-bar__n"> {esc(name)}</span>' if name else "")
         if d["slug"] == slug:
-            items.append(f"<strong>{esc(d['bar'])}</strong>")
+            items.append(f'<strong aria-current="true">{label}</strong>')
             continue
         if site_paths is not None and d["slug"] not in site_paths:
             continue  # --all: ეს საიტი ჯერ არ არსებობს
         same = site_paths is not None and page_path in site_paths[d["slug"]] and not page_path.endswith(".html")
-        items.append(f'<a href="{all_root}/{d["slug"]}{page_path if same else "/"}">{esc(d["bar"])}</a>')
+        items.append(f'<a class="demo-bar__site" href="{all_root}/{d["slug"]}{page_path if same else "/"}">{label}</a>')
     items.append(f'<a href="{all_root}/">ყველა<span class="demo-bar__more"> ვარიანტი</span></a>')
-    return ('<div class="demo-bar" role="navigation" aria-label="დემო-ვარიანტები"><span class="demo-bar__lbl">დემო ·</span> '
-            + " · ".join(items) + "</div>")
+    bar = ('<div class="demo-bar" role="navigation" aria-label="დემო-ვარიანტები"><span class="demo-bar__lbl">დემო ·</span> '
+           + " · ".join(items))
+    if palettes:
+        opts = "".join(f'<option value="{esc(p["id"])}">{esc(p["name"])}</option>' for p in palettes)
+        bar += ('<span class="demo-pal"><span class="demo-pal__dot" aria-hidden="true"></span>'
+                '<label for="demo-palette">ფერები</label><select id="demo-palette" autocomplete="off">'
+                f'<option value="">საიტის ფერები</option>{opts}</select></span>')
+        if site_paths is not None:
+            cmp = next((d for d in DEMO_SITES if d["slug"] == slug), None)
+            query = f"?saiti={slug}" if cmp else ""
+            if cmp and page_path in {p for p, _ in cmp["compare"]}:
+                query += f"&amp;gverdi={page_path}"
+            bar += f'<a class="demo-bar__cmp" href="{all_root}/ferebi/{query}">შედარება</a>'
+    return bar + "</div>"
 
 
-def inject_demo(doc: str, bar: str) -> str:
-    """ვალიდაციის შემდეგ: დემო-ზოლი <body>-ის შემდეგ, მისი <style> </head>-მდე, ფორმებზე data-demo="1"."""
+def inject_demo(doc: str, bar: str, palette_head: str = "", bar_css: str = DEMO_BAR_CSS) -> str:
+    """ვალიდაციის შემდეგ: დემო-ზოლი <body>-ის შემდეგ, მისი <style> (და პალიტრის <style>/<script>) </head>-მდე,
+    ფორმებზე data-demo="1"."""
     doc = re.sub(r"<form\b(?=[^>]*\bdata-ajax\b)", '<form data-demo="1"', doc)
     # შეუვსებელი ბმული (href="[…]") დემოში 404-ზე არ გადავიდეს: href="#", ახალი ჩანართის გარეშე
     doc = re.sub(r'<a\b[^>]*\shref="\[[^"\]]*\]"[^>]*>',
                  lambda m: re.sub(r'\s(?:target|rel)="[^"]*"', "",
                                   re.sub(r'\shref="\[([^"\]]*)\]"', r' href="#" title="\1"', m.group(0))), doc)
-    doc = doc.replace("</head>", f"<style>{DEMO_BAR_CSS}</style>\n</head>", 1)
+    doc = doc.replace("</head>", f"<style>{bar_css}</style>\n{palette_head}</head>", 1)
     return re.sub(r"(<body\b[^>]*>)", lambda m: m.group(1) + "\n" + bar, doc, count=1)
 
 
@@ -1302,8 +1454,9 @@ def site_page_paths(site_dir: Path) -> set[str]:
     return paths
 
 
-def write_chooser(out: Path, base_path: str, built: set[str]) -> None:
-    """--all: <out>/index.html (ვარიანტების არჩევა) და <out>/404.html — demo/ შაბლონებიდან."""
+def write_chooser(out: Path, base_path: str, built: set[str], demo: bool = False) -> None:
+    """--all: <out>/index.html (ვარიანტების არჩევა) და <out>/404.html — demo/ შაბლონებიდან;
+    --demo-ში პალიტრებით — ასევე <out>/ferebi/index.html (ფერების შედარება)."""
     esc = html.escape
     cards = []
     for d in DEMO_SITES:
@@ -1324,11 +1477,22 @@ def write_chooser(out: Path, base_path: str, built: set[str]) -> None:
                      f'    <p>{esc(d["blurb"])}</p>\n'
                      f'    <a class="variant__btn" href="{href}" aria-label="ნახვა — {label}">ნახვა</a>\n  </div>\n</li>')
     fonts = fonts_css_text()
+    palettes = load_palettes() if demo else []
     tokens = {
         "BASE": base_path,
         "CARDS": "\n".join(cards),
         "FONTS_CSS": f"<style>{css_with_base(fonts, base_path)}</style>" if fonts else "",
+        "FEREBI_NOTE": "", "FEREBI_BLOCK": "",
     }
+    if palettes:
+        tokens["FEREBI_NOTE"] = '<p class="note">ფერების შეცვლა ნებისმიერ გვერდზე შეგიძლიათ — ზედა ზოლში, „ფერები“.</p>'
+        tokens["FEREBI_BLOCK"] = (
+            '<section class="compare" aria-labelledby="compare-title">\n'
+            '    <h2 id="compare-title" class="compare__title">ფერების შედარება — ნებისმიერი ვარიანტი ნებისმიერ ფერში</h2>\n'
+            f'    <p>ერთ ეკრანზე ნახავთ, როგორ გამოიყურება არჩეული გვერდი {len(palettes)} სხვადასხვა ფერში.</p>\n'
+            f'    <a class="variant__btn" href="{base_path}/ferebi/">ფერების შედარება</a>\n'
+            '  </section>')
+        write_compare_page(out, base_path, built, palettes, fonts)
     for name in ("index.html", "404.html"):
         doc = COMMENT_RE.sub("", (DEMO_DIR / name).read_text(encoding="utf-8")).lstrip()
         doc = TOKEN_RE.sub(lambda m: tokens.get(m.group(1), m.group(0)), doc)
@@ -1338,6 +1502,37 @@ def write_chooser(out: Path, base_path: str, built: set[str]) -> None:
         (out / name).write_text(doc, encoding="utf-8")
     copy_fonts(out / "assets" / "fonts")
     (out / ".nojekyll").write_text("", encoding="utf-8")
+
+
+def write_compare_page(out: Path, base_path: str, built: set[str], palettes: list[dict], fonts: str) -> None:
+    """--all --demo: <out>/ferebi/index.html — ერთი გვერდი ყველა პალიტრაში (demo/ferebi.html შაბლონიდან)."""
+    sites = []
+    for d in DEMO_SITES:
+        if d["slug"] not in built:
+            continue
+        paths = site_page_paths(SITES_DIR / d["slug"])
+        pages = [[path, label] for path, label in d["compare"] if path in paths]
+        missing = [path for path, _ in d["compare"] if path not in paths]
+        if missing:
+            print(f"WARN  ფერების შედარება: {d['slug']}-ს არ აქვს {', '.join(missing)}")
+        colors = root_colors(SITES_DIR / d["slug"])
+        sites.append({"slug": d["slug"], "label": d["label"], "pages": pages,
+                      "colors": {t: colors[t] for t in PALETTE_TOKENS if t in colors}})
+    data = {"base": base_path, "key": PALETTE_STORAGE_KEY, "tokens": PALETTE_TOKENS, "sites": sites,
+            "palettes": [{"id": p["id"], "name": p["name"], "note": p.get("note", ""),
+                          "colors": {t: p["colors"][t].upper() for t in PALETTE_TOKENS}} for p in palettes]}
+    tokens = {
+        "BASE": base_path,
+        "FONTS_CSS": f"<style>{css_with_base(fonts, base_path)}</style>" if fonts else "",
+        "DATA": json.dumps(data, ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/"),
+    }
+    doc = COMMENT_RE.sub("", (DEMO_DIR / "ferebi.html").read_text(encoding="utf-8")).lstrip()
+    doc = TOKEN_RE.sub(lambda m: tokens.get(m.group(1), m.group(0)), doc)
+    left = sorted(set(TOKEN_RE.findall(doc)))
+    if left:
+        print(f"WARN  demo/ferebi.html: გადაუწყვეტელი ტოკენები: {', '.join(left)}")
+    (out / "ferebi").mkdir(parents=True, exist_ok=True)
+    (out / "ferebi" / "index.html").write_text(doc, encoding="utf-8")
 
 
 # ---------------------------------------------------------------- placeholders report
@@ -1435,12 +1630,21 @@ def build_site(site_dir: Path, out: Path, args, *, site_url: str | None = None, 
     base_tokens = config_tokens(cfg)
 
     INLINE_STYLE_HASHES.clear()
+    INLINE_SCRIPT_HASHES.clear()
     fonts_css = fonts_css_text()
     base_tokens["FONTS_CSS"] = f"<style>{fonts_css}</style>" if fonts_css else ""
     if fonts_css:
         INLINE_STYLE_HASHES.append(sha256_b64(css_with_base(fonts_css, BASE_PATH)))
+    palettes, palette_head = [], ""
     if args.demo:
-        INLINE_STYLE_HASHES.append(sha256_b64(DEMO_BAR_CSS))
+        bar_css = demo_bar_css(SITE_DIR)
+        INLINE_STYLE_HASHES.append(sha256_b64(bar_css))
+        palettes = load_palettes()
+        if palettes:  # ფერების გადამრთველი: ცარიელი <style> (CSSOM-ით ივსება) + სკრიპტი, ორივე CSP-ის ჰეშით
+            js = palette_script(SITE_DIR, palettes)
+            INLINE_STYLE_HASHES.append(sha256_b64(""))
+            INLINE_SCRIPT_HASHES.append(sha256_b64(js))
+            palette_head = f'<style id="demo-palette-css"></style>\n<script>{js}</script>\n'
 
     sources = sorted(PAGES_DIR.rglob("*.html"))
     pages = [p for p in (read_page(s, report) for s in sources) if p]
@@ -1488,7 +1692,8 @@ def build_site(site_dir: Path, out: Path, args, *, site_url: str | None = None, 
         # ვალიდაცია დასრულდა — ახლა ბაზის გზა და (დემოში) დემო-ზოლი
         doc = apply_base(p.html, BASE_PATH)
         if args.demo:
-            doc = inject_demo(doc, demo_bar(SITE_DIR.name, p.path, all_root, site_paths))
+            doc = inject_demo(doc, demo_bar(SITE_DIR.name, p.path, all_root, site_paths, palettes), palette_head,
+                              bar_css)
         out_file = output_file(p.path)
         out_file.parent.mkdir(parents=True, exist_ok=True)
         out_file.write_text(doc, encoding="utf-8")
@@ -1533,8 +1738,9 @@ def build_all(args, out: Path) -> int:
                                     site_paths=site_paths, all_root=base_path)  # root-relative: ჰოსტისგან დამოუკიდებელი
         code = max(code, rc)
         results.append((d.resolve(), cfg, pages))
-    write_chooser(out, base_path, found)
-    print(f"\nარჩევის გვერდი: {rel(out / 'index.html')} · {rel(out / '404.html')}")
+    write_chooser(out, base_path, found, demo=args.demo)
+    print(f"\nარჩევის გვერდი: {rel(out / 'index.html')} · {rel(out / '404.html')}"
+          + (f" · ფერები: {rel(out / 'ferebi' / 'index.html')}" if (out / "ferebi" / "index.html").is_file() else ""))
     if args.placeholders_report:
         write_placeholders_report(Path(args.placeholders_report).resolve(), results)
     return code

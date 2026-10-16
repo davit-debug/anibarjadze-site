@@ -10,6 +10,7 @@
 --surface-light: #EFE9DF;
 --white: #FFFFFF;
 --line: #D8D0C4;
+--placeholder: #6E6862;
 --illustration-leaf: #9B6B7A;
 --font-serif: "Noto Serif Georgian", Sylfaen, Georgia, serif;
 --font-sans: "Noto Sans Georgian", system-ui, -apple-system, "Segoe UI", Sylfaen, sans-serif;
@@ -410,7 +411,7 @@ width: 100%; min-height: 48px; padding: .65rem .85rem; font: inherit; color: var
 background: var(--white); border: 1px solid var(--ink-soft); border-radius: var(--radius);
 }
 .form input:focus-visible, .form select:focus-visible, .form textarea:focus-visible { outline: 3px solid var(--ink); outline-offset: 1px; border-color: var(--ink); }
-.form ::placeholder { color: #6E6862; }
+.form ::placeholder { color: var(--placeholder); }
 .form__hint, .form__note { margin: 0; font-size: .9375rem; color: var(--ink-soft); }
 .form__note { padding: .75rem 1rem; background: var(--surface-light); border-left: 3px solid var(--secondary); color: var(--ink); }
 .form__choices { border: 0; padding: 0; }

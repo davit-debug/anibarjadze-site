@@ -23,6 +23,7 @@
 | `sites/<slug>/assets/` | CSS, JS, სურათები → `<out>/assets/` |
 | `shared/fonts/*.woff2`, `shared/fonts.css` | თვითჰოსტირებული Noto Sans Georgian (400/700) და Noto Serif Georgian (400/500/700) — ყველა საიტისთვის საერთო; `{{FONTS_CSS}}` ტოკენით ჩაისმება `<head>`-ში, ფაილები → `<out>/assets/fonts/` |
 | `demo/index.html`, `demo/404.html` | დემოს ვარიანტების არჩევის გვერდი და GitHub Pages-ის 404 (`--all`) |
+| `demo/palettes.json`, `demo/ferebi.html` | დემოს ფერთა პალიტრები (ზოლში „ფერები“, `?ferebi=<id>`, არჩევანი `localStorage`-ში) და ფერების შედარების გვერდი `<out>/ferebi/` (`--all --demo`) |
 | `functions/api/contact.js` | Cloudflare Pages Function ფორმისთვის (Resend) |
 | `build.py` | აგება + ვალიდაცია (ერთი სკრიპტი სამივე საიტისთვის) |
 
@@ -49,7 +50,7 @@ python3 -m http.server -d dist 8080                       # http://localhost:808
 | `--site sites/<slug>` | რომელი საიტი აიგოს (ნაგულისხმევი: `sites/1-brendi`) |
 | `--out <dir>` | სად ჩაიწეროს (ნაგულისხმევი: `dist/`). რეპოზიტორიის შიგნით ძველი შიგთავსი ჯერ იშლება; გარეთ — არა. `sites/`, `shared/` და სხვა წყაროს საქაღალდეებში ჩაწერა აკრძალულია |
 | `--site-url <url>` | `SITE_URL`-ის ჩანაცვლება. თუ URL-ს გზა აქვს (`https://x.github.io/repo/1-brendi`), ყველა „/…“ ბმული, `src`, `action`, CSS-ის `url(/…)` ამ გზით იწყება. ვალიდაცია გზის გარეშე ტარდება |
-| `--demo` | ყველა გვერდზე `noindex, nofollow`, canonical არ არის, `robots.txt` = `Disallow: /`, `sitemap.xml` და `llms.txt` არ იწერება, ზედა დემო-ზოლი (ვარიანტებს შორის), ფორმაზე `data-demo="1"` — `main.js` აჩვენებს „დემო-რეჟიმში ფორმა არ იგზავნება“ |
+| `--demo` | ყველა გვერდზე `noindex, nofollow`, canonical არ არის, `robots.txt` = `Disallow: /`, `sitemap.xml` და `llms.txt` არ იწერება, ზედა დემო-ზოლი (ვარიანტებს შორის + ფერების არჩევა `demo/palettes.json`-იდან; `?ferebi=<id>` ირჩევს — ზოლიდან შეცვლისას URL-ის `?ferebi`-იც განახლდება, `localStorage`-ის გარეშე კი ფერი შიდა ბმულებით გადადის; `?embed=1` ზოლს მალავს და არჩევანს არ ინახავს), ფორმაზე `data-demo="1"` — `main.js` აჩვენებს „დემო-რეჟიმში ფორმა არ იგზავნება“ |
 | `--all` | ყველა `sites/*/` → `<out>/<slug>/` (`SITE_URL` = `<site-url>/<slug>`) + `<out>/index.html` (არჩევა) და `<out>/404.html`. ჯერ არარსებული საიტი გამოტოვდება (WARN) |
 
 build ბეჭდავს ERROR / WARN / INFO სიას გვერდების მიხედვით; ERROR-ის შემთხვევაში გამოსვლის კოდი 1-ია. ამოწმებს: სათაური/description-ის სიგრძე და უნიკალურობა, ერთი H1 = meta.h1, JSON-LD, შიდა ბმულები და `#ანკორები`, `<img>` alt/width/height, „თერაპევტი/თერაპია“ ცალკე სიტყვად (სათაური, H1, ნავიგაცია, ანკორები, schema; დასაშვები შესიტყვებები — `ALLOWED_THERAPY_COMPOUNDS`), `/en/` და hreflang, აკრძალული სიტყვები. `noindex` გვერდზე (404) canonical არ იწერება და JSON-LD მინიმალურია. ფორმა ლოკალურ სერვერზე არ მუშაობს (Pages Function-ს Cloudflare სჭირდება).
