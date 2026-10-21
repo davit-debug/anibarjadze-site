@@ -20,6 +20,18 @@
     {{BLOG_CARDS}}             ბლოგის ბარათები (<ul class="cards">) ყველა სტატიიდან, ახლიდან ძველისკენ
     {{PAGE_READING_MIN}}       გვერდის .prose ტექსტის წაკითხვის დრო წუთებში (სიტყვები ÷ 180)
     {{FONTS_CSS}}              shared/fonts.css-ის @font-face წესები <style>-ში (თვითჰოსტირებული შრიფტები)
+    {{PAGE_STATUS}}            გვერდის meta.status: live (ნაგულისხმევი) ან planned
+    {{ROUTING_FIELD}}          ფორმის <select name="routing"> კონფიგის ROUTING_OPTIONS-იდან (მის გარეშე — ცარიელი)
+
+გვერდის სტატუსი (meta "status": "live" | "planned"; საიტი 4 — „დაგეგმილია — ადგილი ღიაა“):
+    planned გვერდს სჭირდება {{> status-planned}}, H2 „ვინ ატარებს“ და „რა შეგვიძლია დღეს“, უსაფრთხოების ბლოკი;
+    SERVICES-ში არ უნდა იყოს და Service/Offer კვანძს არ იღებს. თუ .prose-ში < 1 000 სიტყვაა — ავტომატურად
+    noindex (sitemap/llms.txt/feed-ის გარეშე), INFO ხაზით.
+
+ორგანიზაცია (მხოლოდ თუ კონფიგში ORG_LEGAL_NAME არის): JSON-LD-ში practice = ["Organization","MedicalBusiness"],
+    name = SITE_NAME, legalName/taxID/foundingDate მხოლოდ შევსებული მნიშვნელობით, member = ORG_MEMBERS (მხოლოდ
+    რეალური პიროვნებები: PERSON_ID ან PEOPLE), SERVICES[].provider → Person. FORBIDDEN_UNTIL_TEAM — სიტყვები,
+    რომლებიც ERROR-ია, სანამ ORG_MEMBERS-ში < 2 ადამიანია; კონფიდენციალურობის აბსოლუტური ფორმები — ყოველთვის.
 
 მრავალსაიტიანი რეჟიმი:
     საიტი = sites/<slug>/ საქაღალდე: src/ (pages, partials, layout.html), assets/, site.config.json.
@@ -101,6 +113,13 @@ DEFAULT_ALLOWED_THERAPY_COMPOUNDS = [
 ]
 THERAPY_OK: list[tuple[re.Pattern, str]] = []
 
+# სივრცის/ორგანიზაციის საიტი (apply_site_config): FORBIDDEN_UNTIL_TEAM-ის კომპილირებული შაბლონები, რეალური
+# პიროვნებების რაოდენობა ORG_MEMBERS-ში (FORBIDDEN_UNTIL_TEAM-ის „ჩვენ“-ის ტესტი ≥ 2-ზე რბილდება).
+TEAM_LINT: bool = False
+ORG_MODE: bool = False  # კონფიგში ORG_LEGAL_NAME — Organization + იურიდიული პირის ხაზი
+FORBIDDEN_TEAM_RES: list[tuple[str, re.Pattern]] = []
+ORG_MEMBER_COUNT = 0
+
 # დემო-ვარიანტები (--demo ზოლი და --all-ის არჩევის გვერდი). bar = მოკლე სახელი დემო-ზოლში.
 DEMO_SITES = [
     {"slug": "1-brendi", "label": "1 · პირადი ბრენდი", "bar": "1 ბრენდი",
@@ -112,6 +131,9 @@ DEMO_SITES = [
     {"slug": "3-sxeuli", "label": "3 · სხეული", "bar": "3 სხეული",
      "blurb": "ფსიქოთერაპია, რომელიც სიტყვასთან ერთად სხეულსაც უსმენს.",
      "compare": [("/", "მთავარი"), ("/sxeulze-orientirebuli-fsiqoterapia/", "სხეულზე ორიენტირებული"), ("/fasi/", "ფასი")]},
+    {"slug": "4-centri", "label": "4 · სივრცე", "bar": "4 სივრცე",
+     "blurb": "სივრცე, რომელიც ანი ბარჯაძემ დააარსა — ღია ადგილებით კოლეგებისთვის.",
+     "compare": [("/", "მთავარი"), ("/gundi/", "გუნდი"), ("/servisebi/", "სერვისები"), ("/fasi/", "ფასი")]},
 ]
 # დემოს ფერთა პალიტრები (demo/palettes.json): ტოკენები = საიტების CSS-ის საერთო ცვლადები (--paper, --ink …).
 # --line ყოველთვის ink-იდან გამოიყვანება (14%), --placeholder = --ink-soft. მხოლოდ --demo აგებაში.
@@ -131,6 +153,26 @@ INLINE_STYLE_HASHES: list[str] = []
 
 # სიტყვები, რომლებიც კოპიში არ უნდა იყოს (კონცეფცია §4.4, §14.2) — WARN კონტექსტით.
 CAUTION_STEMS = ["ლიცენზირებ", "ფსიქოანალიტიკოს", "განკურნ", "გარანტ", "პაციენტ", "ავადმყოფ", "მკურნალობ", "გიჟ"]
+
+# სივრცის/ორგანიზაციის საიტი (კონფიგში FORBIDDEN_UNTIL_TEAM; საიტი 4, სპეც. §1.2): კონფიდენციალურობა არასდროს
+# აბსოლუტური — ეს ფორმები ყოველთვის ERROR-ია (არა „ვერავინ გაიგონებს“ = ვერავინ მოისმენს — ის ონლაინ ოთახზეა).
+ABSOLUTE_CONFIDENTIALITY_RE = re.compile(
+    r"(?<![Ⴀ-ჿ])(?:ვერ|არ)ავინ\s+(?:არაფერს\s+)?(?:გაიგ(?:ებ[Ⴀ-ჿ]*|ო[სთ](?![Ⴀ-ჿ]))|შეიტყ(?:ობ[Ⴀ-ჿ]*|ო[სთ](?![Ⴀ-ჿ])))"
+    r"|(?:სრულიად|აბსოლუტურად|100\s?%)\s+კონფიდენციალ[Ⴀ-ჿ]*")
+# სივრცეზე სათაურში, H1-ში, SITE_NAME-სა და schema-ს სახელებში: „კლინიკა“ — არასდროს; „ცენტრი“ — მხოლოდ
+# ORG_MEMBERS-ში ≥ 2 რეალური ადამიანის შემდეგ (ფაზა 2, CENTRE_DESCRIPTOR). „ლიცენზირებ“ CAUTION_STEMS-შია.
+NAME_ALWAYS_FORBIDDEN = ["კლინიკ"]
+NAME_FORBIDDEN_UNTIL_TEAM = ["ცენტრ"]
+ORG_CAUTION_STEMS = ["აკრედიტებ"]
+# schema-ში არასდროს: სამედიცინო დაწესებულების ტიპები და შეფასებები (კლიენტის შეფასებები საიტზე არ ქვეყნდება)
+FORBIDDEN_SCHEMA_TYPES = {"MedicalClinic", "Hospital", "Review", "AggregateRating"}
+FORBIDDEN_SCHEMA_KEYS = {"review", "aggregateRating"}
+# planned გვერდი: სავალდებულო H2-ები და ინდექსირების ზღვარი (.prose-ის სიტყვები)
+PLANNED_H2 = ["ვინ ატარებს", "რა შეგვიძლია დღეს"]
+PLANNED_MIN_WORDS = 1000
+PAGE_STATUSES = ("live", "planned")
+CONTACT_FUNCTION = ROOT / "functions" / "api" / "contact.js"
+DEFAULT_ROUTING_LABEL = "ვისთან გსურთ ჩაწერა?"
 
 MONTHS_KA = ["იანვარი", "თებერვალი", "მარტი", "აპრილი", "მაისი", "ივნისი", "ივლისი",
              "აგვისტო", "სექტემბერი", "ოქტომბერი", "ნოემბერი", "დეკემბერი"]
@@ -219,6 +261,34 @@ def apply_site_config(cfg: dict) -> None:
         prefix = r"\s+".join(re.escape(w) for w in compound[:i].split()) + (r"\)?\s+" if compound[i - 1].isspace() else "")
         stem = "თერაპევტ" if compound[i:].startswith("თერაპევტ") else "თერაპი"
         THERAPY_OK.append((re.compile(prefix + "$"), stem))
+    global TEAM_LINT, ORG_MODE, FORBIDDEN_TEAM_RES, ORG_MEMBER_COUNT
+    TEAM_LINT = "FORBIDDEN_UNTIL_TEAM" in cfg
+    ORG_MODE = "ORG_LEGAL_NAME" in cfg
+    FORBIDDEN_TEAM_RES = [(s, forbidden_phrase_re(s)) for s in cfg.get("FORBIDDEN_UNTIL_TEAM") or []
+                          if isinstance(s, str) and s.strip()]
+    real = person_ids(cfg) if cfg.get("SITE_URL") else {}
+    ORG_MEMBER_COUNT = len({m for m in cfg.get("ORG_MEMBERS") or [] if isinstance(m, str) and m in real})
+
+
+def forbidden_phrase_re(phrase: str) -> re.Pattern:
+    """FORBIDDEN_UNTIL_TEAM-ის ფრაზა → შაბლონი: სიტყვის დასაწყისიდან, ჰარები = \\s+, ბოლო სიტყვა ბრუნვით
+    („ჩვენი გუნდი“ → „ჩვენი გუნდის/გუნდით“, „ექსპერტები“ → „ექსპერტებს“, „რეზიდენტი“ → „რეზიდენტს“):
+    ბოლო ხმოვანი ი/ა იკვეცება და მის ნაცვლად ბრუნვის/თანდებულის დაბოლოება მიიღება (არა სიტყვაწარმოება:
+    „რეზიდენტურა“, „გუნდური“ არ ითვლება). „/“ სიტყვის შიგნით = ვარიანტები: „ჩვენ ვმუშაობთ ბავშვებთან/წყვილებთან“."""
+    ending = rf"(?:[აეიოსმშზთდ][{GEO}]{{0,6}})?(?![{GEO}])"
+
+    def last_word(w: str) -> str:
+        if len(w) > 3 and w[-1] in "ია" and re.fullmatch(rf"[{GEO}]+", w):
+            return re.escape(w[:-1]) + ending
+        return re.escape(w) + (ending if re.search(rf"[{GEO}]$", w) else "")
+
+    words = phrase.split()
+    parts = []
+    for i, w in enumerate(words):
+        alts = [a for a in w.split("/") if a] or [w]
+        alts = [last_word(a) if i == len(words) - 1 else re.escape(a) for a in alts]
+        parts.append(alts[0] if len(alts) == 1 else "(?:" + "|".join(alts) + ")")
+    return re.compile(rf"(?<![{GEO}])" + r"\s+".join(parts))
 
 
 def asset_file(path: str) -> Path | None:
@@ -312,7 +382,37 @@ def config_tokens(cfg: dict) -> dict[str, str]:
     tokens["YEAR"] = str(date.today().year)
     tokens["TEL_URL"] = "tel:" + cfg.get("PHONE_TEL", "")
     tokens["SITE_HOST"] = urlsplit(cfg["SITE_URL"]).netloc
+    tokens["ROUTING_FIELD"] = routing_field(cfg)
     return tokens
+
+
+def routing_field(cfg: dict) -> str:
+    """{{ROUTING_FIELD}}: ფორმის არასავალდებულო <select name="routing"> კონფიგის ROUTING_OPTIONS-იდან
+    ([{"value": "ani", "label": "…"}, …]; label-ი = ROUTING_LABEL ან „ვისთან გსურთ ჩაწერა?“).
+    ROUTING_OPTIONS-ის გარეშე — ცარიელი სტრიქონი (ცარიელი ხაზი აგებისას იშლება, ფორმა უცვლელია)."""
+    opts = [o for o in cfg.get("ROUTING_OPTIONS") or [] if isinstance(o, dict) and o.get("value") and o.get("label")]
+    if not opts:
+        return ""
+    esc = html.escape
+    label = esc(str(cfg.get("ROUTING_LABEL") or DEFAULT_ROUTING_LABEL))
+    lines = ['<div class="form__field">',
+             f'    <label for="f-routing">{label} <span class="form__optional">(არასავალდებულო)</span></label>',
+             '    <select id="f-routing" name="routing">',
+             '      <option value="">აირჩიეთ</option>',
+             *(f'      <option value="{esc(str(o["value"]))}">{esc(str(o["label"]))}</option>' for o in opts),
+             '    </select>',
+             '  </div>']
+    return "\n".join(lines)
+
+
+def contact_routing_labels() -> dict[str, str] | None:
+    """functions/api/contact.js-ის ROUTING_LABELS ობიექტი ({value: label}) — ფორმის ROUTING_OPTIONS-ის შესადარებლად."""
+    if not CONTACT_FUNCTION.is_file():
+        return None
+    m = re.search(r"const\s+ROUTING_LABELS\s*=\s*\{(.*?)\};", CONTACT_FUNCTION.read_text(encoding="utf-8"), re.S)
+    if not m:
+        return None
+    return dict(re.findall(r"""["']?([a-z0-9-]+)["']?\s*:\s*"([^"]*)\"""", m.group(1)))
 
 
 # ---------------------------------------------------------------- pages
@@ -327,11 +427,16 @@ class Page:
         self.h1_text = ""
         self.faqs: list[tuple[str, str]] = []
         self.reading_min = 1
+        self.words = 0  # .prose-ის სიტყვები (prose_words)
         self.placeholders: Counter = Counter()
 
     @property
     def indexable(self) -> bool:
         return not self.meta.get("noindex") and not self.path.endswith(".html")
+
+    @property
+    def status(self) -> str:
+        return self.meta.get("status") or "live"
 
 
 def read_page(src: Path, report: Report) -> Page | None:
@@ -363,6 +468,13 @@ def validate_meta(page: Page, report: Report) -> None:
         report.add("ERROR", where, "meta.path მხოლოდ მცირე ლათინური ასოებით")
     if p and p not in PLANNED_PATHS:
         report.add("INFO", where, f"{p} არ არის PLANNED_PATHS-ში (ახალი გვერდია? დაამატეთ {rel(CONFIG_FILE)}-ში)")
+    if m.get("status") is not None and m["status"] not in PAGE_STATUSES:
+        report.add("ERROR", where, f"meta.status უცნობია: {m['status']} (დასაშვები: live, planned)")
+    if m.get("status") == "planned":
+        if m.get("type") != "WebPage":
+            report.add("ERROR", where, "status: planned გვერდის type მხოლოდ WebPage (არა Service, Article, MedicalWebPage)")
+        if m.get("about_service"):
+            report.add("ERROR", where, "status: planned გვერდს about_service არ აქვს — დაგეგმილ სერვისს Service კვანძი არ ეკუთვნის")
     if m.get("type") and m["type"] not in PAGE_TYPES:
         report.add("ERROR", where, f"meta.type უცნობია: {m['type']} (დასაშვები: {', '.join(sorted(PAGE_TYPES))})")
     m.setdefault("datePublished", m.get("dateModified"))
@@ -410,6 +522,7 @@ def page_tokens(page: Page, base: dict[str, str]) -> dict[str, str]:
         "PAGE_DATE_MODIFIED": ka_date(m["dateModified"]) if m.get("dateModified") else "",
         "PAGE_SLUG": (page.path.strip("/").split("/")[0] or "home").replace(".html", ""),
         "PAGE_READING_MIN": str(page.reading_min),
+        "PAGE_STATUS": page.status,
     })
     return t
 
@@ -479,15 +592,20 @@ class ProseText(HTMLParser):
             self.parts.append(data)
 
 
-def reading_minutes(page: Page) -> int:
-    """.prose ტექსტის სიტყვები ÷ WORDS_PER_MIN (მინიმუმ 1). partial-ები და ტოკენები არ ითვლება."""
+def prose_words(page: Page) -> int:
+    """.prose ტექსტის სიტყვები (partial-ები და ტოკენები არ ითვლება) — წაკითხვის დრო და planned გვერდის ზღვარი."""
     body = COMMENT_RE.sub("", page.body)
     body = PARTIAL_RE.sub(" ", body)
     body = re.sub(r"\{\{[^{}]*\}\}", " ", body)
     parser = ProseText()
     parser.feed(body)
-    words = len(WORD_RE.findall(" ".join(parser.parts)))
-    return max(1, int(words / WORDS_PER_MIN + 0.5))
+    return len(WORD_RE.findall(" ".join(parser.parts)))
+
+
+def reading_minutes(page: Page) -> int:
+    """.prose ტექსტის სიტყვები ÷ WORDS_PER_MIN (მინიმუმ 1)."""
+    page.words = prose_words(page)
+    return max(1, int(page.words / WORDS_PER_MIN + 0.5))
 
 
 def blog_cards(cfg: dict, report: Report) -> str:
@@ -514,6 +632,17 @@ def blog_cards(cfg: dict, report: Report) -> str:
 
 
 # ---------------------------------------------------------------- JSON-LD
+def person_ids(cfg: dict) -> dict[str, str]:
+    """რეალური პიროვნებების id → JSON-LD @id: მთავარი პიროვნება (PERSON_ID, ნაგულისხმევი „person-ani“ → #ani)
+    და PEOPLE-ის ჩანაწერები (#<id>). ღია ადგილი პიროვნება არ არის — მას id არ აქვს."""
+    site = cfg["SITE_URL"]
+    ids = {str(cfg.get("PERSON_ID") or "person-ani"): f"{site}/#ani"}
+    for x in cfg.get("PEOPLE") or []:
+        if isinstance(x, dict) and x.get("id") and not is_placeholder(x.get("name")):
+            ids.setdefault(str(x["id"]), f"{site}/#{x['id']}")
+    return ids
+
+
 def build_graph(page: Page, cfg: dict, tokens: dict[str, str]) -> dict:
     site = cfg["SITE_URL"]
     m = page.meta
@@ -528,10 +657,14 @@ def build_graph(page: Page, cfg: dict, tokens: dict[str, str]) -> dict:
     same_as = [cfg["FACEBOOK_URL"]] + [u for u in cfg.get("SAME_AS", []) if not is_placeholder(u)]
     price_value = str(cfg.get("PRICE_VALUE", "")).strip()
 
+    org = "ORG_LEGAL_NAME" in cfg  # სივრცე/ორგანიზაცია (საიტი 4): name = SITE_NAME, დამფუძნებელი = Person
+    planned = page.status == "planned"  # დაგეგმილ გვერდზე Service/Offer კვანძი არ არის
+    people = person_ids(cfg)
+
     practice: dict = {
-        "@type": "MedicalBusiness",
+        "@type": ["Organization", "MedicalBusiness"] if org else "MedicalBusiness",
         "@id": pid,
-        "name": cfg["PRACTICE_NAME"],
+        "name": cfg["SITE_NAME"] if org else cfg["PRACTICE_NAME"],
         "alternateName": cfg["NAME_LATIN"],
         "description": cfg["SITE_DESCRIPTION"],
         "url": f"{site}/",
@@ -558,6 +691,16 @@ def build_graph(page: Page, cfg: dict, tokens: dict[str, str]) -> dict:
             ],
         },
     }
+    if org:
+        practice.pop("alternateName")  # NAME_LATIN ადამიანის სახელია, არა სივრცის
+        for key, prop in (("ORG_LEGAL_NAME", "legalName"), ("ORG_TAX_ID", "taxID"), ("ORG_FOUNDED", "foundingDate")):
+            if filled(key):  # taxID: მხოლოდ ნომერი (კონფიგში იარლიყით: „ს/კ 000000000“ / „პ/ნ 00000000000“)
+                practice[prop] = re.sub(r"^\D+(?=\d)", "", str(cfg[key]).strip()) if prop == "taxID" else str(cfg[key])
+        members = [people[i] for i in cfg.get("ORG_MEMBERS") or [] if i in people]
+        if members:
+            practice["member"] = [{"@id": i} for i in members]
+    if planned:
+        practice.pop("hasOfferCatalog")
     if filled("PHONE_TEL"):
         practice["telephone"] = cfg["PHONE_TEL"]
     if filled("PRICE"):
@@ -580,8 +723,13 @@ def build_graph(page: Page, cfg: dict, tokens: dict[str, str]) -> dict:
         "worksFor": {"@id": pid},
         "sameAs": [cfg["FACEBOOK_URL"]],
     }
+    if org:
+        person["memberOf"] = {"@id": pid}
     if real_photo:
         person["image"] = site + photo
+    extra_people = [{"@type": "Person", "@id": people[x["id"]], "name": x["name"], "jobTitle": x["jobTitle"],
+                     "url": site + x["url"], "worksFor": {"@id": pid}, "memberOf": {"@id": pid}}
+                    for x in cfg.get("PEOPLE") or [] if x.get("id") in people and x["id"] in (cfg.get("ORG_MEMBERS") or [])]
 
     website = {
         "@type": "WebSite",
@@ -593,14 +741,14 @@ def build_graph(page: Page, cfg: dict, tokens: dict[str, str]) -> dict:
     }
 
     services = []
-    for s in cfg.get("SERVICES", []):
+    for s in ([] if planned else cfg.get("SERVICES", [])):
         node = {
             "@type": "Service",
             "@id": f"{site}/#{s['id']}",
-            "serviceType": s["serviceType"],
+            "serviceType": s.get("serviceType") or s["name"],
             "name": s["name"],
             "url": site + s["path"],
-            "provider": {"@id": pid},
+            "provider": {"@id": people.get(s.get("provider"), pid)},
             "areaServed": {"@type": "City", "name": cfg["CITY"]},
             "availableChannel": [
                 {"@type": "ServiceChannel", "name": f"კაბინეტში, {cfg['STREET']}"},
@@ -648,7 +796,7 @@ def build_graph(page: Page, cfg: dict, tokens: dict[str, str]) -> dict:
     page_node["primaryImageOfPage"] = {"@type": "ImageObject", "url": site + og}
 
     bc = m.get("breadcrumb") or []
-    graph = [practice, person, website, *services, page_node]
+    graph = [practice, person, *extra_people, website, *services, page_node]
     if len(bc) >= 2:
         page_node["breadcrumb"] = {"@id": f"{url}#breadcrumb"}
         graph.append({
@@ -917,6 +1065,11 @@ def validate(page: Page, ctx: dict, report: Report) -> None:
                 for key in ("name", "headline", "serviceType"):
                     if isinstance(node.get(key), str):
                         schema_names.append(node[key])
+                types = node.get("@type")
+                bad = (set(types) if isinstance(types, list) else {types}) & FORBIDDEN_SCHEMA_TYPES
+                bad |= FORBIDDEN_SCHEMA_KEYS & set(node)
+                if bad:
+                    report.add("ERROR", where, f"JSON-LD: {', '.join(sorted(bad))} აკრძალულია (არც კლინიკა, არც შეფასებები)")
         except json.JSONDecodeError as exc:
             report.add("ERROR", where, f"JSON-LD ვერ წაიკითხა: {exc}")
     if m.get("type") == "Article" and len(m.get("_h1", "")) > 110:
@@ -959,6 +1112,11 @@ def validate(page: Page, ctx: dict, report: Report) -> None:
             report.add("WARN", where, f"სიფრთხილის სიტყვა „{mt.group(0)}“: …{ctx_s}…")
             break
 
+    if TEAM_LINT:
+        team_checks(page, f"{text} {desc}", {"<title>": [title], "<h1>": [page.h1_text], "schema name": schema_names}, report)
+    if page.status == "planned":
+        planned_checks(page, doc, report)
+
     if m.get("type") in ("Article", "MedicalWebPage"):
         if 'class="short-answer' not in doc:
             report.add("WARN", where, "„მოკლე პასუხი“ ბლოკი (.short-answer) აკლია")
@@ -981,6 +1139,57 @@ def validate(page: Page, ctx: dict, report: Report) -> None:
         report.add(level, where, "შესავსები ადგილები: " + " · ".join(sorted(found)))
 
 
+def team_checks(page: Page, text: str, name_scopes: dict[str, list[str]], report: Report) -> None:
+    """სივრცის საიტი (FORBIDDEN_UNTIL_TEAM): „ჩვენ“-ის ტესტი, აბსოლუტური კონფიდენციალურობა, „ცენტრი/კლინიკა“ სახელებში."""
+    where, m = page.rel, page.meta
+
+    def around(mt: re.Match) -> str:
+        return text[max(0, mt.start() - 40): mt.end() + 40]
+
+    for mt in ABSOLUTE_CONFIDENTIALITY_RE.finditer(text):
+        report.add("ERROR", where, f"კონფიდენციალურობა აბსოლუტური ფორმით „{mt.group(0)}“ — ჩაანაცვლეთ "
+                                   f"{{{{CONFIDENTIALITY_LINE}}}}-ით (გამონაკლისები კანონით): …{around(mt)}…")
+    if ORG_MEMBER_COUNT < 2:
+        allowed = set(m.get("allow_forbidden") or [])
+        for phrase, rx in FORBIDDEN_TEAM_RES:
+            if ABSOLUTE_CONFIDENTIALITY_RE.fullmatch(phrase):
+                continue  # ზემოთ უკვე შემოწმდა (ყოველთვის, ORG_MEMBERS-ის მიუხედავად)
+            mt = rx.search(text)
+            if not mt:
+                continue
+            if phrase in allowed:
+                report.add("INFO", where, f"„{mt.group(0)}“ დაშვებულია meta.allow_forbidden-ით (მხოლოდ ციტატა/კითხვა, არა სივრცეზე)")
+                continue
+            report.add("ERROR", where, f"„{mt.group(0)}“ — FORBIDDEN_UNTIL_TEAM: დასაშვებია მხოლოდ მაშინ, როცა ORG_MEMBERS-ში "
+                                       f"≥ 2 რეალური ადამიანია („ჩვენ“ = ანი + სახლის წესები): …{around(mt)}…")
+    stems = NAME_ALWAYS_FORBIDDEN + (NAME_FORBIDDEN_UNTIL_TEAM if ORG_MEMBER_COUNT < 2 else [])
+    for scope, texts in name_scopes.items():
+        for t in texts:
+            hit = next((st for st in stems if st in (t or "")), None)
+            if hit:
+                report.add("ERROR", where, f"„{hit}…“ სივრცის სახელში ({scope}) — „კლინიკა“ არასდროს, „ცენტრი“ მხოლოდ "
+                                           f"ფაზა 2-ში (ORG_MEMBERS ≥ 2): {t[:90]}")
+    for stem in ORG_CAUTION_STEMS:
+        mt = re.search(rf"[{GEO}]*{stem}[{GEO}]*", text)
+        if mt:
+            report.add("WARN", where, f"სიფრთხილის სიტყვა „{mt.group(0)}“ — სივრცეზე „ლიცენზირებული/აკრედიტებული“ არასდროს: …{around(mt)}…")
+    if ORG_MODE and 'class="entity-line' not in page.html:
+        report.add("WARN", where, "იურიდიული პირის ხაზი ({{> entity-line}}, class=\"entity-line\") გვერდზე არ ჩანს — ფუტერში უნდა იყოს")
+
+
+def planned_checks(page: Page, doc: str, report: Report) -> None:
+    """status: planned — „დაგეგმილია — ადგილი ღიაა“ მექანიზმი (სპეც. §1.2): ბეჯი, ვინ ატარებს, ხიდი, უსაფრთხოება."""
+    where = page.rel
+    if not (re.search(r"\{\{>\s*status-planned\b", page.body) or "status--planned" in doc):
+        report.add("ERROR", where, "status: planned გვერდს {{> status-planned}} ბეჯი აკლია (H1-ის გვერდით)")
+    h2s = [strip_tags(h) for h in re.findall(r"<h2\b[^>]*>(.*?)</h2>", doc, re.S | re.I)]
+    for need in PLANNED_H2:
+        if not any(h.startswith(need) for h in h2s):
+            report.add("ERROR", where, f"status: planned გვერდს H2 „{need}“ აკლია")
+    if not (re.search(r"\{\{>\s*safety\b", page.body) or "callout-safety" in doc):
+        report.add("ERROR", where, "status: planned გვერდს უსაფრთხოების ბლოკი ({{> safety}}) აკლია")
+
+
 def site_checks(pages: list[Page], cfg: dict, report: Report) -> None:
     seen_t: dict[str, str] = {}
     seen_d: dict[str, str] = {}
@@ -999,6 +1208,87 @@ def site_checks(pages: list[Page], cfg: dict, report: Report) -> None:
     wa = re.search(r"wa\.me/(\d+)", cfg.get("WA_URL", ""))
     if phone and wa and not is_placeholder(cfg.get("PHONE_TEL")) and wa.group(1) != phone:
         report.add("ERROR", rel(CONFIG_FILE), "WA_URL-ის ნომერი PHONE_TEL-ს არ ემთხვევა")
+    config_checks(pages, cfg, report)
+
+
+def config_checks(pages: list[Page], cfg: dict, report: Report) -> None:
+    """კონფიგის ახალი გასაღებების შემოწმება — მხოლოდ მაშინ, როცა გასაღები კონფიგშია (საიტები 1–3 უცვლელია)."""
+    where = rel(CONFIG_FILE)
+    err = lambda msg: report.add("ERROR", where, msg)  # noqa: E731
+    for key, val in cfg.items():
+        if not key.startswith("_") and isinstance(val, str) and "{{" in val:
+            err(f"{key}: ტოკენი ტოკენის შიგნით არ იხსნება (resolve_tokens ერთგავლიანია) — გამოიყენეთ partial, "
+                "მაგ. იურიდიული ხაზისთვის {{> entity-line}}")
+    if cfg.get("CENTRE_NAME") and cfg.get("CENTRE_DESCRIPTOR"):
+        full = f"{cfg['CENTRE_NAME']} — {cfg['CENTRE_DESCRIPTOR']}"
+        if cfg.get("SITE_NAME") != full:
+            err(f"SITE_NAME უნდა იყოს „CENTRE_NAME — CENTRE_DESCRIPTOR“ = „{full}“ (სრული ფორმა, არასდროს მარტო სახელი)")
+        if ORG_MODE and cfg.get("PRACTICE_NAME") not in (None, full):
+            report.add("WARN", where, f"PRACTICE_NAME ≠ SITE_NAME („{full}“) — ორგანიზაციის სახელი ერთი უნდა იყოს")
+    if TEAM_LINT:
+        if not isinstance(cfg.get("FORBIDDEN_UNTIL_TEAM"), list) or not all(
+                isinstance(x, str) for x in cfg["FORBIDDEN_UNTIL_TEAM"]):
+            err("FORBIDDEN_UNTIL_TEAM უნდა იყოს სტრიქონების სია")
+        for key in ("SITE_NAME", "OG_IMAGE_ALT", "CENTRE_DESCRIPTOR"):
+            stems = NAME_ALWAYS_FORBIDDEN + (NAME_FORBIDDEN_UNTIL_TEAM if ORG_MEMBER_COUNT < 2 else [])
+            hit = next((st for st in stems if st in str(cfg.get(key, ""))), None)
+            if hit:
+                err(f"{key}: „{hit}…“ — „კლინიკა“ არასდროს, „ცენტრი“ მხოლოდ ფაზა 2-ში (ORG_MEMBERS-ში ≥ 2 რეალური ადამიანი)")
+
+    people = person_ids(cfg)
+    for i, x in enumerate(cfg.get("PEOPLE") or []):
+        if not (isinstance(x, dict) and all(x.get(k) for k in ("id", "name", "jobTitle", "url"))):
+            err(f"PEOPLE #{i + 1}: საჭიროა id, name, jobTitle, url (მხოლოდ რეალური, ხელშეკრულებით მომუშავე ადამიანი)")
+        elif is_placeholder(x["name"]):
+            err(f"PEOPLE #{i + 1}: სახელი ფრჩხილებშია — ღია ადგილი პიროვნება არ არის და schema-ში არ შედის")
+    members = cfg.get("ORG_MEMBERS")
+    if members is not None:
+        if not isinstance(members, list):
+            err("ORG_MEMBERS უნდა იყოს პიროვნებების id-ების სია, მაგ. [\"person-ani\"]")
+        else:
+            for mid in members:
+                if mid not in people:
+                    err(f"ORG_MEMBERS: „{mid}“ უცნობი პიროვნებაა (ცნობილი: {', '.join(people)}) — "
+                        "member მხოლოდ რეალური ადამიანია, არასდროს ღია ადგილი")
+            if len(set(map(str, members))) != len(members):
+                err("ORG_MEMBERS-ში id მეორდება")
+
+    page_status = {p.path: p.status for p in pages}
+    for i, svc in enumerate(cfg.get("SERVICES") or []):
+        if not (isinstance(svc, dict) and all(svc.get(k) for k in ("id", "name", "path"))):
+            err(f"SERVICES #{i + 1}: საჭიროა id, name, path")
+            continue
+        if svc.get("provider") and svc["provider"] not in people:
+            err(f"SERVICES {svc['id']}: provider „{svc['provider']}“ უცნობი პიროვნებაა (ცნობილი: {', '.join(people)})")
+        if "ფსიქიატრ" in svc["name"] + str(svc.get("serviceType", "")):
+            err(f"SERVICES {svc['id']}: ფსიქიატრის კონსულტაცია სერვისი არ არის (სამედიცინო საქმიანობა) — მხოლოდ მიმართვა")
+        if page_status.get(svc["path"]) == "planned":
+            err(f"SERVICES {svc['id']}: {svc['path']} status: planned გვერდია — SERVICES მხოლოდ ცოცხალ სერვისებს ჩამოთვლის")
+
+    for i, r in enumerate(cfg.get("REDIRECTS") or []):
+        if not valid_redirect(r):
+            err(f'REDIRECTS #{i + 1}: ფორმატი ["/dzveli/", "/akhali/", 301] (გზები „/“-ით, კოდი 301 ან 302)')
+
+    opts = cfg.get("ROUTING_OPTIONS")
+    if opts is not None:
+        known = contact_routing_labels()
+        values = []
+        for i, o in enumerate(opts if isinstance(opts, list) else [None]):
+            if not (isinstance(o, dict) and isinstance(o.get("value"), str) and isinstance(o.get("label"), str)
+                    and re.fullmatch(r"[a-z0-9-]{1,40}", o["value"]) and 0 < len(o["label"]) <= 100):
+                err(f'ROUTING_OPTIONS #{i + 1}: ფორმატი {{"value": "molodini-tsqvilebi", "label": "… (≤ 100 სიმბოლო)"}}')
+                continue
+            values.append(o["value"])
+            if known is None:
+                err(f"ROUTING_OPTIONS: {rel(CONTACT_FUNCTION)}-ში ROUTING_LABELS ვერ მოიძებნა")
+                known = {}
+            elif known and known.get(o["value"]) != o["label"]:
+                err(f"ROUTING_OPTIONS „{o['value']}“: {rel(CONTACT_FUNCTION)}-ის ROUTING_LABELS-ში ეს მნიშვნელობა "
+                    f"იგივე ტექსტით უნდა იყოს (ფუნქცია მხოლოდ დაშვებულ მნიშვნელობებს იღებს)")
+        if len(set(values)) != len(values):
+            err("ROUTING_OPTIONS-ში value მეორდება")
+        if not any("{{ROUTING_FIELD}}" in f.read_text(encoding="utf-8") for f in PARTIALS_DIR.glob("*.html")):
+            report.add("WARN", where, "ROUTING_OPTIONS არის, მაგრამ არცერთ partial-ში {{ROUTING_FIELD}} არ ჩანს")
 
 
 def check_fragments(pages: list[Page], cfg: dict, report: Report) -> None:
@@ -1019,7 +1309,7 @@ def write_site_files(pages: list[Page], cfg: dict, demo: bool = False) -> None:
     idx = sorted((p for p in pages if p.indexable), key=lambda p: (p.path != "/", p.path))
     write_headers(cfg, demo)
     write_feed(cfg)
-    write_redirects()
+    write_redirects(cfg)
     if demo:
         # დემო: საძიებო სისტემებისთვის სრულად დახურული; sitemap.xml და llms.txt არ იწერება
         (DIST / "robots.txt").write_text("User-agent: *\nDisallow: /\n", encoding="utf-8")
@@ -1146,13 +1436,23 @@ def write_headers(cfg: dict, demo: bool = False) -> None:
     (DIST / "_headers").write_text(headers, encoding="utf-8")
 
 
-def write_redirects() -> None:
+def write_redirects(cfg: dict | None = None) -> None:
+    """_redirects. კონფიგის REDIRECTS ([[from, to, code], …]; საიტი 4) ემატება ბოლოს — მის გარეშე ფაილი უცვლელია."""
     redirects = """# Cloudflare Pages _redirects — ამჟამად ცარიელია.
 # www → apex საჭირო არ არის (Cloudflare-ის დომენის პარამეტრებში წყდება).
 # მაგალითი (ჩასართავად მოაშორეთ „#“):
 # /dzveli-misamarti/  /akhali-misamarti/  301
 """
+    rules = [r for r in (cfg or {}).get("REDIRECTS") or [] if valid_redirect(r)]
+    if rules:
+        redirects = redirects.replace("ამჟამად ცარიელია.", "წყარო: site.config.json → REDIRECTS.")
+        redirects += "".join(f"{BASE_PATH}{a}  {BASE_PATH}{b}  {int(c)}\n" for a, b, c in rules)
     (DIST / "_redirects").write_text(redirects, encoding="utf-8")
+
+
+def valid_redirect(r) -> bool:
+    return (isinstance(r, list) and len(r) == 3 and all(isinstance(x, str) and x.startswith("/") and " " not in x
+            for x in r[:2]) and r[2] in (301, 302))
 
 
 def write_feed(cfg: dict) -> None:
@@ -1251,6 +1551,9 @@ def copy_fonts(target: Path) -> None:
 
 def copy_assets() -> None:
     target = DIST / "assets"
+    if not ASSETS_DIR.is_dir():
+        copy_fonts(target / "fonts")
+        return
     shutil.copytree(ASSETS_DIR, target, dirs_exist_ok=True,
                     ignore=shutil.ignore_patterns(".DS_Store", "*.tmp"))
     copy_fonts(target / "fonts")
@@ -1276,15 +1579,17 @@ DEMO_BAR_CSS = (
     ".demo-bar select:focus-visible{outline:2px solid #FBF8F3;outline-offset:1px}"
     ".demo-bar__cmp{margin-left:.4em}"
     "@media (min-width:640px){.demo-bar{justify-content:center}}"
-    # ზოლი ყოველთვის ერთ ხაზშია (გაზომილი 320–1280px): <960px — „დემო ·“ იმალება, საიტის სახელი და „ვარიანტი“ —
-    # მხოლოდ ვიზუალურად (ეკრანის მკითხველისთვის რჩება); ნომრის ბმულს 3px შიდა დაშორება (შეხების სამიზნეების ცენტრები
-    # ≥24px-ით დაშორებულია); <520px — „ფერები“ (label) ვიზუალურად იმალება; <360px — „შედარება“ (select ფართოვდება).
+    # ზოლი ყოველთვის ერთ ხაზშია (ოთხი საიტით გაზომილი 320/360/390/414/768/1024px): <960px — „დემო ·“ იმალება,
+    # საიტის სახელი და „ვარიანტი“ — მხოლოდ ვიზუალურად (ეკრანის მკითხველისთვის რჩება); ნომრის ბმულს 3px შიდა დაშორება
+    # (შეხების სამიზნეების ცენტრები ≥24px-ით დაშორებულია — ამიტომ gap არ მცირდება); <520px — „ფერები“ (label)
+    # და ფერის წერტილი იმალება, გვერდითი დაშორება 8px; <390px — „შედარება“ იმალება. select-ის სიგანე ისეა შერჩეული,
+    # რომ ნაგულისხმევი „საიტის ფერები“ (≈130px) ყველა სიგანეზე ბოლომდე ჩანდეს.
     "@media (max-width:959px){.demo-bar{gap:.3em;padding:0 12px;font-size:13px}.demo-bar__lbl{display:none}"
     ".demo-bar__n,.demo-bar__more{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}"
-    ".demo-bar select{max-width:9.5em}.demo-bar .demo-bar__site{padding-inline:3px}}"
-    "@media (max-width:519px){.demo-pal label{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}}"
-    "@media (max-width:389px){.demo-bar select{max-width:8.2em}}"
-    "@media (max-width:359px){.demo-bar__cmp{display:none}.demo-bar select{max-width:10.5em}}"
+    ".demo-bar select{max-width:10.5em}.demo-bar .demo-bar__site{padding-inline:3px}}"
+    "@media (max-width:519px){.demo-pal label{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}"
+    ".demo-bar{padding:0 8px}.demo-bar select{max-width:10.5em}.demo-pal__dot{display:none}}"
+    "@media (max-width:389px){.demo-bar__cmp{display:none}}"
     # საიტის skip-link (top:.5rem) ფიქსირებული ზოლის ქვეშ არ მოექცეს
     "body{padding-top:36px}.site-header{top:36px}html:not(.demo-embed) .skip-link:focus{top:calc(36px + .5rem)}"
     "html.demo-embed body{padding-top:0}.demo-embed .demo-bar{display:none}.demo-embed .site-header{top:0}"
@@ -1293,7 +1598,8 @@ DEMO_BAR_CSS = (
 
 def demo_bar_css(site_dir: Path) -> str:
     """DEMO_BAR_CSS + საიტის scroll-padding-top-ს ემატება ზოლის 36px (#ანკორები sticky ჰედერის ქვეშ არ მოექცეს)."""
-    css = (site_dir / "assets" / "css" / "style.css").read_text(encoding="utf-8")
+    css_file = site_dir / "assets" / "css" / "style.css"
+    css = css_file.read_text(encoding="utf-8") if css_file.is_file() else ""
     m = re.search(r"scroll-padding-top\s*:\s*([^;}]+)", css)
     pad = m.group(1).strip() if m else "0px"
     return DEMO_BAR_CSS + f"html:not(.demo-embed){{scroll-padding-top:calc({pad} + 36px)}}"
@@ -1367,7 +1673,8 @@ def load_palettes() -> list[dict]:
 
 def root_colors(site_dir: Path) -> dict[str, str]:
     """საიტის style.css-ის პირველი :root ბლოკის hex ცვლადები: {"paper": "#F5F3EB", …}."""
-    css = (site_dir / "assets" / "css" / "style.css").read_text(encoding="utf-8")
+    css_file = site_dir / "assets" / "css" / "style.css"
+    css = css_file.read_text(encoding="utf-8") if css_file.is_file() else ""
     m = re.search(r":root\s*\{(.*?)\}", css, re.S)
     return {k: v.upper() for k, v in re.findall(r"--([\w-]+)\s*:\s*(#[0-9A-Fa-f]{6})\b", m.group(1) if m else "")}
 
@@ -1469,7 +1776,7 @@ def write_chooser(out: Path, base_path: str, built: set[str], demo: bool = False
             continue
         if (SITES_DIR / slug / "assets" / "img" / "og-default.png").is_file():
             img = (f'<img src="{href}assets/img/og-default.png" alt="" width="1200" height="630" '
-                   f'decoding="async">')  # lazy-ის გარეშე: დესკტოპზე სამივე ბარათი პირველ ეკრანზეა
+                   f'decoding="async">')  # lazy-ის გარეშე: ბარათები (2 × 2) პირველ ეკრანებზეა
         else:
             img = ""
         cards.append(f'<li class="variant">\n  <a class="variant__media" href="{href}" tabindex="-1" aria-hidden="true">{img}</a>\n'
@@ -1621,6 +1928,9 @@ def build_site(site_dir: Path, out: Path, args, *, site_url: str | None = None, 
     if not CONFIG_FILE.is_file():
         print(f"საიტი ვერ მოიძებნა: {rel(CONFIG_FILE)} არ არსებობს")
         return 1, {}, []
+    if not LAYOUT_FILE.is_file():
+        print(f"ERROR {rel(LAYOUT_FILE)} არ არსებობს — საიტს layout.html სჭირდება (დააკოპირეთ sites/1-brendi/src/-იდან)")
+        return 1, {}, []
     cfg = load_config()
     if site_url:
         cfg["SITE_URL"] = site_url
@@ -1650,6 +1960,14 @@ def build_site(site_dir: Path, out: Path, args, *, site_url: str | None = None, 
     pages = [p for p in (read_page(s, report) for s in sources) if p]
     for p in pages:  # resolved title/description for uniqueness checks
         page_tokens(p, base_tokens)
+    for p in pages:  # planned გვერდი < 1 000 სიტყვით: noindex (ARTICLES/sitemap/llms/feed-მდე)
+        if p.status == "planned" and not p.meta.get("noindex"):
+            words = prose_words(p)
+            if words < PLANNED_MIN_WORDS:
+                p.meta["noindex"] = True
+                report.add("WARN" if args.release else "INFO", p.rel,
+                           f"status: planned, .prose-ში {words} სიტყვაა (< {PLANNED_MIN_WORDS}) — გვერდი noindex-ია და "
+                           "sitemap/llms.txt/feed-ში არ შედის, სანამ სახელმძღვანელო ტექსტი არ დაიწერება")
     ARTICLES[:] = sorted((p for p in pages if p.meta.get("type") == "Article" and p.indexable
                           and p.path.startswith("/blogi/") and p.path != "/blogi/"),
                          key=lambda p: (p.meta.get("datePublished", ""), p.path))
@@ -1716,8 +2034,11 @@ def build_all(args, out: Path) -> int:
     """ყველა sites/*/ → <out>/<slug>/ (SITE_URL = BASE/<slug>) + <out>/index.html და 404.html."""
     site_dirs = sorted(d for d in SITES_DIR.iterdir() if (d / "site.config.json").is_file())
     found = {d.name for d in site_dirs}
+    for d in sorted(SITES_DIR.iterdir()):
+        if d.is_dir() and not d.name.startswith(".") and d.name not in found:
+            print(f"WARN  {rel(d)}: site.config.json არ არის — საიტი გამოტოვებულია")
     for d in DEMO_SITES:
-        if d["slug"] not in found:
+        if d["slug"] not in found and not (SITES_DIR / d["slug"]).is_dir():
             print(f"WARN  sites/{d['slug']} ჯერ არ არსებობს — გამოტოვებულია")
     base_url = (args.site_url or "").rstrip("/")
     base_path = urlsplit(base_url).path.rstrip("/")

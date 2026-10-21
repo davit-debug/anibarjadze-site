@@ -1,0 +1,17 @@
+<!-- ღია ადგილის სრული ბარათი (.team-card--open, სპეც. §1.2): ზუსტად „[სახელი] — [როლი] · ადგილი ღიაა“, ცარიელი სკამი — არასდროს სახელი, ფოტო, კვალიფიკაცია, წლები ან შეფასება.
+     არგუმენტები: id (tsqvilebi | bavshvebi | jgufi | individualuri — ანკორი /gundi/gia-adgili/-ზე), role, covers და covers2 (ორი ხაზი „როცა…“),
+     needs (ნაგულისხმევი „[მოთხოვნილი მომზადება]“), route (molodini-tsqvilebi | molodini-bavshvebi | molodini-jgufi | ar-vici), h (ნაგულისხმევი h3). -->
+<article class="team-card team-card--open" aria-labelledby="seat-{{@id}}-name">
+  <div class="team-card__media team-card__media--chair"><svg class="team-card__chair" viewBox="0 0 120 150" aria-hidden="true" focusable="false"><path d="M34 18c0-6 4-9 9-9h34c5 0 9 3 9 9v62M34 18v62M28 80h64c4 0 6 2 6 6v6c0 3-2 5-5 5H27c-3 0-5-2-5-5v-6c0-4 2-6 6-6zM30 97l-6 44M90 97l6 44M34 97l-2 18h56l-2-18M46 30h28M46 44h28M46 58h28"/></svg></div>
+  <div class="team-card__body">
+    <p class="team-card__status"><span class="badge">{{OPEN_SEAT_LABEL}}</span></p>
+    <{{@h|h3}} class="team-card__name" id="seat-{{@id}}-name">[სახელი] — {{@role}} · {{OPEN_SEAT_LABEL}}</{{@h|h3}}>
+    <p class="team-card__covers">{{@covers}}</p>
+    <p class="team-card__covers">{{@covers2}}</p>
+    <p class="team-card__criteria">მოთხოვნები: {{@needs|[მოთხოვნილი მომზადება]}} · სუპერვიზია · ეთიკის კოდექსი</p>
+    <ul class="team-card__links">
+      <li><a href="/chatsera/?r={{@route|ar-vici}}#molodini" data-route="{{@route|ar-vici}}">მაცნობეთ, როცა კოლეგა შემოუერთდება</a></li>
+      <li><a href="/gundi/gia-adgili/#{{@id}}">კოლეგა ხართ? → ღია ადგილი</a></li>
+    </ul>
+  </div>
+</article>

@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 320" width="240" height="320" role="img" aria-label="სოლოლაკის კარი — ხაზოვანი ნახატი">
+  <g fill="none" stroke="#B87B4B" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M30 290V110a90 90 0 0 1 180 0v180"/><path d="M48 290V112a72 72 0 0 1 144 0v178"/><path d="M48 112h144M120 40v250"/>
+    <path d="M120 112L70 62M120 112l50-50M120 112V40"/>
+    <path d="M64 136h40v66H64zM136 136h40v66h-40zM64 220h40v52H64zM136 220h40v52h-40z"/>
+    <path d="M10 290h220M0 306h240"/>
+  </g>
+</svg>

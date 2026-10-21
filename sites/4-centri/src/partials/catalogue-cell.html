@@ -1,0 +1,8 @@
+<!-- კატალოგის უჯრა (.catalogue__cell, სპეც. §2): სპილენძის ნომერი, სახელი (ბმული), ერთი ხაზი „როცა…“, მომწოდებლის ჩიპი, სტატუსი.
+     არგუმენტები: href, num („01“), name, when, status (live | planned), who (ნაგულისხმევი „დღეს: ანი“; planned-ზე — „ადგილი ღიაა“). -->
+<li class="catalogue__cell catalogue__cell--{{@status|live}}">
+  <span class="catalogue__num" aria-hidden="true">{{@num}}</span>
+  <h3 class="catalogue__name"><a href="{{@href}}">{{@name}}</a></h3>
+  <p class="catalogue__when">{{@when}}</p>
+  <p class="catalogue__meta"><span class="chip">{{@who|დღეს: ანი}}</span> {{> status-{{@status|live}} suffix=""}}</p>
+</li>

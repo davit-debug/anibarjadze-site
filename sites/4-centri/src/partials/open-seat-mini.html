@@ -1,0 +1,11 @@
+<!-- ღია ადგილის მცირე ბარათი მთავარ გვერდზე / ჩაწერის გვერდზე (.team-card--open.team-card--mini). არგუმენტები: id, role, route (როგორც open-seat). -->
+<article class="team-card team-card--open team-card--mini">
+  <div class="team-card__media team-card__media--chair"><svg class="team-card__chair" viewBox="0 0 120 150" aria-hidden="true" focusable="false"><path d="M34 18c0-6 4-9 9-9h34c5 0 9 3 9 9v62M34 18v62M28 80h64c4 0 6 2 6 6v6c0 3-2 5-5 5H27c-3 0-5-2-5-5v-6c0-4 2-6 6-6zM30 97l-6 44M90 97l6 44M34 97l-2 18h56l-2-18M46 30h28M46 44h28M46 58h28"/></svg></div>
+  <div class="team-card__body">
+    <p class="team-card__name">[სახელი] — {{@role}} · {{OPEN_SEAT_LABEL}}</p>
+    <ul class="team-card__links">
+      <li><a href="/chatsera/?r={{@route|ar-vici}}#molodini" data-route="{{@route|ar-vici}}">მოლოდინის სია</a></li>
+      <li><a href="/gundi/gia-adgili/#{{@id}}">კოლეგა ხართ?</a></li>
+    </ul>
+  </div>
+</article>

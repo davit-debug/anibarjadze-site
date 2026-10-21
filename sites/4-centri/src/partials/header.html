@@ -1,0 +1,60 @@
+<!-- ჰედერი (სპეც. §2): ორხაზიანი wordmark („განწყობა“ / {{CENTRE_DESCRIPTOR}}), 6 პუნქტი + „ჩაწერა“. სერვისები = ერთი ჩამოსაშლელი სამი სვეტით;
+     დაგეგმილ სერვისს .status--planned ნიშანი აქვს. აქტიური: {{nav:KEY}} (KEY = meta.nav_key, ნაგულისხმევად path-ის პირველი სეგმენტი),
+     ჯგუფი {{navgroup:servisebi}} (site.config.json → NAV_GROUPS). „ღია ადგილები“ ჯგუფში განზრახ არ არის (/gundi/* = „gundi“). -->
+<a class="skip-link" href="#main">მთავარ შინაარსზე გადასვლა</a>
+<header class="site-header">
+  <div class="container site-header__inner">
+    <a class="wordmark" href="/"{{nav:home}}>
+      <span class="wordmark__name">{{CENTRE_NAME}}</span>
+      <span class="wordmark__role">{{CENTRE_DESCRIPTOR}}</span>
+    </a>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+      <span class="nav-toggle__bars" aria-hidden="true"></span>
+      <span>მენიუ</span>
+    </button>
+    <nav class="site-nav" id="site-nav" aria-label="მთავარი ნავიგაცია">
+      <ul class="site-nav__list">
+        <li class="nav-group nav-group--mega{{navgroup:servisebi}}">
+          <button class="nav-group__btn" type="button" aria-expanded="false" aria-controls="nav-servisebi">{{navlabel:servisebi}}</button>
+          <div class="nav-sub nav-mega" id="nav-servisebi">
+            <div class="nav-mega__col">
+              <p class="nav-mega__title">ფსიქოთერაპიის ტიპები</p>
+              <ul>
+                <li><a href="/servisebi/individualuri-fsiqoterapia/"{{nav:individualuri-fsiqoterapia}}>ინდივიდუალური ფსიქოთერაპია</a></li>
+                <li><a href="/servisebi/onlain-fsiqoterapia/"{{nav:onlain-fsiqoterapia}}>ონლაინ ფსიქოთერაპია</a></li>
+                <li><a href="/servisebi/sxeulze-orientirebuli-fsiqoterapia/"{{nav:sxeulze-orientirebuli-fsiqoterapia}}>სხეულზე ორიენტირებული ფსიქოთერაპია</a></li>
+                <li><a href="/servisebi/geshtalt-terapia/"{{nav:geshtalt-terapia}}>გეშტალტ თერაპია</a></li>
+                <li><a href="/servisebi/tsqvilebis-fsiqoterapia/"{{nav:tsqvilebis-fsiqoterapia}}>წყვილების ფსიქოთერაპია <span class="status status--planned status--sm">დაგეგმილია</span></a></li>
+                <li><a href="/servisebi/bavshvta-da-mozardta-fsiqoterapia/"{{nav:bavshvta-da-mozardta-fsiqoterapia}}>ბავშვთა და მოზარდთა ფსიქოთერაპია <span class="status status--planned status--sm">დაგეგმილია</span></a></li>
+                <li><a href="/servisebi/jgufuri-fsiqoterapia/"{{nav:jgufuri-fsiqoterapia}}>ჯგუფური ფსიქოთერაპია <span class="status status--planned status--sm">დაგეგმილია</span></a></li>
+              </ul>
+            </div>
+            <div class="nav-mega__col">
+              <p class="nav-mega__title">თემები</p>
+              <ul>
+                <li><a href="/temebi/shfotva/"{{nav:shfotva}}>შფოთვა</a></li>
+                <li><a href="/temebi/panikuri-sheteva/"{{nav:panikuri-sheteva}}>პანიკური შეტევა</a></li>
+                <li><a href="/temebi/depresia/"{{nav:depresia}}>დეპრესია</a></li>
+                <li><a href="/temebi/urtiertobebi/"{{nav:urtiertobebi}}>ურთიერთობები</a></li>
+              </ul>
+            </div>
+            <div class="nav-mega__col">
+              <p class="nav-mega__title">პროგრამები</p>
+              <ul>
+                <li><a href="/servisebi/kompaniebistvis/"{{nav:kompaniebistvis}}>კომპანიებისთვის <span class="status status--planned status--sm">დაგეგმილია</span></a></li>
+                <li><a href="/gundi/gia-adgili/">ღია ადგილები კოლეგებისთვის</a></li>
+              </ul>
+              <p class="nav-mega__all"><a href="/servisebi/"{{nav:servisebi}}>ყველა სერვისი — კატალოგი</a></p>
+            </div>
+          </div>
+        </li>
+        <li><a href="/gundi/"{{nav:gundi}}>გუნდი</a></li>
+        <li><a href="/fasi/"{{nav:fasi}}>ფასი</a></li>
+        <li><a href="/pirveli-shekhvedra/"{{nav:pirveli-shekhvedra}}>პირველი შეხვედრა</a></li>
+        <li><a href="/blogi/"{{nav:blogi}}>ბლოგი</a></li>
+        <li><a href="/kontaqti/"{{nav:kontaqti}}>კონტაქტი</a></li>
+        <li class="site-nav__cta"><a class="btn btn-primary" href="/chatsera/"{{nav:chatsera}}>ჩაწერა</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>

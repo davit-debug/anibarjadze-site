@@ -1,0 +1,205 @@
+<!--meta {
+  "path": "/",
+  "title": "{{CENTRE_NAME}} — {{CENTRE_DESCRIPTOR}}",
+  "description": "{{SITE_DESCRIPTION}}",
+  "h1": "{{CENTRE_NAME}} — {{CENTRE_DESCRIPTOR}}",
+  "type": "WebPage",
+  "breadcrumb": [["მთავარი", "/"]],
+  "datePublished": "2026-10-20",
+  "dateModified": "2026-10-20",
+  "priority": 1.0,
+  "nav_key": "home"
+} -->
+
+<!-- მთავარი (სპეც. 4-centri.md §4 რიგი 1, §5 — სექციების რიგი 1–10). ფაქტები მხოლოდ ტოკენებით / [ფრჩხილებით]; „ჩვენ“ მხოლოდ იქ, სადაც ჩვენ = ანი + სახლის წესები.
+     სათაური/H1 = {{CENTRE_NAME}} — {{CENTRE_DESCRIPTOR}} (ფაზა 2-ში კონფიგით იცვლება). ფონი: --surface-light სექციებზე 3, 6, 9; ხაზოვანი ბადე — 2 და 4.
+     ფაზა 2-ში გადასაწერია: სექცია 3-ის წინადადებები „ერთი ფსიქოლოგი“ (TRUTH_LINE + FAQ „ვინ მუშაობს დღეს“). -->
+
+<!-- 1. Hero: სახელი + აღმწერი (H1), H2 ანის სახელით, მისამართი, WhatsApp + პირველი შეხვედრა; მარჯვნივ პორტრეტის ჩარჩო -->
+<section class="hero" aria-labelledby="hero-title">
+  <div class="container hero__inner">
+    <div class="hero__text">
+      <p class="eyebrow">ᲡᲘᲢᲧᲕᲐ · ᲡᲮᲔᲣᲚᲘ · ᲒᲐᲜᲬᲧᲝᲑᲐ</p>
+      <h1 id="hero-title">{{CENTRE_NAME}} — {{CENTRE_DESCRIPTOR}}</h1>
+      <h2 class="hero__sub">ინდივიდუალური ფსიქოთერაპია კაბინეტში და ონლაინ — დღეს ფსიქოლოგ ანი ბარჯაძესთან. წყვილების, ბავშვთა და მოზარდთა და ჯგუფური ფსიქოთერაპია დაემატება, როცა შესაბამისი მომზადების კოლეგა შემოგვიერთდება.</h2>
+      <p class="hero__place"><span>გალაკტიონ ტაბიძის 18, სოლოლაკი</span><span>{{LANDMARK}}</span><span>ონლაინ</span></p>
+      <div class="hero__actions">
+        <a class="btn btn-primary" href="{{WA_URL}}" data-event="cta_whatsapp">მომწერეთ WhatsApp-ზე</a>
+        <a class="btn btn-secondary" href="/pirveli-shekhvedra/">როგორ მიმდინარეობს პირველი შეხვედრა</a>
+      </div>
+      <p class="hero__micro">პასუხს {{RESPONSE_TIME}} მიიღებთ. პრობლემის აღწერა არ არის საჭირო. არაფერს გავალდებულებთ.</p>
+    </div>
+    <figure class="hero__media frame">
+      <img src="{{PHOTO_PORTRAIT}}" alt="{{PHOTO_PORTRAIT_ALT}}" width="800" height="1000" fetchpriority="high" decoding="async">
+      <figcaption>ანი ბარჯაძე — ფსიქოლოგი, სივრცის დამფუძნებელი</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- 2. „როცა…“ — ექვსი სიტუაცია (4 ცოცხალი → ანი, 2 დაგეგმილი), ხაზოვანი ბადე -->
+<section class="section" id="situaciebi" aria-labelledby="situaciebi-title">
+  <div class="container">
+    <div class="section__head">
+      <p class="eyebrow">ᲠᲝᲪᲐ…</p>
+      <h2 id="situaciebi-title">დაიწყეთ იქიდან, რაც გაწუხებთ</h2>
+      <p class="lead">მეთოდის სახელი ან დიაგნოზი არ გჭირდებათ. აირჩიეთ სიტუაცია, რომელიც თქვენსას ჰგავს: ოთხზე დღესვე შეგიძლიათ ანისთან ჩაწერა, ორი კი დაგეგმილია — მათთვის კოლეგის ადგილი ჯერ ღიაა.</p>
+    </div>
+    {{> situations}}
+    <p class="section__more"><a href="/servisebi/">ყველა სერვისი სიტუაციების მიხედვით</a></p>
+  </div>
+</section>
+
+<!-- 3. დღეს სივრცეში: სიმართლის ხაზი (TRUTH_LINE) + ანის ბარათი პირველი + ოთხი ღია ადგილი -->
+<section class="section section--alt" id="dghes" aria-labelledby="dghes-title">
+  <div class="container">
+    <div class="section__head">
+      <p class="eyebrow">ᲒᲣᲜᲓᲘ</p>
+      <h2 id="dghes-title">ვინ მუშაობს სივრცეში დღეს</h2>
+    </div>
+    {{> today-note}}
+    <div class="team-strip">
+      {{> team-card}}
+      {{> seats-mini}}
+    </div>
+    <div class="prose">
+      <p>ღია ადგილი არ ნიშნავს, რომ ვინმე უკვე „მოდის“. ნიშნავს, რომ ფორმატი დაგეგმილია და მას შესაბამისი მომზადების კოლეგა ჩაატარებს. სანამ ასეთი კოლეგა შემოგვიერთდება, სახელს, ფოტოს ან კვალიფიკაციას არ ვაქვეყნებთ; მერე კი ის საკუთარ გვერდს თავად დაწერს ან დაადასტურებს.</p>
+      <p>კოლეგა ხართ და ერთ-ერთი ადგილი თქვენთვისაა? <a href="/gundi/gia-adgili/">ღია ადგილის გვერდზე</a> წერია, ვის ვეძებთ, რას გთავაზობთ და როგორ გამოგვიგზავნოთ განაცხადი.</p>
+    </div>
+    <p class="section__more"><a href="/gundi/">გუნდი და ღია ადგილები: რას ნიშნავს ღია ადგილი</a></p>
+  </div>
+</section>
+
+<!-- 4. სერვისები — კატალოგის ანონსი: 4 ცოცხალი + 3 დაგეგმილი, ყოველ უჯრაზე სტატუსი და „ვინ ატარებს“ -->
+<section class="section" id="servisebi" aria-labelledby="servisebi-title">
+  <div class="container">
+    <div class="section__head">
+      <p class="eyebrow">ᲡᲔᲠᲕᲘᲡᲔᲑᲘ</p>
+      <h2 id="servisebi-title">სერვისები: რა არის დღეს და რა — დაგეგმილი</h2>
+      <p class="lead">ყოველ სერვისთან წერია, ვინ ატარებს მას დღეს. სადაც შესაბამისი კოლეგა ჯერ არ გვყავს, ამას პირდაპირ ვამბობთ — „დაგეგმილია — ადგილი ღიაა“ — და იქვე გაჩვენებთ, რისი გაკეთება შეგვიძლია უკვე ახლა.</p>
+    </div>
+    {{> catalogue-types label="ფსიქოთერაპიის ტიპები — ცოცხალი და დაგეგმილი"}}
+    <p class="section__conclusion">სივრცე კლინიკა არ არის: აქ წამალს არ ნიშნავენ და დიაგნოზს არ სვამენ. თუ საუბრისას გამოჩნდება, რომ ექიმიც გჭირდებათ, ამას პირდაპირ გეტყვით და გირჩევთ, სად მიმართოთ.</p>
+    <p class="section__more"><a href="/servisebi/">სრული კატალოგი: ტიპები, თემები და პროგრამები</a></p>
+  </div>
+</section>
+
+<!-- 5. როგორ ვმუშაობთ — სიტყვა, სხეული, განწყობა (უზნაძე ~60 სიტყვით, წყაროთი; უნივერსიტეტთან კავშირი არ იგულისხმება) -->
+<section class="section" id="midgoma" aria-labelledby="midgoma-title">
+  <div class="container split">
+    <figure class="split__media drawing">
+      <img src="/assets/img/sololaki-window.svg" alt="" width="200" height="300" loading="lazy" decoding="async">
+    </figure>
+    <div class="split__text">
+      <p class="eyebrow">ᲛᲘᲓᲒᲝᲛᲐ</p>
+      <h2 id="midgoma-title">როგორ ვმუშაობთ — სიტყვა, სხეული, განწყობა</h2>
+      <p class="lead">სივრცის საერთო ენა სამი ნაწილისგან შედგება. ერთ სესიაზე ზოგჯერ ვსაუბრობთ, ზოგჯერ ვჩერდებით და სხეულს ვუსმენთ.</p>
+      <dl class="details-list">
+        <dt>სიტყვა</dt>
+        <dd><a href="/servisebi/geshtalt-terapia/">გეშტალტ თერაპია</a>: ვსაუბრობთ იმაზე, რა ხდება თქვენში ახლა — ამ წუთში, ამ ოთახში.</dd>
+        <dt>სხეული</dt>
+        <dd><a href="/servisebi/sxeulze-orientirebuli-fsiqoterapia/">სხეულზე ორიენტირებული ფსიქოთერაპია</a>: ერთად ვაკვირდებით სუნთქვასა და დაძაბულობას; შეხება — მხოლოდ თქვენი თანხმობით.</dd>
+        <dt>განწყობა</dt>
+        <dd>უზნაძის სკოლა: ვამჩნევთ ჩვეულ რეაქციებს, რომლებიც ქცევას წინ უსწრებს.</dd>
+      </dl>
+      <p>„განწყობა“ ქართველი ფსიქოლოგის, დიმიტრი უზნაძის, თეორიის მთავარი ცნებაა. მისი მიხედვით, ქცევას წინ უსწრებს პიროვნების შინაგანი მზაობა — განწყობა, რომელიც მოთხოვნილებისა და სიტუაციის შეხვედრისას ჩნდება და ხშირად შეუმჩნევლად მოქმედებს. სესიაზე ასეთ ჩვეულ რეაქციებს ერთად ვამჩნევთ, რომ არჩევანი ისევ თქვენ დაგიბრუნდეთ.</p>
+      <p class="cta-micro">წყაროები: <a href="https://ka.wikipedia.org/wiki/%E1%83%93%E1%83%98%E1%83%9B%E1%83%98%E1%83%A2%E1%83%A0%E1%83%98_%E1%83%A3%E1%83%96%E1%83%9C%E1%83%90%E1%83%AB%E1%83%94" rel="noopener" target="_blank">ვიკიპედია — დიმიტრი უზნაძე</a> · <a href="https://kutaisi.travel/en/16606/dimitri-uznadze-theory-and-practice/" rel="noopener" target="_blank">kutaisi.travel — უზნაძე: თეორია და პრაქტიკა</a> (ინგლისურად; განწყობის განმარტება)</p>
+    </div>
+  </div>
+</section>
+
+<!-- 6. ფასი და პირველი შეხვედრა — თითო წინადადება; ფასების ცხრილი მხოლოდ /fasi/-ზეა -->
+<section class="section section--alt" id="fasi-da-shekhvedra" aria-labelledby="fasi-title">
+  <div class="container">
+    <div class="section__head">
+      <p class="eyebrow">ᲤᲐᲡᲘ · ᲞᲘᲠᲕᲔᲚᲘ ᲨᲔᲮᲕᲔᲓᲠᲐ</p>
+      <h2 id="fasi-title">ფასი და პირველი შეხვედრა</h2>
+    </div>
+    <p class="lead">ანისთან {{SESSION_MIN}}-წუთიანი სესიის ფასია {{PRICE}}; ყველა ფასი ერთ ცხრილშია, სადაც ისიც წერია, ვინ ატარებს შეხვედრას და ვის უხდით.</p>
+    <p class="lead">პირველი შეხვედრა გასაცნობია: ვსაუბრობთ იმაზე, რამ მოგიყვანათ, და ერთად ვწყვეტთ, გავაგრძელოთ თუ არა.</p>
+    <ul class="link-list">
+      <li><a href="/fasi/">ფასები სივრცეში — ერთი ცხრილი, ყველა სერვისი</a></li>
+      <li><a href="/pirveli-shekhvedra/">პირველი შეხვედრა სივრცეში: როგორ მიმდინარეობს</a></li>
+    </ul>
+    {{> cta-compact}}
+  </div>
+</section>
+
+<!-- 7. სივრცე: ერთი ოთახის ფილა (მხოლოდ არსებული ოთახი), მისამართი, ორიენტირი, საათები, რუკა -->
+<section class="section" id="sivrce" aria-labelledby="sivrce-title">
+  <div class="container split">
+    <div class="split__text">
+      <p class="eyebrow">ᲡᲘᲕᲠᲪᲔ</p>
+      <h2 id="sivrce-title">სივრცე გალაკტიონ ტაბიძის 18-ში</h2>
+      <p>ჩვენი სივრცე სოლოლაკშია — {{LANDMARK}}. დღეს აქ ერთი ოთახია, ინდივიდუალური შეხვედრებისთვის. მეორე ოთახი იგეგმება — მაშინ, როცა კოლეგა შემოგვიერთდება. თუ თბილისში არ ხართ, იგივე შეხვედრა ონლაინაც შეიძლება.</p>
+      <dl class="details-list">
+        <dt>მისამართი</dt>
+        <dd>{{ADDRESS}} {{POSTAL_CODE}}</dd>
+        <dt>საათები</dt>
+        <dd>{{HOURS}}</dd>
+        <dt>ონლაინ</dt>
+        <dd>ვიდეოზარით — თბილისის გარედან და საზღვარგარეთიდანაც</dd>
+      </dl>
+      <h3>სახლის წესები</h3>
+      <ul class="check-list">
+        <li>ოთახში ერთდროულად მხოლოდ ერთი შეხვედრაა.</li>
+        <li>ფასებს წინასწარ ვაქვეყნებთ: შეხვედრამდე იცით, რა ღირს და ვის უხდით.</li>
+        <li>შეხება სხეულზე ორიენტირებულ მუშაობაში — მხოლოდ თქვენი თანხმობით; ყოველთვის შეგიძლიათ თქვათ „არა“.</li>
+        <li>112-ს ყოველ გვერდზე ვწერთ — სივრცე სასწრაფო დახმარების ადგილი არ არის.</li>
+      </ul>
+      <ul class="link-list">
+        <li><a href="{{MAPS_URL}}" rel="noopener" target="_blank">მისამართი რუკაზე</a></li>
+        <li><a href="/kontaqti/">კონტაქტი და როგორ მოხვიდეთ</a></li>
+      </ul>
+    </div>
+    {{> room-card}}
+  </div>
+</section>
+
+<!-- 8. ხშირი კითხვები — 4 (რა ღირს · ვინ მუშაობს დღეს · ონლაინ · კონფიდენციალურობა, შეზღუდული ფორმით) -->
+<section class="section" id="kitkhvebi" aria-labelledby="kitkhvebi-title">
+  <div class="container">
+    <h2 id="kitkhvebi-title">ხშირი კითხვები</h2>
+    <div class="faq-list">
+      <details class="faq">
+        <summary>რა ღირს შეხვედრა?</summary>
+        <div>
+          <p>ანისთან {{SESSION_MIN}}-წუთიანი სესიის ფასია {{PRICE}}. დაგეგმილი სერვისების ფასს არ ვაქვეყნებთ, სანამ მათ შესაბამისი კოლეგა არ ჩაატარებს. გადახდისა და გაუქმების პირობები <a href="/fasi/">ფასების გვერდზეა</a>.</p>
+        </div>
+      </details>
+      <details class="faq">
+        <summary>ვინ მუშაობს სივრცეში დღეს?</summary>
+        <div>
+          <p>ერთი ფსიქოლოგი — ანი ბარჯაძე, სივრცის დამფუძნებელი. ოთხი ადგილი ღიაა: წყვილებისა და ოჯახის ფსიქოთერაპევტის, ბავშვთა და მოზარდთა ფსიქოლოგის, ჯგუფური ფსიქოთერაპიის წამყვანის და მეორე ინდივიდუალური ფსიქოლოგის. როცა კოლეგა შემოგვიერთდება, მის გვერდს <a href="/gundi/">გუნდის გვერდზე</a> ნახავთ.</p>
+        </div>
+      </details>
+      <details class="faq">
+        <summary>ონლაინ შეხვედრაც შეიძლება?</summary>
+        <div>
+          <p>დიახ. ონლაინ სესიაც {{SESSION_MIN}} წუთი გრძელდება და იგივე კონფიდენციალურობის წესით მიმდინარეობს — ვიდეოზარით, თბილისის გარედანაც და საზღვარგარეთიდანაც. სხეულზე ორიენტირებული მუშაობა ონლაინ ნაწილობრივ იცვლება: რა შეიძლება და რა არა, <a href="/servisebi/onlain-fsiqoterapia/">ონლაინ ფსიქოთერაპიის გვერდზე</a> წერია.</p>
+        </div>
+      </details>
+      <details class="faq">
+        <summary>საუბარი კონფიდენციალურია?</summary>
+        <div>
+          <p>{{CONFIDENTIALITY_LINE}} ფორმაში ან შეტყობინებაში პრობლემის აღწერა არ გჭირდებათ — საკმარისია სახელი და საკონტაქტო მონაცემი.</p>
+        </div>
+      </details>
+    </div>
+    <p class="section__more"><a href="/kitkhvebi/">ყველა კითხვა: სივრცე, ფასი, ჩაწერა და დაგეგმილი სერვისები</a></p>
+  </div>
+</section>
+
+<!-- 9. კონფიდენციალურობა — შეზღუდული ფორმულირება (არასდროს აბსოლუტური) → კონფიდენციალურობის წესი -->
+<section class="section section--alt" id="konfidencialuroba" aria-labelledby="konfidencialuroba-title">
+  <div class="container">
+    <div class="section__head">
+      <p class="eyebrow">ᲙᲝᲜᲤᲘᲓᲔᲜᲪᲘᲐᲚᲣᲠᲝᲑᲐ</p>
+      <h2 id="konfidencialuroba-title">რა რჩება ოთახში</h2>
+      <p class="lead">რასაც სესიაზე ამბობთ, ოთახში რჩება. გამონაკლისები მხოლოდ კანონით განსაზღვრული შემთხვევებია — მათზე პირველივე შეხვედრაზე ვსაუბრობთ, სანამ რამის მოყოლას დაიწყებთ.</p>
+      <p>საკონტაქტო მონაცემებს მხოლოდ ჩაწერისთვის ვიყენებთ. ვინ იღებს შეტყობინებას, რამდენ ხანს ინახება და როგორ მოითხოვოთ წაშლა, <a href="/konfidencialuroba/">კონფიდენციალურობის წესში</a> წერია.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 10. CTA-ზოლი; ფუტერი ატარებს იურიდიული პირის ხაზს და 112-ს -->
+{{> cta-band id="bolo"}}

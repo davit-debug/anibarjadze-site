@@ -9,6 +9,10 @@
  *
  * პრინციპები: პერსონალური მონაცემები ლოგში არ იწერება; ჯანმრთელობის თავისუფალი ველი არ არსებობს;
  * honeypot („website“) ჩუმად აბრუნებს წარმატებას; ნებისმიერი ველი > 500 სიმბოლო უარყოფილია.
+ *
+ * „routing“ (არასავალდებულო; მხოლოდ იმ საიტზე, რომლის site.config.json-შიც ROUTING_OPTIONS არის — საიტი 4):
+ * მიიღება მხოლოდ ROUTING_LABELS-ის გასაღები (≤ 100 სიმბოლო); უცნობი მნიშვნელობა იგნორირდება. build.py ამოწმებს,
+ * რომ კონფიგის ROUTING_OPTIONS აქ იგივე ტექსტით არის. კოლეგები ამ ფორმით არ აგზავნიან განაცხადს — მხოლოდ ელფოსტით.
  */
 
 const MAX_FIELD = 500;
@@ -31,6 +35,16 @@ const MSG = {
 };
 
 const FORMAT_LABELS = { kabineti: "კაბინეტში", onlain: "ონლაინ" };
+const MAX_ROUTING = 100;
+// დაშვებული „routing“ მნიშვნელობები → ტექსტი წერილში (ემთხვევა sites/4-centri/site.config.json-ის ROUTING_OPTIONS-ს)
+const ROUTING_LABELS = {
+  "ani": "ანი ბარჯაძე — ინდივიდუალური ფსიქოთერაპია",
+  "ar-vici": "ჯერ არ ვიცი — დამეხმარეთ არჩევაში",
+  "molodini-tsqvilebi": "მოლოდინის სია: წყვილების ფსიქოთერაპია",
+  "molodini-bavshvebi": "მოლოდინის სია: ბავშვთა და მოზარდთა",
+  "molodini-jgufi": "მოლოდინის სია: ჯგუფი",
+  "kompania": "კომპანიის სახელით (HR)",
+};
 const EMAIL_RE = /^[^\s@<>]+@[^\s@<>]+\.[^\s@<>]{2,}$/;
 const PHONE_RE = /^[+()\-\s\d]{6,25}$/;
 
@@ -73,6 +87,9 @@ export async function onRequestPost(context) {
   const consent = ["yes", "on", "true", "1"].includes(String(raw.consent ?? "").toLowerCase());
   const channel = /^[a-z0-9_-]{1,40}$/.test(clean(raw.channel)) ? clean(raw.channel) : "site_form";
   const page = /^\/[a-z0-9\-/._]{0,120}$/i.test(clean(raw.page)) ? clean(raw.page) : "—";
+  const routingKey = clean(raw.routing);
+  const routing = routingKey.length <= MAX_ROUTING && Object.prototype.hasOwnProperty.call(ROUTING_LABELS, routingKey)
+    ? routingKey : "";
 
   if (!name) return reply(request, 422, { ok: false, error: MSG.name });
   if (!contact) return reply(request, 422, { ok: false, error: MSG.contact });
@@ -96,6 +113,7 @@ export async function onRequestPost(context) {
     `კონტაქტი: ${contact}`,
     `სასურველი დრო: ${time || "არ არის მითითებული"}`,
     `ფორმატი: ${format}`,
+    ...(routing ? [`ვისთან: ${ROUTING_LABELS[routing]}`] : []),
     "თანხმობა მონაცემების დამუშავებაზე: დიახ",
     "",
     `გვერდი: ${page}`,
@@ -108,7 +126,7 @@ export async function onRequestPost(context) {
     to: env.CONTACT_TO.split(",").map((s) => s.trim()).filter(Boolean),
     subject: `[${channel}] ახალი მიმართვა საიტიდან — ${stamp}`,
     text,
-    tags: [{ name: "channel", value: channel }],
+    tags: [{ name: "channel", value: channel }, ...(routing ? [{ name: "routing", value: routing }] : [])],
   };
   if (isEmail) payload.reply_to = contact;
 

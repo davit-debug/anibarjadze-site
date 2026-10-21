@@ -1,0 +1,225 @@
+{
+  "_README": "საიტი 4 — „განწყობა — ფსიქოთერაპიის სივრცე სოლოლაკში“ (სპეც. claudedocs/specs/4-centri.md). ერთადერთი წყარო ყველა {{TOKEN}}-ისთვის. ფაქტები და [ფრჩხილიანი] ადგილები site 1-ის იდენტურია — ერთ საიტზე შევსებისას დანარჩენებშიც შეავსეთ. ტექსტური (string) მნიშვნელობები ტოკენებია; ტოკენი ტოკენის შიგნით არ იხსნება (იურიდიული პირის ხაზი = partial entity-line.html). სიები/ობიექტები (SERVICES, PLANNED_PATHS, NAV_GROUPS, ROUTING_OPTIONS, FORBIDDEN_UNTIL_TEAM, REDIRECTS…) ტოკენი არ არის.",
+  "SITE_URL": "https://gantskoba.ge",
+  "SITE_NAME": "განწყობა — ფსიქოთერაპიის სივრცე სოლოლაკში",
+  "SITE_DESCRIPTION": "ფსიქოთერაპიის სივრცე სოლოლაკში, რომელიც ფსიქოლოგმა ანი ბარჯაძემ დააარსა: ინდივიდუალური ფსიქოთერაპია კაბინეტში და ონლაინ. ფასი, პირველი შეხვედრა და ჩაწერა — საიტზე.",
+  "_CENTRE": "SITE_NAME = „CENTRE_NAME — CENTRE_DESCRIPTOR“ (build ამოწმებს). ფაზა 2-ში იცვლება CENTRE_DESCRIPTOR, SITE_NAME, PRACTICE_NAME, OG_IMAGE_ALT ერთად.",
+  "CENTRE_NAME": "განწყობა",
+  "CENTRE_DESCRIPTOR": "ფსიქოთერაპიის სივრცე სოლოლაკში",
+  "_CENTRE_DESCRIPTOR": "ფაზა 2 → „ფსიქოლოგიური ცენტრი თბილისში“ — მხოლოდ ≥ 2 რეალური სპეციალისტისა და ორგანიზაციის GBP-ის შემდეგ",
+  "TAGLINE": "სიტყვა, სხეული და განწყობა — ერთ სივრცეში.",
+  "NAME": "ანი ბარჯაძე",
+  "NAME_LATIN": "Ani Barjadze",
+  "PRACTICE_NAME": "განწყობა — ფსიქოთერაპიის სივრცე სოლოლაკში",
+  "ROLE": "ფსიქოლოგი",
+  "AUTHOR_CREDENTIAL": "[ზუსტი მომზადება]",
+  "ADDRESS": "გალაკტიონ ტაბიძის ქ. 18, თბილისი",
+  "STREET": "გალაკტიონ ტაბიძის ქ. 18",
+  "CITY": "თბილისი",
+  "DISTRICT": "სოლოლაკი",
+  "POSTAL_CODE": "0105",
+  "GEO_LAT": 41.69058,
+  "GEO_LNG": 44.80143,
+  "LANDMARK": "თავისუფლების მოედნიდან რამდენიმე წუთის სავალზე",
+  "MAPS_URL": "https://www.google.com/maps/search/?api=1&query=%E1%83%92%E1%83%90%E1%83%9A%E1%83%90%E1%83%99%E1%83%A2%E1%83%98%E1%83%9D%E1%83%9C%20%E1%83%A2%E1%83%90%E1%83%91%E1%83%98%E1%83%AB%E1%83%98%E1%83%A1%20%E1%83%A5.%2018%2C%20%E1%83%97%E1%83%91%E1%83%98%E1%83%9A%E1%83%98%E1%83%A1%E1%83%98",
+  "_ORG": "ORG_LEGAL_NAME-ის არსებობა = ორგანიზაციის რეჟიმი (JSON-LD Organization+MedicalBusiness, იურიდიული პირის ხაზი ყველა გვერდზე). ORG_TAX_ID თავისი იარლიყით: „ს/კ 000000000“ (შპს) ან „პ/ნ 00000000000“ (ინდ. მეწარმე). ORG_FOUNDED — ერთადერთი რიცხვი სივრცეზე („დაარსდა [წელი]“).",
+  "ORG_LEGAL_NAME": "[შპს განწყობა / ინდ. მეწარმე ანი ბარჯაძე]",
+  "ORG_TAX_ID": "[ს/კ ან პ/ნ ნომერი]",
+  "ORG_FOUNDED": "[წელი]",
+  "_ORG_MEMBERS": "მხოლოდ რეალური პიროვნებები (person-ani = PERSON_ID ნაგულისხმევი). ღია ადგილი აქ არასდროს ემატება. ≥ 2 რეალური ადამიანი ხსნის FORBIDDEN_UNTIL_TEAM-ს და „ცენტრ…“-ს სახელში.",
+  "ORG_MEMBERS": [
+    "person-ani"
+  ],
+  "EMAIL": "ani@anibarjadze.ge",
+  "PHONE_DISPLAY": "[ტელეფონი]",
+  "PHONE_TEL": "+995XXXXXXXXX",
+  "WA_URL": "https://wa.me/995XXXXXXXXX?text=%E1%83%92%E1%83%90%E1%83%9B%E1%83%90%E1%83%A0%E1%83%AF%E1%83%9D%E1%83%91%E1%83%90%2C%20%E1%83%90%E1%83%9C%E1%83%98.%20%E1%83%9B%E1%83%98%E1%83%9C%E1%83%93%E1%83%90%20%E1%83%9E%E1%83%98%E1%83%A0%E1%83%95%E1%83%94%E1%83%9A%E1%83%98%20%E1%83%A8%E1%83%94%E1%83%AE%E1%83%95%E1%83%94%E1%83%93%E1%83%A0%E1%83%98%E1%83%A1%20%E1%83%93%E1%83%90%E1%83%AF%E1%83%90%E1%83%95%E1%83%A8%E1%83%9C%E1%83%90.",
+  "WA_TEXT": "გამარჯობა, ანი. მინდა პირველი შეხვედრის დაჯავშნა.",
+  "MESSENGER_URL": "https://m.me/Psychologist.AniBarjadze",
+  "FACEBOOK_URL": "https://www.facebook.com/Psychologist.AniBarjadze",
+  "FB_REVIEWS_URL": "https://www.facebook.com/Psychologist.AniBarjadze/reviews",
+  "GBP_REVIEW_URL": "[Google-ის შეფასების ბმული]",
+  "RESPONSE_TIME": "24 საათში",
+  "PRICE": "[ფასი]",
+  "PRICE_VALUE": "",
+  "_EMAIL": "ani@anibarjadze.ge — სანამ სივრცის საფოსტო ყუთი არ შეიქმნება (სპეც. §3).",
+  "_PRICE_SAME_ONLINE": "false, სანამ ანი არ დაადასტურებს, რომ ონლაინ სესიის ფასი კაბინეტისას უდრის.",
+  "PRICE_SAME_ONLINE": false,
+  "SESSION_MIN": "50",
+  "HOURS": "[სამუშაო საათები]",
+  "_LABELS": "სტატუსის ბეჯები (partials status-live / status-planned / open-seat), მოლოდინის სიის CTA, „სიმართლის ხაზი“ (today-note) და კონფიდენციალურობის წინადადება — ზუსტად სპეც. §1.2-ის ტექსტით.",
+  "OPEN_SEAT_LABEL": "ადგილი ღიაა",
+  "PLANNED_LABEL": "დაგეგმილია — ადგილი ღიაა",
+  "LIVE_LABEL": "ხელმისაწვდომია დღეს",
+  "PLANNED_CTA": "შეგვატყობინეთ, რომ გაინტერესებთ",
+  "TRUTH_LINE": "დღეს სივრცეში ერთი ფსიქოლოგი მუშაობს — ანი ბარჯაძე. დანარჩენი ადგილები ღიაა: როცა კოლეგა შემოგვიერთდება, მის გვერდს აქვე ნახავთ. თითოეული სპეციალისტი დამოუკიდებლად აგებს პასუხს თავის კვალიფიკაციასა და მუშაობაზე.",
+  "CONFIDENTIALITY_LINE": "საუბარი კონფიდენციალურია; გამონაკლისები მხოლოდ კანონით განსაზღვრული შემთხვევებია — მათზე პირველ შეხვედრაზე ვსაუბრობთ.",
+  "PHOTO_PORTRAIT": "/assets/img/placeholder-portrait.svg",
+  "PHOTO_PORTRAIT_ALT": "ანი ბარჯაძის პორტრეტი — ფოტო მალე დაემატება",
+  "PHOTO_ROOM": "/assets/img/placeholder-room.svg",
+  "PHOTO_ROOM_ALT": "ოთახი 1 გალაკტიონ ტაბიძის 18-ში — ფოტო მალე დაემატება",
+  "PHOTO_ENTRANCE": "/assets/img/placeholder-entrance.svg",
+  "PHOTO_ENTRANCE_ALT": "შესასვლელი, გალაკტიონ ტაბიძის ქ. 18 — ფოტო მალე დაემატება",
+  "OG_IMAGE": "/assets/img/og-default.png",
+  "OG_IMAGE_ALT": "განწყობა — ფსიქოთერაპიის სივრცე სოლოლაკში · გალაკტიონ ტაბიძის 18",
+  "THEME_COLOR": "#F8F5EF",
+  "AUTHOR_PATH": "/gundi/ani-barjadze/",
+  "ANALYTICS_SNIPPET": "",
+  "CSP": "default-src 'self'; script-src 'self' https://plausible.io; style-src 'self'; font-src 'self'; img-src 'self' data:; connect-src 'self' https://plausible.io; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'",
+  "_PLANNED_PATHS": "სპეც. 4-centri.md §4 — ზუსტად 28 გვერდი (404-ის ჩათვლით). ფაზა 2-ის დაჯავშნილი გზები (/temebi/stresi-da-gadatsva/, /temebi/fsiqologiuri-travma/, /gundi/<კოლეგა>/) აქ არ არის და მათზე ბმული არ იდება.",
+  "PLANNED_PATHS": [
+    "/",
+    "/chven-shesakheb/",
+    "/gundi/",
+    "/gundi/ani-barjadze/",
+    "/gundi/gia-adgili/",
+    "/servisebi/",
+    "/servisebi/individualuri-fsiqoterapia/",
+    "/servisebi/onlain-fsiqoterapia/",
+    "/servisebi/sxeulze-orientirebuli-fsiqoterapia/",
+    "/servisebi/geshtalt-terapia/",
+    "/servisebi/tsqvilebis-fsiqoterapia/",
+    "/servisebi/bavshvta-da-mozardta-fsiqoterapia/",
+    "/servisebi/jgufuri-fsiqoterapia/",
+    "/servisebi/kompaniebistvis/",
+    "/temebi/shfotva/",
+    "/temebi/panikuri-sheteva/",
+    "/temebi/depresia/",
+    "/temebi/urtiertobebi/",
+    "/fasi/",
+    "/pirveli-shekhvedra/",
+    "/kitkhvebi/",
+    "/blogi/",
+    "/blogi/fsiqologi-tu-fsiqiatri/",
+    "/blogi/rogor-avirchiot-fsiqologi/",
+    "/chatsera/",
+    "/kontaqti/",
+    "/konfidencialuroba/",
+    "/404.html"
+  ],
+  "_NAV_GROUPS": "header-ის {{navgroup:servisebi}} / {{navlabel:servisebi}}. /servisebi/* და /temebi/* გვერდები meta.nav_key-ად საკუთარ slug-ს წერენ; /gundi/* — ნაგულისხმევი „gundi“ (ამიტომ „ღია ადგილები“ ჯგუფში არ არის).",
+  "NAV_GROUPS": {
+    "servisebi": {
+      "label": "სერვისები",
+      "keys": [
+        "servisebi",
+        "individualuri-fsiqoterapia",
+        "onlain-fsiqoterapia",
+        "sxeulze-orientirebuli-fsiqoterapia",
+        "geshtalt-terapia",
+        "tsqvilebis-fsiqoterapia",
+        "bavshvta-da-mozardta-fsiqoterapia",
+        "jgufuri-fsiqoterapia",
+        "kompaniebistvis",
+        "shfotva",
+        "panikuri-sheteva",
+        "depresia",
+        "urtiertobebi"
+      ]
+    }
+  },
+  "_ALLOWED_THERAPY_COMPOUNDS": "site 1-ის უცვლელი სია: „თერაპია/თერაპევტი“ ცალკე სიტყვად (სათაური, H1, ნავიგაცია, ანკორი, schema) მხოლოდ ამ შესიტყვებებში. ახალი სერვისები ერთსიტყვიან „ფსიქოთერაპია“-ს იყენებს.",
+  "ALLOWED_THERAPY_COMPOUNDS": [
+    "გეშტალტ თერაპია",
+    "გეშტალტ თერაპევტი",
+    "გეშტალტ-თერაპია",
+    "გეშტალტ-თერაპევტი",
+    "ორიენტირებული თერაპია",
+    "ორიენტირებული თერაპევტი",
+    "სომატური თერაპია",
+    "სომატური თერაპევტი",
+    "ფსიქოდინამიკური თერაპია",
+    "ფსიქოანალიტიკური თერაპია"
+  ],
+  "SAUKETESO_ALLOWED": [
+    "/blogi/rogor-avirchiot-fsiqologi/"
+  ],
+  "_FORBIDDEN_UNTIL_TEAM": "„ჩვენ“-ის ტესტი (სპეც. §1.2): ERROR ხილულ ტექსტსა და description-ში, სანამ ORG_MEMBERS-ში < 2 რეალური ადამიანია. ბოლო სიტყვა ბრუნვით ემთხვევა; „/“ = ვარიანტები. კონფიდენციალურობის აბსოლუტური ფორმები — ყოველთვის ERROR. გვერდზე ციტატისთვის: meta \"allow_forbidden\".",
+  "FORBIDDEN_UNTIL_TEAM": [
+    "ჩვენი სპეციალისტები",
+    "ჩვენი გუნდი",
+    "პროფესიონალთა გუნდი",
+    "მულტიდისციპლინური გუნდი",
+    "ექსპერტები",
+    "ჩვენი ფსიქიატრი",
+    "ჩვენი გამოცდილება",
+    "ჩვენ ვმუშაობთ ბავშვებთან/წყვილებთან",
+    "რეზიდენტი",
+    "ვერავინ გაიგებს",
+    "არავინ გაიგებს"
+  ],
+  "_ROUTING_OPTIONS": "ფორმის „ვისთან გსურთ ჩაწერა?“ ({{ROUTING_FIELD}} contact-form.html-ში). value + label = functions/api/contact.js ROUTING_LABELS (build ამოწმებს). კოლეგები ამ ფორმით არ აგზავნიან განაცხადს.",
+  "ROUTING_LABEL": "ვისთან გსურთ ჩაწერა?",
+  "ROUTING_OPTIONS": [
+    {
+      "value": "ani",
+      "label": "ანი ბარჯაძე — ინდივიდუალური ფსიქოთერაპია"
+    },
+    {
+      "value": "ar-vici",
+      "label": "ჯერ არ ვიცი — დამეხმარეთ არჩევაში"
+    },
+    {
+      "value": "molodini-tsqvilebi",
+      "label": "მოლოდინის სია: წყვილების ფსიქოთერაპია"
+    },
+    {
+      "value": "molodini-bavshvebi",
+      "label": "მოლოდინის სია: ბავშვთა და მოზარდთა"
+    },
+    {
+      "value": "molodini-jgufi",
+      "label": "მოლოდინის სია: ჯგუფი"
+    },
+    {
+      "value": "kompania",
+      "label": "კომპანიის სახელით (HR)"
+    }
+  ],
+  "_REDIRECTS": "Cloudflare _redirects (სპეც. §3): [from, to, code]. /temebi/-ს ინდექსი არ აქვს.",
+  "REDIRECTS": [
+    [
+      "/temebi/",
+      "/servisebi/#temebi",
+      301
+    ],
+    [
+      "/kolegebistvis/",
+      "/gundi/gia-adgili/",
+      301
+    ]
+  ],
+  "SAME_AS": [],
+  "OPENING_HOURS_SPEC": [],
+  "_SERVICES": "მხოლოდ ცოცხალი სერვისები (provider → Person ანი). დაგეგმილი (status: planned) გვერდი აქ არასდროს — მას Service/Offer არ ეკუთვნის. ფსიქიატრია — არასდროს.",
+  "SERVICES": [
+    {
+      "id": "service-individual",
+      "serviceType": "ინდივიდუალური ფსიქოთერაპია",
+      "name": "ინდივიდუალური ფსიქოთერაპია თბილისში და ონლაინ",
+      "path": "/servisebi/individualuri-fsiqoterapia/",
+      "provider": "person-ani"
+    },
+    {
+      "id": "service-online",
+      "serviceType": "ონლაინ ფსიქოთერაპია",
+      "name": "ონლაინ ფსიქოთერაპია",
+      "path": "/servisebi/onlain-fsiqoterapia/",
+      "provider": "person-ani"
+    },
+    {
+      "id": "service-body",
+      "serviceType": "სხეულზე ორიენტირებული ფსიქოთერაპია",
+      "name": "სხეულზე ორიენტირებული ფსიქოთერაპია თბილისში",
+      "path": "/servisebi/sxeulze-orientirebuli-fsiqoterapia/",
+      "provider": "person-ani"
+    },
+    {
+      "id": "service-gestalt",
+      "serviceType": "გეშტალტთერაპია",
+      "name": "გეშტალტ თერაპია სოლოლაკში და ონლაინ",
+      "path": "/servisebi/geshtalt-terapia/",
+      "provider": "person-ani"
+    }
+  ]
+}

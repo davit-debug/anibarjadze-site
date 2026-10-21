@@ -1,0 +1,27 @@
+<!-- ჩაწერის არჩევა (.route-picker, სპეც. §2, §4 რიგი 25) — მხოლოდ /chatsera/-ზე, ფორმის ({{> contact-form}}, id="forma") ზემოთ. JS-ის გარეშე (CSS :checked/:has):
+     ჩანართი „სპეციალისტის მიხედვით“ = ანი (#ani) + ოთხი ღია ადგილი (#molodini); „სიტუაციის მიხედვით“ = ექვსი „როცა…“ ბარათი.
+     ღრმა ბმულები /chatsera/#ani და /chatsera/#molodini ყოველთვის პირველ ჩანართს აჩენს. აქ თითოეული ბმული ფორმამდე ჩადის და main.js routing-ს ირჩევს. -->
+<div class="route-picker">
+  <fieldset class="route-picker__tabs">
+    <legend class="visually-hidden">როგორ აირჩევთ</legend>
+    <input class="route-picker__input" type="radio" name="route-picker" id="rp-specialist" checked>
+    <label class="route-picker__tab" for="rp-specialist">სპეციალისტის მიხედვით</label>
+    <input class="route-picker__input" type="radio" name="route-picker" id="rp-situation">
+    <label class="route-picker__tab" for="rp-situation">სიტუაციის მიხედვით</label>
+  </fieldset>
+  <div class="route-picker__panel rp-spec">
+    <section id="ani" class="route-picker__group" aria-labelledby="ani-title">
+      <h2 id="ani-title">დღეს — ანი ბარჯაძესთან</h2>
+      {{> team-card cta_href="#forma"}}
+    </section>
+    <section id="molodini" class="route-picker__group" aria-labelledby="molodini-title">
+      <h2 id="molodini-title">ღია ადგილები — მოლოდინის სია</h2>
+      <p>ამ ფორმატებს სივრცეში ჯერ არ ვთავაზობთ. აირჩიეთ ფორმაში „მოლოდინის სია“ — როცა შესაბამისი მომზადების კოლეგა შემოგვიერთდება, მოგწერთ.</p>
+      {{> seats-mini}}
+    </section>
+  </div>
+  <div class="route-picker__panel rp-sit">
+    <h2 class="visually-hidden">სიტუაციის მიხედვით</h2>
+    {{> situations}}
+  </div>
+</div>

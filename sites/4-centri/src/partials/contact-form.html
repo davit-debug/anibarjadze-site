@@ -1,0 +1,40 @@
+<!-- საკონტაქტო ფორმა (_common §10; სპეც. §3 პ.6) — /chatsera/-ზე (ზოგადი) და ინდივიდუალური ფსიქოთერაპიის გვერდზე (routing="ani"). POST /api/contact (functions/api/contact.js). JS-ის გარეშეც მუშაობს.
+     {{ROUTING_FIELD}} = „ვისთან გსურთ ჩაწერა?“ <select name="routing"> ROUTING_OPTIONS-იდან (ხელით არ დაწეროთ). არგუმენტი routing = წინასწარ არჩეული value
+     (ani | ar-vici | molodini-tsqvilebi | molodini-bavshvebi | molodini-jgufi | kompania); main.js ასევე კითხულობს ?r=<value>-ს და [data-route] ბმულებს. id="forma" — ერთხელ გვერდზე. -->
+<form class="form" id="forma" action="/api/contact" method="post" data-ajax data-routing="{{@routing}}"
+      data-msg-sending="იგზავნება…"
+      data-msg-ok="გმადლობთ! შეტყობინება მიღებულია — გიპასუხებთ {{RESPONSE_TIME}}."
+      data-msg-err="შეტყობინება ვერ გაიგზავნა. სცადეთ თავიდან ან მომწერეთ WhatsApp-ზე.">
+  <p class="form__note">გთხოვთ, ამ ფორმაში არ აღწეროთ თქვენი პრობლემა — საკმარისია სახელი და საკონტაქტო მონაცემი.</p>
+  <div class="form__field">
+    <label for="f-name">სახელი</label>
+    <input id="f-name" name="name" type="text" autocomplete="given-name" maxlength="100" required>
+  </div>
+  <div class="form__field">
+    <label for="f-contact">ტელეფონი ან ელფოსტა</label>
+    <input id="f-contact" name="contact" type="text" maxlength="200" required aria-describedby="f-contact-hint">
+    <p class="form__hint" id="f-contact-hint">როგორ გირჩევნიათ, დაგიკავშირდეთ.</p>
+  </div>
+  <div class="form__field">
+    <label for="f-time">სასურველი დრო <span class="form__optional">(არასავალდებულო)</span></label>
+    <input id="f-time" name="time" type="text" maxlength="200" placeholder="მაგ.: სამშაბათი საღამოს">
+  </div>
+  <fieldset class="form__field form__choices">
+    <legend>სად გირჩევნიათ შეხვედრა?</legend>
+    <label class="form__choice"><input type="radio" name="format" value="kabineti" checked> კაბინეტში, სოლოლაკში</label>
+    <label class="form__choice"><input type="radio" name="format" value="onlain"> ონლაინ</label>
+  </fieldset>
+  {{ROUTING_FIELD}}
+  <div class="form__hp" aria-hidden="true">
+    <label for="f-website">ვებსაიტი (ეს ველი ცარიელი დატოვეთ)</label>
+    <input id="f-website" name="website" type="text" tabindex="-1" autocomplete="off">
+  </div>
+  <input type="hidden" name="page" value="{{PAGE_PATH}}">
+  <input type="hidden" name="channel" value="site_form">
+  <label class="form__consent">
+    <input type="checkbox" name="consent" value="yes" required>
+    <span>ვეთანხმები ჩემი საკონტაქტო მონაცემების დამუშავებას კონსულტაციის დაჯავშნის მიზნით. <a href="/konfidencialuroba/">კონფიდენციალურობის წესი</a></span>
+  </label>
+  <button class="btn btn-primary" type="submit" data-event="form_submit">გაგზავნა</button>
+  <p class="form__status" role="status" aria-live="polite"></p>
+</form>

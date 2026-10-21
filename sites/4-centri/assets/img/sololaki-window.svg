@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 300" width="200" height="300" role="img" aria-label="სოლოლაკის ფანჯარა — ხაზოვანი ნახატი">
+  <g fill="none" stroke="#B87B4B" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M40 260V90a60 60 0 0 1 120 0v170z"/><path d="M100 30v230M40 140h120M40 200h120"/>
+    <path d="M20 260h160M28 276h144"/><path d="M10 90v170M190 90v170"/>
+  </g>
+  <g fill="none" stroke="#9A9B7C" stroke-width="3" stroke-linecap="round"><path d="M60 260c-4-24 4-44 18-56"/><path d="M66 236c-12-8-24-8-32-2"/></g>
+</svg>

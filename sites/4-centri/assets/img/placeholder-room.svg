@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" width="1200" height="800" role="img" aria-label="ფოტო მალე">
+  <rect width="1200" height="800" fill="#E9CDB3"/>
+  <path d="M150 620V270a120 120 0 0 1 240 0v350z" fill="#F1EBE1"/>
+  <g fill="none" stroke="#B87B4B" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M150 620V270a120 120 0 0 1 240 0v350z"/><path d="M270 150v470M150 360h240M150 490h240"/>
+    <path d="M130 620h280"/>
+    <path d="M860 640V300a100 100 0 0 1 200 0v340"/><path d="M880 640V306a80 80 0 0 1 160 0v334"/><path d="M880 306h160"/>
+    <path d="M905 340h110v120H905zM905 490h110v120H905z"/><path d="M1000 540v24"/>
+    <path d="M60 640h1080"/>
+  </g>
+  <g fill="none" stroke="#6B4A2B" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M500 470v170M500 560h96v80M500 470c4-14 10-20 18-20"/><path d="M500 590h96"/>
+    <path d="M760 470v170M760 560h-96v80M760 470c-4-14-10-20-18-20"/><path d="M760 590h-96"/>
+  </g>
+  <g fill="none" stroke="#9A9B7C" stroke-width="3" stroke-linecap="round">
+    <path d="M430 640v-40h44v40"/><path d="M452 600c-6-40 0-80 22-110"/><path d="M455 560c-22-16-40-18-56-10"/><path d="M462 530c20-20 40-26 58-22"/>
+  </g>
+  <rect x="490" y="700" width="220" height="52" rx="4" fill="#F8F5EF" stroke="#B87B4B" stroke-width="2"/><text x="600" y="735" text-anchor="middle" font-family="'Noto Sans Georgian', 'BPG Arial', Sylfaen, 'DejaVu Sans', sans-serif" font-size="24" font-weight="700" fill="#5A554F">ფოტო მალე</text>
+</svg>

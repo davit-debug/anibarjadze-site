@@ -1,0 +1,10 @@
+<!-- სიტუაციის ბარათი (.card--situation, „როცა…“): სათაური = მომხმარებლის სიტყვები (ბმული თემის გვერდზე), ვინ ფარავს დღეს, სტატუსი, ჩაწერის ბმული.
+     არგუმენტები: href, when, topic, who (ნაგულისხმევი „დღეს: ანი“), status (live | planned), cta (ნაგულისხმევი „ჩაწერა ანისთან“), route (ნაგულისხმევი ani;
+     planned-ზე molodini-…), anchor (ნაგულისხმევი ani; planned-ზე molodini). -->
+<li class="card card--situation card--{{@status|live}}">
+  <p class="card__kicker">როცა…</p>
+  <h3 class="card__title"><a href="{{@href}}">{{@when}}</a></h3>
+  <p class="card__meta">{{@topic}} · {{@who|დღეს: ანი}}</p>
+  <p class="card__status">{{> status-{{@status|live}} suffix=""}}</p>
+  <a class="card__link" href="/chatsera/?r={{@route|ani}}#{{@anchor|ani}}" data-route="{{@route|ani}}">{{@cta|ჩაწერა ანისთან}}</a>
+</li>

@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <rect width="1200" height="630" fill="#F8F5EF"/>
+  <rect x="0" y="0" width="420" height="630" fill="#E8DFD2"/>
+  <g fill="none" stroke="#B87B4B" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" transform="translate(90 95) scale(1.25)">
+    <path d="M30 290V110a90 90 0 0 1 180 0v180"/><path d="M48 290V112a72 72 0 0 1 144 0v178"/><path d="M48 112h144M120 40v250"/>
+    <path d="M120 112L70 62M120 112l50-50M120 112V40"/>
+    <path d="M64 136h40v66H64zM136 136h40v66h-40zM64 220h40v52H64zM136 220h40v52h-40z"/>
+    <path d="M10 290h220M0 306h240"/>
+  </g>
+  <rect x="420" y="0" width="2" height="630" fill="#6B4A2B"/>
+  <text x="500" y="262" font-family="'Noto Sans Georgian', 'BPG Arial', Sylfaen, 'DejaVu Sans', sans-serif" font-size="104" font-weight="700" fill="#1B1917">განწყობა</text>
+  <rect x="502" y="300" width="120" height="2" fill="#6B4A2B"/><rect x="502" y="306" width="120" height="2" fill="#6B4A2B"/>
+  <text x="502" y="378" font-family="'Noto Serif Georgian', Sylfaen, Georgia, serif" font-size="40" fill="#1B1917">ფსიქოთერაპიის სივრცე</text>
+  <text x="502" y="430" font-family="'Noto Serif Georgian', Sylfaen, Georgia, serif" font-size="40" fill="#1B1917">სოლოლაკში</text>
+  <text x="502" y="512" font-family="'Noto Sans Georgian', 'BPG Arial', Sylfaen, 'DejaVu Sans', sans-serif" font-size="28" font-weight="700" fill="#5A554F">გალაკტიონ ტაბიძის 18 · თბილისი · ონლაინ</text>
+</svg>

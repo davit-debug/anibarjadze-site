@@ -1,0 +1,16 @@
+<!-- დაგეგმილი სერვისის CTA (მოლოდინის სია, სპეც. §1.2 პ.6): „შეგვატყობინეთ, რომ გაინტერესებთ“ → /chatsera/ შესაბამისი routing-ით; არასდროს „დაჯავშნეთ“.
+     არგუმენტები: id (ნაგულისხმევი molodini-cta), route (molodini-tsqvilebi | molodini-bavshvebi | molodini-jgufi | kompania), text,
+     bridge (ხიდის გვერდი, ნაგულისხმევი ინდივიდუალური), bridge_label,
+     anchor (/chatsera/-ის ანკორი, ნაგულისხმევი molodini; HR-ისთვის — forma). -->
+<section class="cta-band cta-band--planned" aria-labelledby="{{@id|molodini-cta}}-title">
+  <div class="container cta-band__inner">
+    <p class="cta-band__status">{{> status-planned}}</p>
+    <h2 class="cta-band__title" id="{{@id|molodini-cta}}-title">{{PLANNED_CTA}}</h2>
+    <p class="cta-band__text">{{@text|ჩაეწერეთ მოლოდინის სიაში: როცა შესაბამისი მომზადების კოლეგა შემოგვიერთდება, მოგწერთ. ჩაწერა არაფერს გავალდებულებთ.}}</p>
+    <div class="cta-buttons">
+      <a class="btn btn-primary" href="/chatsera/?r={{@route|ar-vici}}#{{@anchor|molodini}}" data-route="{{@route|ar-vici}}">{{PLANNED_CTA}}</a>
+      <a class="btn btn-secondary" href="{{@bridge|/servisebi/individualuri-fsiqoterapia/}}">{{@bridge_label|რა შეგვიძლია დღეს — ანისთან}}</a>
+    </div>
+    <p class="cta-micro">პასუხს {{RESPONSE_TIME}} მიიღებთ. პრობლემის აღწერა არ არის საჭირო.</p>
+  </div>
+</section>
