@@ -7,7 +7,7 @@
 | 1 · პირადი ბრენდი | `sites/1-brendi` | ერთი ადამიანი, ერთი ფასი, ერთი შეტყობინების მანძილი |
 | 2 · ბიბლიოთეკა | `sites/2-biblioteka` | ქართულენოვანი ბიბლიოთეკა ფსიქოთერაპიაზე — ავტორიანი, წყაროებიანი გვერდები |
 | 3 · სხეული | `sites/3-sxeuli` | ფსიქოთერაპია, რომელიც სიტყვასთან ერთად სხეულსაც უსმენს |
-| 4 · სივრცე | `sites/4-centri` | „განწყობა“ — ფსიქოთერაპიის სივრცე სოლოლაკში, რომელიც ანიმ დააარსა: ღია ადგილები კოლეგებისთვის, დაგეგმილი სერვისები (სპეც. `claudedocs/specs/4-centri.md`) |
+| 4 · სივრცე | `sites/4-centri` | „განწყობა“ — ფსიქოთერაპიის სივრცე ვერაზე, რომელიც ანიმ დააარსა: ღია ადგილები კოლეგებისთვის, დაგეგმილი სერვისები (სპეც. `claudedocs/specs/4-centri.md`) |
 
 **დემო (ყველა ვარიანტი ერთად):** https://davit-debug.github.io/anibarjadze-site/ — ყველა გვერდი noindex-ია, `robots.txt` = `Disallow: /`, ზედა დემო-ზოლით ვარიანტებს შორის გადახვალთ, ფორმა არ იგზავნება. იდება ავტომატურად `main`-ზე push-ისას (`.github/workflows/pages.yml`).
 
@@ -17,7 +17,7 @@
 
 | გზა | რა არის |
 |---|---|
-| `sites/<slug>/site.config.json` | საიტის ყველა `{{TOKEN}}`-ის წყარო (სახელი, მისამართი, ტელეფონი, ფასი, საათები, ბმულები, `THEME_COLOR`, `AUTHOR_PATH`) + საიტის სიები: `PLANNED_PATHS`, `NAV_GROUPS`, `ALLOWED_THERAPY_COMPOUNDS`, `SAUKETESO_ALLOWED` |
+| `sites/<slug>/site.config.json` | საიტის ყველა `{{TOKEN}}`-ის წყარო (სახელი, მისამართი, WhatsApp-ის ბმული, ფასი, საათები, ბმულები, `THEME_COLOR`, `AUTHOR_PATH`) + საიტის სიები: `PLANNED_PATHS`, `NAV_GROUPS`, `ALLOWED_THERAPY_COMPOUNDS`, `SAUKETESO_ALLOWED` |
 | `sites/<slug>/src/pages/**/*.html` | გვერდები: `<!--meta {…} -->` ბლოკი + `<main>`-ის შიგთავსი |
 | `sites/<slug>/src/partials/*.html` | ჰედერი, ფუტერი, CTA, ავტორის ბარათი, ფორმა, დისკლეიმერი, უსაფრთხოების ბლოკი |
 | `sites/<slug>/src/layout.html` | საერთო ჩარჩო (`<head>`, მეტა-ტეგები, JSON-LD) |
@@ -69,7 +69,7 @@ build ბეჭდავს ERROR / WARN / INFO სიას გვერდე�
 
 | გასაღები | რა არის |
 |---|---|
-| `CENTRE_NAME`, `CENTRE_DESCRIPTOR`, `TAGLINE` | სახელი („განწყობა“), აღმწერი (ფაზა 1: „ფსიქოთერაპიის სივრცე სოლოლაკში“), სლოგანი. ERROR, თუ `SITE_NAME` ≠ „`CENTRE_NAME` — `CENTRE_DESCRIPTOR`“ |
+| `CENTRE_NAME`, `CENTRE_DESCRIPTOR`, `TAGLINE` | სახელი („განწყობა“), აღმწერი (ფაზა 1: „ფსიქოთერაპიის სივრცე ვერაზე“), სლოგანი. ERROR, თუ `SITE_NAME` ≠ „`CENTRE_NAME` — `CENTRE_DESCRIPTOR`“ |
 | `ORG_LEGAL_NAME`, `ORG_TAX_ID`, `ORG_FOUNDED` | იურიდიული პირი, ს/კ ან პ/ნ (იარლიყით, schema-ში მხოლოდ ნომერი), დაარსების წელი. `ORG_LEGAL_NAME`-ის არსებობა ჩართავს ორგანიზაციის რეჟიმს: practice = `["Organization","MedicalBusiness"]`, `name` = `SITE_NAME`, `legalName`/`taxID`/`foundingDate` მხოლოდ შევსებული (არა `[ფრჩხილი]`) მნიშვნელობით, Person-ს `memberOf`; ყველა გვერდზე სავალდებულოა `class="entity-line"` (WARN) |
 | `ORG_MEMBERS` | რეალური პიროვნებების id-ები (`["person-ani"]`) → `member`. ღია ადგილი პიროვნება არ არის — უცნობი id = ERROR |
 | `PERSON_ID`, `PEOPLE` | მთავარი პიროვნების id (ნაგულისხმევი `person-ani` → `#ani`); ფაზა 2-ში ახალი კოლეგა: `PEOPLE: [{"id","name","jobTitle","url"}]` (სახელი ფრჩხილებში = ERROR) |
@@ -87,9 +87,11 @@ build ბეჭდავს ERROR / WARN / INFO სიას გვერდე�
 
 კვადრატულ ფრჩხილებში ჩაწერილი ყველა მნიშვნელობა (`[ფასი]`, `[უნივერსიტეტი]`, `[სამუშაო საათები]`…) განზრახ დატოვებული ადგილია — **ივსება მხოლოდ დოკუმენტით ან ანის პასუხით, არაფერი გამოიგონება**.
 
-1. საერთო მნიშვნელობები — არჩეული საიტის `site.config.json`-ში: `PRICE` (მაგ. `120 ₾`), `PRICE_VALUE` (მხოლოდ რიცხვი, მაგ. `120` — schema-ს Offer-ისთვის), `HOURS`, `OPENING_HOURS_SPEC` (schema), `PHONE_DISPLAY`, `PHONE_TEL`, `WA_URL` (იგივე ნომერი, build ამოწმებს), `GBP_REVIEW_URL`, `AUTHOR_CREDENTIAL`, `SAME_AS` (tsamali, yell… პროფილები), ფოტოების გზები.
+1. საერთო მნიშვნელობები — არჩეული საიტის `site.config.json`-ში: `PRICE` (მაგ. `120 ₾`), `PRICE_VALUE` (მხოლოდ რიცხვი, მაგ. `120` — schema-ს Offer-ისთვის), `HOURS`, `OPENING_HOURS_SPEC` (schema), `WA_URL` (WhatsApp-ის ნომერი), `PHONE_DISPLAY` და `PHONE_TEL` (ახლა განზრახ ცარიელია — იხ. ქვემოთ), `GBP_REVIEW_URL`, `AUTHOR_CREDENTIAL`, `SAME_AS` (tsamali, yell… პროფილები), ფოტოების გზები.
 2. გვერდებზე დარჩენილი ფრჩხილები — `python3 build.py --site sites/<slug>` თითო გვერდზე INFO ხაზად ჩამოთვლის; სრული ცხრილი — `--placeholders-report <ფაილი.md>`.
 3. გაშვებამდე `python3 build.py --site sites/<slug> --release` უნდა დასრულდეს შეცდომის გარეშე.
+
+**საჯარო ტელეფონი არ არის:** ნომერი საიტზე არ ჩანს და ზარის ღილაკი არსად არის — ნომერი მხოლოდ `WA_URL`-შია (WhatsApp-ის ღილაკი). `PHONE_TEL` და `PHONE_DISPLAY` ოთხივე საიტზე ცარიელია; ამ რეჟიმში build ERROR-ად თვლის ნებისმიერ ზარის/SMS ბმულს (`tel:`, `sms:`, `viber:` …; 112-ისა და მოკლე ცხელი ხაზების გარდა), ნომერს WhatsApp-ის ბმულის გარეთ და `{{TEL_URL}}` / `{{PHONE_DISPLAY}}` ტოკენს, schema-ში `telephone` არ იწერება. თუ ოდესმე ზარის არხი დაბრუნდება: შეავსეთ ორივე გასაღები (build შეამოწმებს, რომ ნომერი `WA_URL`-ს ემთხვევა) და დააბრუნეთ ღილაკები partial-ებში.
 
 **შენიშვნა ელფოსტაზე:** `EMAIL` = `ani@anibarjadze.ge` (ციფრებიანი Gmail საიტზე არ ქვეყნდება). მისამართი გაშვებამდე უნდა ამუშავდეს: Cloudflare Email Routing → ანის Gmail.
 
@@ -106,7 +108,7 @@ build ბეჭდავს ERROR / WARN / INFO სიას გვერდე�
   - `CONTACT_TO` — სად მივიდეს ფორმა (მაგ. ანის ელფოსტა)
   - `CONTACT_FROM` — გამგზავნი Resend-ში დადასტურებული დომენიდან, მაგ. `საიტი <forma@anibarjadze.ge>`
 - build ავტომატურად წერს `sitemap.xml` (მხოლოდ ინდექსირებადი გვერდები), `robots.txt` (Googlebot და AI-ბოტები დაშვებულია — გადაწყვეტილება კომენტარშია), `llms.txt`, `feed.xml` (ბლოგის RSS), `_headers` (უსაფრთხოება, CSP — ჩაშენებული შრიფტების `<style>`-ის sha256 ავტომატურად ემატება `style-src`-ს; ასეტებისა და შრიფტების ქეში), `_redirects` (ცარიელი, მაგალითით).
-- ანალიტიკა: Plausible-ის `<script>` ჩასვით `ANALYTICS_SNIPPET`-ში. ივენთები (`cta_whatsapp`, `cta_messenger`, `cta_phone`, `form_submit`, `review_link`) უკვე მიბმულია. სხვა სერვისის შემთხვევაში განაახლეთ `CSP`.
+- ანალიტიკა: Plausible-ის `<script>` ჩასვით `ANALYTICS_SNIPPET`-ში. ივენთები (`cta_whatsapp`, `cta_messenger`, `form_submit`, `review_link`) უკვე მიბმულია. სხვა სერვისის შემთხვევაში განაახლეთ `CSP`.
 
 ## GitHub Pages (დემო)
 
@@ -116,6 +118,6 @@ build ბეჭდავს ERROR / WARN / INFO სიას გვერდე�
 
 - **ფოტოები:** პორტრეტი (hero, 4:5), კაბინეტი, შესასვლელი — ახლა `assets/img/placeholder-*.svg`; ჩაანაცვლეთ `PHOTO_*` ტოკენებით (AVIF/WebP, ≤120 KB hero).
 - **OG სურათი:** `assets/img/og-default.png` დროებითია. საჭიროა 1200×630 PNG/JPG პორტრეტით; გვერდზე ცალკე სურათისთვის — meta `og_image`.
-- **ტელეფონი და WhatsApp-ის ნომერი** (სამუშაო SIM), **ფასი**, **სამუშაო საათები**.
+- **ფასი** (საიტები 2–4: `PRICE` = `[ფასი]`), **სამუშაო საათები**, **ორიენტირი და უახლოესი მეტრო** ახალ მისამართთან (ვერა, გიორგი ქუჩიშვილის ქ. 12), საფოსტო ინდექსისა და კოორდინატების გადამოწმება (ახლა OSM-იდანაა).
 - **კვალიფიკაცია:** ხარისხი, უნივერსიტეტი, გეშტალტის ინსტიტუტი და საფეხური, სხეულზე ორიენტირებული პროგრამა და საათები, ასოციაციის წევრობა — დოკუმენტებით.
 - **Google-ის შეფასების ბმული** (GBP-ის შექმნის შემდეგ), სტატიკური რუკის სურათი, ვიდეო-კლიპი (სურვილისამებრ).

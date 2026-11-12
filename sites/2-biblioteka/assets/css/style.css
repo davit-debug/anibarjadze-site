@@ -345,8 +345,6 @@ grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
 }
 .cta-buttons .btn { width: 100%; padding-inline: 1rem; white-space: nowrap; }
 @media (max-width: 359px) { .cta-buttons .btn { white-space: normal; padding-inline: .5rem; } }
-.prose .cta-buttons { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-.prose .cta-buttons .btn-primary { grid-column: 1 / -1; }
 .cta-micro { margin: 0; font: 400 .9375rem/1.5 var(--font-sans); color: var(--ink-soft); }
 .cta-compact { margin-top: 2rem; padding-top: 1.25rem; border-top: 1px solid var(--line); max-width: 56rem; }
 .cta-band { background: var(--accent); color: var(--white); padding-block: clamp(2.75rem, 6vw, 4.5rem); }
@@ -453,7 +451,7 @@ margin-top: 1.5rem; padding-block: 1.25rem; border-top: 1px solid var(--line);
 /* == sticky mobile CTA */
 .sticky-cta {
 position: fixed; left: 0; right: 0; bottom: 0; z-index: 40; height: calc(var(--sticky-h) + env(safe-area-inset-bottom, 0px));
-display: grid; grid-template-columns: repeat(3, 1fr); background: var(--paper);
+display: grid; grid-template-columns: repeat(2, 1fr); background: var(--paper);
 border-top: 1px solid var(--line); padding-bottom: env(safe-area-inset-bottom); transition: transform .2s ease;
 }
 .sticky-cta a {

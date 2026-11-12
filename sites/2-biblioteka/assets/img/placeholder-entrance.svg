@@ -12,7 +12,7 @@
   <rect x="400" y="640" width="400" height="24" fill="#B49AA3" opacity=".6"/>
   <rect x="370" y="664" width="460" height="24" fill="#B49AA3" opacity=".4"/>
   <rect x="800" y="430" width="70" height="40" fill="#FBF8F3" stroke="#B49AA3" stroke-width="2"/>
-  <text x="835" y="458" text-anchor="middle" font-family="'Noto Sans Georgian', Sylfaen, sans-serif" font-size="22" font-weight="700" fill="#55504B">18</text>
+  <text x="835" y="458" text-anchor="middle" font-family="'Noto Sans Georgian', Sylfaen, sans-serif" font-size="22" font-weight="700" fill="#55504B">12</text>
   <rect x="500" y="720" width="200" height="56" fill="#FBF8F3"/>
   <rect x="500" y="720" width="200" height="56" fill="none" stroke="#B49AA3" stroke-width="1.5"/>
   <text x="600" y="756" text-anchor="middle" font-family="'Noto Sans Georgian', Sylfaen, sans-serif" font-size="24" font-weight="700" fill="#55504B">ფოტო მალე</text>

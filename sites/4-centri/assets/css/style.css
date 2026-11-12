@@ -461,7 +461,7 @@ figure figcaption{margin-top:.5rem;font:400 .875rem/1.45 var(--sans);color:var(-
 .site-footer__copy{font-size:.875rem;color:var(--muted)}
 
 /* sticky mobile CTA */
-.sticky-cta{position:fixed;left:0;right:0;bottom:0;z-index:40;height:calc(var(--sticky-h) + env(safe-area-inset-bottom,0px));display:grid;grid-template-columns:repeat(3,1fr);background:var(--paper);border-top:1px solid var(--line-strong);padding-bottom:env(safe-area-inset-bottom)}
+.sticky-cta{position:fixed;left:0;right:0;bottom:0;z-index:40;height:calc(var(--sticky-h) + env(safe-area-inset-bottom,0px));display:grid;grid-template-columns:repeat(2,1fr);background:var(--paper);border-top:1px solid var(--line-strong);padding-bottom:env(safe-area-inset-bottom)}
 .sticky-cta a{display:grid;place-items:center;min-height:var(--sticky-h);font:700 1rem var(--sans);color:var(--ink);text-decoration:none;border-left:1px solid var(--line);background:var(--surface-light)}
 .sticky-cta a:first-child{border-left:0}
 .sticky-cta .sticky-cta__wa{background:var(--accent);color:var(--white)}

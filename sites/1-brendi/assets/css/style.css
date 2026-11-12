@@ -199,13 +199,11 @@ body.nav-open { overflow: hidden; }
 .hero__tagline { font-size: clamp(1.25rem, 1.05rem + .9vw, 1.75rem); color: var(--ink); max-width: 30em; margin-bottom: .6em; }
 .section__note { max-width: var(--measure); margin-top: 1.5rem; }
 .contact-line { display: flex; flex-wrap: wrap; align-items: center; gap: .75rem; }
-.contact-line__phone { display: inline-flex; align-items: center; min-height: 44px; font-weight: 700; font-size: 1.1875rem; }
 .hero__sub { font: 400 clamp(1.125rem, 1.02rem + .5vw, 1.375rem)/1.5 var(--font-sans); color: var(--ink); max-width: 36em; margin-bottom: 1.5rem; }
 .hero__actions { display: flex; flex-wrap: wrap; gap: .75rem; }
 .hero__micro { margin: .85rem 0 0; font-size: .9375rem; color: var(--ink-soft); }
 @media (max-width: 519px) {
   .hero__actions .btn, .contact-line .btn { width: 100%; padding-inline: 1rem; }
-  .contact-line > span { display: none; }
 }
 @media (min-width: 820px) {
   .hero__inner { grid-template-columns: 5fr 7fr; align-items: center; gap: clamp(2rem, 5vw, 4.5rem); }
@@ -422,7 +420,7 @@ figure figcaption { margin-top: .5rem; font-size: .9375rem; color: var(--ink-sof
 /* ---------- sticky mobile CTA */
 .sticky-cta {
   position: fixed; left: 0; right: 0; bottom: 0; z-index: 40; height: calc(var(--sticky-h) + env(safe-area-inset-bottom, 0px));
-  display: grid; grid-template-columns: repeat(3, 1fr); background: var(--paper);
+  display: grid; grid-template-columns: repeat(2, 1fr); background: var(--paper);
   border-top: 1px solid var(--line); box-shadow: 0 -6px 18px color-mix(in srgb, var(--ink) 8%, transparent);
   padding-bottom: env(safe-area-inset-bottom); transition: transform .2s ease;
 }

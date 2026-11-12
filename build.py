@@ -184,6 +184,8 @@ PARTIAL_ARG_RE = re.compile(r'([\w-]+)="([^"]*)"')
 ARG_RE = re.compile(r"\{\{@([\w-]+)(?:\|([^}]*))?\}\}")
 HELPER_RE = re.compile(r"\{\{\s*(asset|nav|navgroup|navlabel):\s*([^}\s]+)\s*\}\}")
 TOKEN_RE = re.compile(r"\{\{\s*([A-Za-z_][A-Za-z0-9_]*)\s*\}\}")
+HOTLINE_MAX_DIGITS = 6  # 112, 116 006 და სხვა მოკლე ცხელი ხაზები — ერთადერთი დასაშვები tel: ბმულები, როცა PHONE_TEL ცარიელია
+CALL_SCHEME_RE = re.compile(r"\s*(?:tel|sms|callto|facetime(?:-audio)?|viber|skype)\s*:", re.I)
 PLACEHOLDER_RE = re.compile(r"\[[^\[\]\n<>{}\"]{1,80}\]")
 GEO = "Ⴀ-ჿ"
 # „თერაპევტი“/„თერაპია“ ცალკე სიტყვად (არა ფსიქოთერაპია, გეშტალტთერაპია და ა.შ.)
@@ -380,7 +382,11 @@ def resolve_tokens(text: str, tokens: dict[str, str], nav_key: str) -> str:
 def config_tokens(cfg: dict) -> dict[str, str]:
     tokens = {k: str(v) for k, v in cfg.items() if not k.startswith("_") and isinstance(v, (str, int, float))}
     tokens["YEAR"] = str(date.today().year)
-    tokens["TEL_URL"] = "tel:" + cfg.get("PHONE_TEL", "")
+    if cfg.get("PHONE_TEL"):
+        tokens["TEL_URL"] = "tel:" + cfg["PHONE_TEL"]
+    else:  # საჯარო ტელეფონი არ არის (ნომერი მხოლოდ WA_URL-შია): {{TEL_URL}} / {{PHONE_*}} „გადაუწყვეტელი ტოკენია“ → ERROR
+        for key in ("PHONE_TEL", "PHONE_DISPLAY"):
+            tokens.pop(key, None)
     tokens["SITE_HOST"] = urlsplit(cfg["SITE_URL"]).netloc
     tokens["ROUTING_FIELD"] = routing_field(cfg)
     return tokens
@@ -1080,6 +1086,16 @@ def validate(page: Page, ctx: dict, report: Report) -> None:
     # parser-based checks
     parser = DocParser()
     parser.feed(doc)
+    if not ctx.get("public_phone", True):  # საჯარო ტელეფონი არ არის: ნომერი მხოლოდ wa.me-ს ბმულშია
+        calls = sorted({u.strip() for _, u, _ in parser.links
+                        if CALL_SCHEME_RE.match(u) and len(re.sub(r"\D", "", u)) > HOTLINE_MAX_DIGITS})
+        if calls:
+            report.add("ERROR", where, "ზარის/SMS ბმული საიტზე, რომელსაც საჯარო ტელეფონი არ აქვს (PHONE_TEL ცარიელია): "
+                       + ", ".join(calls))
+        wa = re.search(r"wa\.me/(\d{9,})", ctx.get("wa_url", ""))
+        if wa and re.search(r"[\s().\-]{0,3}".join(wa.group(1)[-9:]),
+                            re.sub(r"wa\.me/\d+", "", html.unescape(doc))):
+            report.add("ERROR", where, "ტელეფონის ნომერი ჩანს WhatsApp-ის ბმულის გარეთ (საჯარო ტელეფონი არ ქვეყნდება)")
     for tag, url, _ in parser.links:
         check_link(url, page, ctx, report)
     dupes = sorted({i for i in parser.ids if parser.ids.count(i) > 1})
@@ -1208,6 +1224,8 @@ def site_checks(pages: list[Page], cfg: dict, report: Report) -> None:
     wa = re.search(r"wa\.me/(\d+)", cfg.get("WA_URL", ""))
     if phone and wa and not is_placeholder(cfg.get("PHONE_TEL")) and wa.group(1) != phone:
         report.add("ERROR", rel(CONFIG_FILE), "WA_URL-ის ნომერი PHONE_TEL-ს არ ემთხვევა")
+    if not phone and cfg.get("PHONE_DISPLAY"):
+        report.add("ERROR", rel(CONFIG_FILE), "PHONE_TEL ცარიელია (საჯარო ტელეფონი არ არის), PHONE_DISPLAY-იც ცარიელი უნდა იყოს")
     config_checks(pages, cfg, report)
 
 
@@ -1612,8 +1630,8 @@ def demo_bar_css(site_dir: Path) -> str:
 # CSS ჩაისმება CSSOM-ით (insertRule) ცარიელ <style id="demo-palette-css">-ში — CSP-ს ჰეშიც ცარიელი ბლოკისაა.
 PALETTE_JS = (
     '(function(){var P=__P__,K=__K__,M=__M__,N="' + PALETTE_STORAGE_KEY + '",d=document,h=d.documentElement,'
-    'q=new URLSearchParams(location.search),E=q.get("embed")=="1",u=q.get("ferebi"),c="",F={},T,W=1;'
-    'function G(){try{return localStorage.getItem(N)||""}catch(x){W=0;return""}}'
+    'q=new URLSearchParams(location.search),E=q.get("embed")=="1",L={sololaki:"terakota"},u=q.get("ferebi"),c="",F={},T,W=1;u=L[u]||u;'
+    'function G(){try{var v=localStorage.getItem(N)||"";return L[v]||v}catch(x){W=0;return""}}'
     'function S(v){if(!E)try{v?localStorage.setItem(N,v):localStorage.removeItem(N)}catch(x){W=0}}'
     # URL-ის ?ferebi არჩევანს მიჰყვება (თორემ განახლება ძველ ფერს დააბრუნებს); შენახვის გარეშე — ერთადერთი მეხსიერება
     'function U(){if(E||W&&!q.has("ferebi"))return;c?q.set("ferebi",c):q.delete("ferebi");var s=q.toString();'
@@ -1992,6 +2010,8 @@ def build_site(site_dir: Path, out: Path, args, *, site_url: str | None = None, 
         "single": bool(single),
         "planned_hits": {},
         "placeholder_links": set(),
+        "public_phone": bool(cfg.get("PHONE_TEL")),
+        "wa_url": cfg.get("WA_URL", ""),
     }
 
     to_build = [single] if single else pages
