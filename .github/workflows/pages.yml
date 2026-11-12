@@ -1,4 +1,4 @@
-# სამივე ვარიანტის დემო GitHub Pages-ზე: https://davit-debug.github.io/anibarjadze-site/
+# საიტის დემო GitHub Pages-ზე: https://davit-debug.github.io/anibarjadze-site/1-brendi/ (ფესვი იქ გადამისამართდება)
 # ყველა გვერდი noindex-ია, robots.txt = Disallow: /, ფორმა არ იგზავნება (build.py --demo).
 # საბოლოო (არჩეული) საიტი Cloudflare Pages-ზე ცალკე იდება — იხ. README.md.
 name: GitHub Pages (დემო)
@@ -25,7 +25,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - name: აგება (ყველა საიტი, დემო)
+      - name: აგება (დემო)
         run: python3 build.py --all --demo --site-url https://davit-debug.github.io/anibarjadze-site --out dist
       - uses: actions/upload-pages-artifact@v3
         with:

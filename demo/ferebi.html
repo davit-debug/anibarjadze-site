@@ -9,7 +9,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>ფერების შედარება — ანი ბარჯაძის საიტი (დემო)</title>
-<meta name="description" content="ანი ბარჯაძის საიტის ოთხი ვარიანტი სხვადასხვა ფერში — ერთ ეკრანზე შესადარებლად.">
+<meta name="description" content="ანი ბარჯაძის საიტი სხვადასხვა ფერში — ერთ ეკრანზე შესადარებლად.">
 <meta name="robots" content="noindex, nofollow">
 <meta name="theme-color" content="#1F1D1B">
 <link rel="icon" href="data:,">
@@ -59,11 +59,11 @@ h1 { margin: 0 0 .75rem; font: 500 clamp(1.75rem, 1.2rem + 2.4vw, 2.75rem)/1.2 "
 </head>
 <body>
 <main class="wrap">
-  <p class="back"><a href="{{BASE}}/">← ყველა ვარიანტი</a></p>
+  <p class="back"><a href="{{HOME}}">← {{BACK_LABEL}}</a></p>
   <header class="top">
     <p class="eyebrow">დემო · ფერები</p>
     <h1>ფერების შედარება</h1>
-    <p class="lead">აირჩიეთ ვარიანტი და გვერდი — ქვემოთ ის ყველა ფერში ჩანს. თუ რომელიმე მოგეწონათ, „ამ ფერებით გახსნა“ საიტს ახალ ჩანართში გახსნის და ამ ფერებს დაიმახსოვრებს.</p>
+    <p class="lead">აირჩიეთ გვერდი — ქვემოთ ის ყველა ფერში ჩანს. თუ რომელიმე მოგეწონათ, „ამ ფერებით გახსნა“ საიტს ახალ ჩანართში გახსნის და ამ ფერებს დაიმახსოვრებს.</p>
   </header>
   <form class="controls" id="controls" onsubmit="return false">
     <fieldset><legend>ვარიანტი</legend><div class="seg" id="c-site"></div></fieldset>
@@ -72,7 +72,7 @@ h1 { margin: 0 0 .75rem; font: 500 clamp(1.75rem, 1.2rem + 2.4vw, 2.75rem)/1.2 "
   </form>
   <ul class="grid" id="grid"></ul>
   <noscript><p>შედარებისთვის საჭიროა JavaScript. ფერების შეცვლა ნებისმიერ გვერდზე შეგიძლიათ ზედა ზოლიდან.</p></noscript>
-  <p class="foot">ფერების შეცვლა ნებისმიერ გვერდზე შეგიძლიათ — ზედა ზოლში, „ფერები“. „საიტის ფერები“ ვარიანტის საკუთარ ფერებს აბრუნებს.</p>
+  <p class="foot">ფერების შეცვლა ნებისმიერ გვერდზე შეგიძლიათ — ზედა ზოლში, „ფერები“. „საიტის ფერები“ საიტის საკუთარ ფერებს აბრუნებს.</p>
 </main>
 <script>
 (function () {
@@ -125,7 +125,7 @@ h1 { margin: 0 0 .75rem; font: 500 clamp(1.75rem, 1.2rem + 2.4vw, 2.75rem)/1.2 "
     c.iframe.style.transform = 'scale(' + s + ')';
     c.frame.style.height = Math.round(v.h * s) + 'px';
   }
-  var list = [{ id: '', name: 'საიტის ფერები', note: 'ვარიანტის საკუთარი ფერები' }].concat(D.palettes);
+  var list = [{ id: '', name: 'საიტის ფერები', note: 'საიტის საკუთარი ფერები' }].concat(D.palettes);
   list.forEach(function (p) {
     var li = el('li', 'card'), head = el('div', 'card__head'), ul = el('ul', 'sw'), frame = el('div', 'frame'),
       iframe = el('iframe'), a = el('a', 'card__btn', 'ამ ფერებით გახსნა');
@@ -172,6 +172,7 @@ h1 { margin: 0 0 .75rem; font: 500 clamp(1.75rem, 1.2rem + 2.4vw, 2.75rem)/1.2 "
     radios(d.getElementById('c-page'), 'gverdi', site.pages.map(function (p, i) { return [String(i), p[1]]; }), String(page),
       function (v) { page = +v; update(); });
   }
+  if (D.sites.length < 2) d.getElementById('c-site').parentNode.hidden = true;
   radios(d.getElementById('c-site'), 'saiti', D.sites.map(function (s) { return [s.slug, s.label]; }), site.slug, function (v) {
     var path = site.pages[page][0];
     site = D.sites.filter(function (s) { return s.slug === v; })[0];

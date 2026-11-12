@@ -36,7 +36,8 @@ const MSG = {
 
 const FORMAT_LABELS = { kabineti: "კაბინეტში", onlain: "ონლაინ" };
 const MAX_ROUTING = 100;
-// დაშვებული „routing“ მნიშვნელობები → ტექსტი წერილში (ემთხვევა sites/4-centri/site.config.json-ის ROUTING_OPTIONS-ს)
+// დაშვებული „routing“ მნიშვნელობები → ტექსტი წერილში (დაწერილი იყო წაშლილი საიტი 4-ის ROUTING_OPTIONS-ისთვის;
+// sites/1-brendi-ის ფორმა routing-ს არ აგზავნებს, ამიტომ ეს სია ახლა არ გამოიყენება)
 const ROUTING_LABELS = {
   "ani": "ანი ბარჯაძე — ინდივიდუალური ფსიქოთერაპია",
   "ar-vici": "ჯერ არ ვიცი — დამეხმარეთ არჩევაში",

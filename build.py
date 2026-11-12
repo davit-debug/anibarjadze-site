@@ -120,20 +120,13 @@ ORG_MODE: bool = False  # კონფიგში ORG_LEGAL_NAME — Organizati
 FORBIDDEN_TEAM_RES: list[tuple[str, re.Pattern]] = []
 ORG_MEMBER_COUNT = 0
 
-# დემო-ვარიანტები (--demo ზოლი და --all-ის არჩევის გვერდი). bar = მოკლე სახელი დემო-ზოლში.
+# დემოს საიტები (--demo ზოლი, --all-ის ფესვი და ფერების შედარება). დარჩა ერთი (დავითის არჩევანი, 2026-11-12):
+# ერთი საიტით ფესვი მასზე გადამისამართდება და ზოლში საიტების გადამრთველი არ ჩანს. სხვა ვარიანტები —
+# git-ის ისტორიაში (ლოკალური ტეგი arkivi/4-varianti). bar = მოკლე სახელი დემო-ზოლში (მხოლოდ ≥ 2 საიტისას).
 DEMO_SITES = [
-    {"slug": "1-brendi", "label": "1 · პირადი ბრენდი", "bar": "1 ბრენდი",
+    {"slug": "1-brendi", "label": "ანი ბარჯაძე — ფსიქოლოგი", "bar": "1 ბრენდი",
      "blurb": "ერთი ადამიანი, ერთი ფასი, ერთი შეტყობინების მანძილი.",
      "compare": [("/", "მთავარი"), ("/sxeulze-orientirebuli-fsiqoterapia/", "სხეულზე ორიენტირებული"), ("/fasi/", "ფასი")]},
-    {"slug": "2-biblioteka", "label": "2 · ბიბლიოთეკა", "bar": "2 ბიბლიოთეკა",
-     "blurb": "ქართულენოვანი ბიბლიოთეკა ფსიქოთერაპიაზე — ყველა გვერდი ავტორიანი და წყაროებიანი.",
-     "compare": [("/", "მთავარი"), ("/fsiqoterapia/", "ფსიქოთერაპია"), ("/fasi/", "ფასი")]},
-    {"slug": "3-sxeuli", "label": "3 · სხეული", "bar": "3 სხეული",
-     "blurb": "ფსიქოთერაპია, რომელიც სიტყვასთან ერთად სხეულსაც უსმენს.",
-     "compare": [("/", "მთავარი"), ("/sxeulze-orientirebuli-fsiqoterapia/", "სხეულზე ორიენტირებული"), ("/fasi/", "ფასი")]},
-    {"slug": "4-centri", "label": "4 · სივრცე", "bar": "4 სივრცე",
-     "blurb": "სივრცე, რომელიც ანი ბარჯაძემ დააარსა — ღია ადგილებით კოლეგებისთვის.",
-     "compare": [("/", "მთავარი"), ("/gundi/", "გუნდი"), ("/servisebi/", "სერვისები"), ("/fasi/", "ფასი")]},
 ]
 # დემოს ფერთა პალიტრები (demo/palettes.json): ტოკენები = საიტების CSS-ის საერთო ცვლადები (--paper, --ink …).
 # --line ყოველთვის ink-იდან გამოიყვანება (14%), --placeholder = --ink-soft. მხოლოდ --demo აგებაში.
@@ -1727,7 +1720,8 @@ def demo_bar(slug: str, page_path: str, all_root: str, site_paths: dict[str, set
     items = []
     if slug not in {d["slug"] for d in DEMO_SITES}:
         items.append(f"<strong>{esc(slug)}</strong>")
-    for d in DEMO_SITES:
+    multi = len(DEMO_SITES) > 1  # ერთი საიტით გადამრთველი და „ყველა ვარიანტი“ არ ჩანს
+    for d in DEMO_SITES if multi else []:
         num, _, name = d["bar"].partition(" ")
         label = esc(num) + (f'<span class="demo-bar__n"> {esc(name)}</span>' if name else "")
         if d["slug"] == slug:
@@ -1737,9 +1731,10 @@ def demo_bar(slug: str, page_path: str, all_root: str, site_paths: dict[str, set
             continue  # --all: ეს საიტი ჯერ არ არსებობს
         same = site_paths is not None and page_path in site_paths[d["slug"]] and not page_path.endswith(".html")
         items.append(f'<a class="demo-bar__site" href="{all_root}/{d["slug"]}{page_path if same else "/"}">{label}</a>')
-    items.append(f'<a href="{all_root}/">ყველა<span class="demo-bar__more"> ვარიანტი</span></a>')
-    bar = ('<div class="demo-bar" role="navigation" aria-label="დემო-ვარიანტები"><span class="demo-bar__lbl">დემო ·</span> '
-           + " · ".join(items))
+    if multi:
+        items.append(f'<a href="{all_root}/">ყველა<span class="demo-bar__more"> ვარიანტი</span></a>')
+    bar = ('<div class="demo-bar" role="navigation" aria-label="დემო"><span class="demo-bar__lbl">დემო'
+           + (" ·</span> " + " · ".join(items) if items else "</span>"))
     if palettes:
         opts = "".join(f'<option value="{esc(p["id"])}">{esc(p["name"])}</option>' for p in palettes)
         bar += ('<span class="demo-pal"><span class="demo-pal__dot" aria-hidden="true"></span>'
@@ -1803,8 +1798,13 @@ def write_chooser(out: Path, base_path: str, built: set[str], demo: bool = False
                      f'    <a class="variant__btn" href="{href}" aria-label="ნახვა — {label}">ნახვა</a>\n  </div>\n</li>')
     fonts = fonts_css_text()
     palettes = load_palettes() if demo else []
+    shown = [d["slug"] for d in DEMO_SITES if d["slug"] in built]
+    single = shown[0] if len(shown) == 1 else ""
+    home = f"{base_path}/{single}/" if single else f"{base_path}/"
     tokens = {
         "BASE": base_path,
+        "HOME": home,
+        "HOME_LABEL": "საიტზე გადასვლა" if single else "ყველა ვარიანტი",
         "CARDS": "\n".join(cards),
         "FONTS_CSS": f"<style>{css_with_base(fonts, base_path)}</style>" if fonts else "",
         "FEREBI_NOTE": "", "FEREBI_BLOCK": "",
@@ -1817,8 +1817,11 @@ def write_chooser(out: Path, base_path: str, built: set[str], demo: bool = False
             f'    <p>ერთ ეკრანზე ნახავთ, როგორ გამოიყურება არჩეული გვერდი {len(palettes)} სხვადასხვა ფერში.</p>\n'
             f'    <a class="variant__btn" href="{base_path}/ferebi/">ფერების შედარება</a>\n'
             '  </section>')
-        write_compare_page(out, base_path, built, palettes, fonts)
+        write_compare_page(out, base_path, built, palettes, fonts, home, single)
     for name in ("index.html", "404.html"):
+        if name == "index.html" and single:  # ერთი საიტი: ფესვი პირდაპირ მასზე გადადის
+            (out / name).write_text(redirect_page(home), encoding="utf-8")
+            continue
         doc = COMMENT_RE.sub("", (DEMO_DIR / name).read_text(encoding="utf-8")).lstrip()
         doc = TOKEN_RE.sub(lambda m: tokens.get(m.group(1), m.group(0)), doc)
         left = sorted(set(TOKEN_RE.findall(doc)))
@@ -1829,7 +1832,19 @@ def write_chooser(out: Path, base_path: str, built: set[str], demo: bool = False
     (out / ".nojekyll").write_text("", encoding="utf-8")
 
 
-def write_compare_page(out: Path, base_path: str, built: set[str], palettes: list[dict], fonts: str) -> None:
+def redirect_page(target: str) -> str:
+    """ერთსაიტიანი დემოს ფესვი: მყისიერი გადამისამართება საიტზე (noindex; ბმული — თუ meta refresh გამორთულია)."""
+    t = html.escape(target, quote=True)
+    return ('<!doctype html>\n<html lang="ka">\n<head>\n<meta charset="utf-8">\n'
+            '<meta name="viewport" content="width=device-width, initial-scale=1">\n'
+            '<title>ანი ბარჯაძე — ფსიქოლოგი (დემო)</title>\n<meta name="robots" content="noindex, nofollow">\n'
+            f'<meta http-equiv="refresh" content="0; url={t}">\n<link rel="icon" href="data:,">\n'
+            f'<script>location.replace({json.dumps(target)} + location.search + location.hash)</script>\n</head>\n'
+            f'<body>\n<p><a href="{t}">ანი ბარჯაძე — ფსიქოლოგი: საიტზე გადასვლა</a></p>\n</body>\n</html>\n')
+
+
+def write_compare_page(out: Path, base_path: str, built: set[str], palettes: list[dict], fonts: str,
+                       home: str = "", single: str = "") -> None:
     """--all --demo: <out>/ferebi/index.html — ერთი გვერდი ყველა პალიტრაში (demo/ferebi.html შაბლონიდან)."""
     sites = []
     for d in DEMO_SITES:
@@ -1848,6 +1863,8 @@ def write_compare_page(out: Path, base_path: str, built: set[str], palettes: lis
                           "colors": {t: p["colors"][t].upper() for t in PALETTE_TOKENS}} for p in palettes]}
     tokens = {
         "BASE": base_path,
+        "HOME": home or f"{base_path}/",
+        "BACK_LABEL": "საიტზე დაბრუნება" if single else "ყველა ვარიანტი",
         "FONTS_CSS": f"<style>{css_with_base(fonts, base_path)}</style>" if fonts else "",
         "DATA": json.dumps(data, ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/"),
     }
